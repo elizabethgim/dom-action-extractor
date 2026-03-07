@@ -1,0 +1,59 @@
+/* style.css */
+.multiline-root {
+  position: relative; /* tooltip absolute 기준 */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.axis path,
+.axis line {
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 12px;
+}
+
+.axis-label {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+.series-line {
+  stroke-width: 2;
+}
+
+.series.is-dimmed .series-line {
+  opacity: 0.2;
+}
+
+.series.is-active .series-line {
+  stroke-width: 3;
+  opacity: 1;
+}
+
+.legend text {
+  font-size: 12px;
+  dominant-baseline: middle;
+}
+
+.overlay {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.tooltip .tt-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}

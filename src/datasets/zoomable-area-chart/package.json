@@ -1,0 +1,14 @@
+{
+  "name": "@d3/zoomable-area-chart",
+  "main": "74e759f055c8c1f1@251.js",
+  "version": "251.0.0",
+  "homepage": "https://observablehq.com/@d3/zoomable-area-chart",
+  "author": {
+    "name": "D3",
+    "url": "https://observablehq.com/@d3"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

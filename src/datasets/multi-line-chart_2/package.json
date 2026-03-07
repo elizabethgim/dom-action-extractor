@@ -1,0 +1,14 @@
+{
+  "name": "@d3/multi-line-chart/2",
+  "main": "cd5d9620ec84924d@415.js",
+  "version": "415.0.0",
+  "homepage": "https://observablehq.com/@d3/multi-line-chart/2",
+  "author": {
+    "name": "D3",
+    "url": "https://observablehq.com/@d3"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@observablehq/plot-multi-series-line-chart-interactive-tips",
+  "main": "84c433e2e7363bd0@11.js",
+  "version": "11.0.0",
+  "homepage": "https://observablehq.com/@observablehq/plot-multi-series-line-chart-interactive-tips",
+  "author": {
+    "name": "Observable",
+    "url": "https://observablehq.com/@observablehq"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

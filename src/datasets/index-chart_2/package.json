@@ -1,0 +1,14 @@
+{
+  "name": "@d3/index-chart/2",
+  "main": "2f0ace0e97411ce9@797.js",
+  "version": "797.0.0",
+  "homepage": "https://observablehq.com/@d3/index-chart/2",
+  "author": {
+    "name": "D3",
+    "url": "https://observablehq.com/@d3"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

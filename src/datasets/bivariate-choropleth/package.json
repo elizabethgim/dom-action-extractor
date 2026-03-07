@@ -1,0 +1,14 @@
+{
+  "name": "@d3/bivariate-choropleth",
+  "main": "8b1da0468b5f1e92@476.js",
+  "version": "476.0.0",
+  "homepage": "https://observablehq.com/@d3/bivariate-choropleth",
+  "author": {
+    "name": "D3",
+    "url": "https://observablehq.com/@d3"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}

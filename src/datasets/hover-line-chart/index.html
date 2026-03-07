@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<style>
+  body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #222; font-family: sans-serif; }
+  #chart { background: white; box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 4px; overflow: hidden; }
+</style>
+<div id="chart"></div>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script type="module">
+  async function renderChart(container) {
+    const width = 928;
+    const height = 600;
+    const marginTop = 20;
+    const marginRight = 80;
+    const marginBottom = 30;
+    const marginLeft = 60;
+
+    container.innerHTML = "";
+    const svg = d3.select(container).append("svg")
+        .attr("viewBox", [0, 0, width, height])
+        .style("width", "928px").style("height", "600px")
+        .style("background", "white");
+
+    const rawData = await d3.csv("lex.csv");
+    const years = Object.keys(rawData[0]).filter(k => /^\d{4}$/.test(k)).map(Number);
+    
+    const series = rawData.slice(0, 20).map(d => {
+        return {
+            name: d.name,
+            values: years.map(year => ({
+                year: year,
+                value: parseFloat(d[year.toString()])
+            })).filter(v => !isNaN(v.value))
+        };
+    }).filter(s => s.values.length > 0);
+
+    const x = d3.scaleLinear().domain(d3.extent(years)).range([marginLeft, width - marginRight]);
+    const k = d3.max(series, ({values}) => d3.max(values, d => d.value) / d3.min(values, d => d.value));
+    const y = d3.scaleLog().domain([1 / k, k]).rangeRound([height - marginBottom, marginTop]);
+    const z = d3.scaleOrdinal(d3.schemeCategory10).domain(series.map(d => d.name));
+    const bisect = d3.bisector(d => d.year).left;
+
+    svg.append("g").attr("transform", `translate(0,${height - marginBottom})`)
+        .call(d3.axisBottom(x).ticks(width / 80).tickFormat(d3.format("d")));
+
+    svg.append("g").attr("transform", `translate(${marginLeft},0)`)
+        .call(d3.axisLeft(y).ticks(null, x => x.toFixed(1) + "×"))
+        .call(g => g.selectAll(".tick line").clone().attr("stroke-opacity", d => d === 1 ? null : 0.2).attr("x2", width - marginLeft - marginRight));
+
+    const rule = svg.append("g").append("line").attr("y1", height).attr("y2", 0).attr("stroke", "black");
+    const serie = svg.append("g").style("font", "bold 10px sans-serif").selectAll("g").data(series).join("g");
+    const line = d3.line().x(d => x(d.year)).y(d => y(d.value));
+
+    serie.append("path").attr("fill", "none").attr("stroke-width", 1.5).attr("stroke", d => z(d.name)).attr("d", d => {
+        const firstVal = d.values[0].value;
+        const l = d3.line().x(v => x(v.year)).y(v => y(v.value / firstVal));
+        return l(d.values);
+    });
+
+    serie.append("text")
+        .attr("fill", d => z(d.name)).attr("x", x.range()[1] + 3).attr("dy", "0.35em")
+        .text(d => d.name);
+
+    function update(year) {
+        rule.attr("transform", `translate(${x(year) + 0.5},0)`);
+        serie.attr("transform", d => {
+            const i = bisect(d.values, year, 0, d.values.length - 1);
+            return `translate(0,${y(1) - y(d.values[i].value / d.values[0].value)})`;
+        });
+        serie.select("text").attr("y", d => {
+            const i = bisect(d.values, year, 0, d.values.length - 1);
+            return y(d.values[d.values.length - 1].value / d.values[i].value);
+        });
+    }
+
+    d3.transition().duration(1500).tween("year", () => {
+        const i = d3.interpolateNumber(years[years.length-1], years[0]);
+        return t => update(i(t));
+    });
+
+    svg.on("mousemove touchmove", function(event) {
+        const [mx] = d3.pointer(event, this);
+        update(Math.round(x.invert(mx)));
+    });
+  }
+  renderChart(document.getElementById('chart'));
+</script>
