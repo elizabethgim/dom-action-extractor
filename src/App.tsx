@@ -23,6 +23,8 @@ import { ExtractionResultsPanel } from './components/ExtractionResultsPanel';
 import { useExtractionState } from './hooks/useExtractionState';
 import { getD3OnEntries } from './core/actionExtractor/d3On';
 import { runD3On } from './core/actionExtractor/d3Run';
+import { AxisPanel } from './components/AxesPanel';
+import { extractAxes, type AxesResult } from './core/markExtractor/extractAxes';
 
 function App() {
   const [step, setStep] = useState(0);
@@ -38,21 +40,9 @@ function App() {
 
   const { isRunning, stop } = useActionExtractorMachine(step);
 
-  // const [extracted, setExtracted] = useState<ExtractedEl[]>([]);
-  // const [hoverKey, setHoverKey] = useState<string | null>(null);
-
-
-  // const [selectedKey, setSelectedKey] = useState<string | null>(null);
-
-  // const selected = useMemo(
-  //   () => extracted.find((e) => e.key === selectedKey) ?? null,
-  //   [extracted, selectedKey]
-  // );
-
-  // const overlayTargets = useMemo(() => {
-  //   if (selected) return [selected];     // 선택됨 → 하나만
-  //   return extracted;                    // 선택 없음 → 전체
-  // }, [selected, extracted]);
+  const [axes, setAxes] = useState<AxesResult | null>(null);
+  const [selectedXAxisIndex, setSelectedXAxisIndex] = useState<number | null>(null);
+  const [selectedYAxisIndex, setSelectedYAxisIndex] = useState<number | null>(null);
 
   const { 
     extracted, setExtracted, 
@@ -80,6 +70,19 @@ function App() {
             await renderChart(filters.selectedChartId as ChartId)
               .catch((e) => alert(String(e)));
 
+            const svg = containerRef.current?.querySelector<SVGSVGElement>("svg");
+            if(!svg){
+              setAxes(null);
+              setSelectedXAxisIndex(null);
+              setSelectedYAxisIndex(null);
+              return;
+            }
+
+            const axis = extractAxes(svg);
+            setAxes(axis);
+            setSelectedXAxisIndex(axis.xAxis.length > 0? 0: null);
+            setSelectedYAxisIndex(axis.xAxis.length > 0? 0: null);
+            
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           }}
           renderedChartId={renderedChartId}
@@ -108,28 +111,33 @@ function App() {
           
           />
       </section>
+      
+
+      <section className="panel axis">
+          <AxisPanel 
+            title="X Axis"
+            axis={axes?.xAxis ?? []}
+            selectedIndex={selectedXAxisIndex}
+            onSelect={(index) => {
+              setSelectedXAxisIndex(index);
+            }}
+          />
+
+          <AxisPanel 
+            title="Y Axis"
+            axis={axes?.yAxis ?? []}
+            selectedIndex={selectedXAxisIndex}
+            onSelect={(index) => {
+              setSelectedXAxisIndex(index);
+            }}
+          />
+
+      </section>
 
       <section className="panel extractControlSection">
         <ActionExtractControlPanel 
         isRunning={isRunning}
         onExtract={async () => {
-          // setStep((s) => s+1);
-
-          // if(containerRef.current){
-          //   await waitChartMountedAndGetAllElements(containerRef.current, {
-          //   readySelector: "svg",
-          //   quietMs: 200,
-          //   timeoutMs: 8000,
-          // }).then((elements) => {
-          //   console.log("Collected elements count:", elements.length);
-          //   const canvases = elements.filter((el) => el.tagName.toLowerCase() === "canvas");
-          //   console.log("Canvases:", canvases);
-          // })
-          // } else {
-          //   alert("No charts");
-          //   return;
-          // }
-
           setStep((s) => s + 1);
           
           const container = containerRef.current;
