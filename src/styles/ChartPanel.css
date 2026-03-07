@@ -1,0 +1,43 @@
+.chartPanel {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.chartStage {
+  position: relative;      /* ✅ overlay absolute 기준 */
+  width: 100%;
+}
+
+.chartTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.chartResult{
+  overflow: visible;
+  width: 100%;
+  height: auto;
+  min-height: 500px;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  /* background: #f9fafb; */
+}
+
+.chartResult > svg,
+.chartResult > canvas,
+.chartResult > iframe {
+  position: static !important;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* overlay absolute 기준 */
+.chartWrap {
+  position: relative;
+}

@@ -1,0 +1,186 @@
+.extractionResultsPanel {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+
+/* header */
+.erpHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+/* 제목 */
+.erpTitle {
+  font-weight: 700;
+}
+
+.erpCount {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.erpControls {
+  display: grid;
+  grid-template-columns: 1fr 160px auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.erpControls input,
+.erpControls select {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.erpSorts {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.extractionResultsPanel button {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.extractionResultsPanel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.erpTableWrap {
+  max-height: 360px;
+  overflow: auto;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+}
+
+.erpTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.erpTable thead th {
+  position: sticky;
+  top: 0;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+.erpTable tbody td {
+  border-bottom: 1px solid #f3f4f6;
+  padding: 8px;
+  vertical-align: top;
+}
+
+.erpTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+.erpTable tbody tr.isSelected {
+  outline: 2px solid #111827;
+  outline-offset: -2px;
+  background: #f3f4f6;
+}
+
+.erpSelectorCell code {
+  word-break: break-all;
+}
+
+.erpBboxCell code {
+  white-space: nowrap;
+}
+
+.erpHintsCell {
+  color: #374151;
+}
+
+.erpEmpty {
+  text-align: center;
+  color: #6b7280;
+  padding: 16px;
+}
+
+/* 전체 영역 */
+.d3Panel {
+  margin-top: 12px;
+  text-align: left;
+}
+
+/* D3 제목 */
+.d3Title {
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 핸들러 없을 때 */
+.d3Empty {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+/* D3 카드 */
+.d3Card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #ffffff;
+}
+
+/* D3 카드 헤더 */
+.d3CardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 메타 정보 */
+.d3Meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.d3Ns {
+  opacity: 0.7;
+}
+
+.d3Fn {
+  opacity: 0.7;
+}
+
+/* 버튼 그룹 */
+.d3Actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* 함수 소스 */
+.d3Source {
+  margin-top: 8px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 6px;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.4;
+}
