@@ -25,6 +25,8 @@ import { getD3OnEntries } from './core/actionExtractor/d3On';
 import { runD3On } from './core/actionExtractor/d3Run';
 import { AxisPanel } from './components/AxesPanel';
 import { extractAxes, type AxesResult } from './core/markExtractor/extractAxes';
+import { extractPath } from './core/markExtractor/extractPath';
+import { PathPanel } from './components/PathPanel';
 
 function App() {
   const [step, setStep] = useState(0);
@@ -52,6 +54,8 @@ function App() {
     overlayTargets,
     clear
   } = useExtractionState(filters.selectedChartId);
+
+  const [path, setPath] = useState<string[]>([]);
 
   return (
     <div className="stack">
@@ -83,6 +87,9 @@ function App() {
             setSelectedXAxisIndex(axis.xAxis.length > 0? 0: null);
             setSelectedYAxisIndex(axis.xAxis.length > 0? 0: null);
             
+            const path = extractPath(svg);
+            setPath(path);
+
             await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
           }}
           renderedChartId={renderedChartId}
@@ -132,6 +139,12 @@ function App() {
             }}
           />
 
+      </section>
+
+      <section className="panel path">
+        <PathPanel 
+          path={path}
+        ></PathPanel>
       </section>
 
       <section className="panel extractControlSection">

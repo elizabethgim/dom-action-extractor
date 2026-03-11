@@ -30,8 +30,8 @@ export function extractAxes(svg: SVGSVGElement): AxesResult{
   const byX = new Map<number, IAxis[]>();
 
   for (const tick of axis){
-    const yKey = Math.round(tick.bbox.top);
-    const xKey = Math.round(tick.bbox.left);
+    const yKey = Math.round(tick.bbox.top); // y
+    const xKey = Math.round(tick.bbox.left); // x
 
     if(!byY.has(yKey)) byY.set(yKey, []);
     if(!byX.has(xKey)) byX.set(xKey, []);
