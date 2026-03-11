@@ -85,7 +85,7 @@ function App() {
             const axis = extractAxes(svg);
             setAxes(axis);
             setSelectedXAxisIndex(axis.xAxis.length > 0? 0: null);
-            setSelectedYAxisIndex(axis.xAxis.length > 0? 0: null);
+            setSelectedYAxisIndex(axis.yAxis.length > 0? 0: null);
             
             const path = extractPath(svg);
             setPath(path);
@@ -133,7 +133,7 @@ function App() {
           <AxisPanel 
             title="Y Axis"
             axis={axes?.yAxis ?? []}
-            selectedIndex={selectedXAxisIndex}
+            selectedIndex={selectedYAxisIndex}
             onSelect={(index) => {
               setSelectedXAxisIndex(index);
             }}

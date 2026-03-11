@@ -11,6 +11,7 @@ export function PathPanel({ path }: Props){
         Paths
       </div>
       <div className="wrap">
+        <table>
         <thead>
             <tr>
               <th>#</th>
@@ -35,6 +36,7 @@ export function PathPanel({ path }: Props){
               ))
             )}
           </tbody>
+          </table>
       </div>
     </div>
   )
