@@ -112,6 +112,7 @@ function App() {
             <BoundingBoxOverlay
               items={overlayTargets}
               hoverKey={hoverKey}
+              selectedKey={selectedKey}
               onHover={setHoverKey}
             />
           }
@@ -184,7 +185,6 @@ function App() {
 
             elMapRef.current.set(`${idx}`, el);
           });
-          
           
           // 너무 많은 요소면 노이즈라서, 작은 박스 제거/상위 N개만 등 필터 추천
           setExtracted(out);
