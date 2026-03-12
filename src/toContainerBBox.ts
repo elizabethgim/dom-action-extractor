@@ -6,7 +6,7 @@ export function toContainerBBox(container: HTMLElement, el: HTMLElement): BBox |
 
   const w = r.width;
   const h = r.height;
-  if (!isFinite(w) || !isFinite(h) || w <= 0 || h <= 0) return null;
+  if (!isFinite(w) || !isFinite(h) ) return null;
 
   return {
     x: r.left - cr.left,
