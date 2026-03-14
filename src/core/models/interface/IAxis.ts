@@ -7,4 +7,5 @@ export interface IAxis {
     width: number;
     height: number;
   };
+  element: Element;
 }
