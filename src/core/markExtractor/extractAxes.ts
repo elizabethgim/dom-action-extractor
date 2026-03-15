@@ -8,7 +8,7 @@ export interface AxesResult {
 
 export function extractAxes(svg: SVGSVGElement): AxesResult {
   const ticks = Array.from(svg.querySelectorAll(".tick"));
-  let axis: IAxis[] = [];
+  const axis: IAxis[] = [];
 
   ticks.forEach((tick) => {
     // const transform = tick.getAttribute("transform");
@@ -27,8 +27,6 @@ export function extractAxes(svg: SVGSVGElement): AxesResult {
       element: tick,
     });
   });
-
-  console.log(axis);
 
   const byY = new Map<number, IAxis[]>(); // 같은 top 좌표
   const byX = new Map<number, IAxis[]>(); // 같은 left 좌표

@@ -27,12 +27,12 @@ export function useExtractionState(chartKey: string) {
   );
 
   const overlayTargets = useMemo(() => {
-    if (selected) return [selectedData];
+    if (selected) return [selected];
 
-    if (selectedData) return [selected];
+    if (selectedData) return [selectedData];
 
     return extracted;
-  }, [selected, selectedData, extracted, dataExtracted]);
+  }, [selected, selectedData, extracted ]);
 
   return {
     extracted,

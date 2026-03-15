@@ -57,7 +57,6 @@ function App() {
     setSelectedKey,
     hoverKey,
     setHoverKey,
-    selected,
     overlayTargets,
     dataExtracted,
     setDataExtracted,
@@ -114,16 +113,17 @@ function App() {
           //  데이터 마크 추출 실행 (차트 렌더링 직후 자동 실행)
           const series = extractDataMarks(svg, axisElements);
 
-          // ExtractionReulstsPanel 형식에 맞게 변환하여 저저아
+          // ExtractionReulstsPanel 형식에 맞게 변환하여 저장
           const dataMarksForPanel: ExtractedEl[] = series.flatMap((s) =>
             s.elements.map((el, idx) => {
               const key = `${s.seriesId}-${idx}`;
-
               dataElMapRef.current.set(key, el.element);
+              
               const calculatedBbox = toContainerBBox(
                 containerRef.current!,
                 el.element as HTMLElement,
               );
+
               return {
                 key: key,
                 tag: el.tag.toLowerCase(),
@@ -132,6 +132,7 @@ function App() {
                 depth: 0,
                 actionHints: [`Series: ${s.color}`],
                 d3On: getD3OnEntries(el.element),
+                element: el.element
               };
             }),
           );
@@ -250,6 +251,7 @@ function App() {
                 depth: el.querySelectorAll("*").length,
                 actionHints: inferActionHints(el as HTMLElement),
                 d3On: getD3OnEntries(el),
+                element: el
               });
 
               elMapRef.current.set(`${idx}`, el);

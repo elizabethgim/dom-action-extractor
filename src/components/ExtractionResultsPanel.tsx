@@ -62,24 +62,30 @@ export function ExtractionResultsPanel({
             if(e.key === "Escape") setQuery("");
           }}
         />
-
-        <select value={tagFilter} onChange={(e) => setTagFilter(e.target.value)}>
-          {tags.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
         
-        <select
-          className="resultsSelect"
-          value={tagFilter}
-          onChange={(e) => setTagFilter(e.target.value)}
-        >
-          {tags.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
+
+        <div className="erpFilterGroup">
+          <label className="erpActionableToggle" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={onlyActionable}
+              onChange={(e) => setOnlyActionable(e.target.checked)}
+            />
+            <span>Only Actionable (D3)</span>
+          </label>
+          
+          <label>Tag: </label>
+            <select
+              className="resultsSelect"
+              value={tagFilter}
+              onChange={(e) => setTagFilter(e.target.value)}
+            >
+            {tags.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        </div>
+        
 
         <div className="erpSorts">
           <button type="button" onClick={() => toggleSort("area")}>
@@ -111,6 +117,7 @@ export function ExtractionResultsPanel({
               <th>Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {rows.map((e, i) => {
               const area = Math.round(e.bbox.w * e.bbox.h);
@@ -162,15 +169,6 @@ export function ExtractionResultsPanel({
           </tbody>
         </table>
       </div>
-      
-      <label style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-        <input
-          type="checkbox"
-          checked={onlyActionable}
-          onChange={(e) => setOnlyActionable(e.target.checked)}
-        />
-        Action 있는 것만
-      </label>
 
       {selected && (
         <div className="d3Panel">
@@ -208,7 +206,7 @@ export function ExtractionResultsPanel({
                 </div>
 
                 <pre className="d3Source">
-      {h.source}
+                  {h.source}
                 </pre>
               </div>
             ))

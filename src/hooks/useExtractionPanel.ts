@@ -19,11 +19,12 @@ export function useExtractionPanel(extracted: ExtractedEl[]) {
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
     const area = (e: ExtractedEl) => Math.max(0, e.bbox.w) * Math.max(0, e.bbox.h);
-    const hasAction = (e: ExtractedEl) => (e.actionHints?.length ?? 0) > 0;
+    const hasAction = (e:ExtractedEl) => (e.d3On?.length ?? 0) > 0 || (e.actionHints?.length ?? 0) > 0;
+    const hasD3Action = (e:ExtractedEl) => (e.d3On?.length ?? 0) > 0;
 
-    let r = extracted.filter((e) => {
+    const r = extracted.filter((e) => {
       if (tagFilter !== "all" && e.tag !== tagFilter) return false;
-      if (onlyActionable && !hasAction(e)) return false;
+      if (onlyActionable && !hasD3Action(e)) return false;
 
       if (!q) return true;
       return (
@@ -55,7 +56,7 @@ export function useExtractionPanel(extracted: ExtractedEl[]) {
     });
 
     return r;
-  }, [extracted, query, tagFilter, sortKey, sortDir]);
+  }, [extracted, query, tagFilter, sortKey, sortDir, onlyActionable]);
 
   const toggleSort = (k: SortKey) => {
     if (sortKey === k) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
