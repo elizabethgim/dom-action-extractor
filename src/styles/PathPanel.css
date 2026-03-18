@@ -9,7 +9,7 @@
   color: #111827;
 }
 
-.pthPanel .wrap{
+.pathPanel .wrap{
   width: 100%;
   max-height:320px;
   overflow-y: auto;
