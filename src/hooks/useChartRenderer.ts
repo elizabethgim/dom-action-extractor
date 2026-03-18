@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ChartId } from "@core/charts/chartRegistry";
 import { loadChart } from "@core/charts/loadChart";
-import { hook } from "@core/actionExtractor/hook";
+import { getHookRegistry, hook } from "@core/actionExtractor/hook";
 
 export function useChartRenderer(containerRef: React.RefObject<HTMLElement | null>) {
   const [renderedChartId, setRenderedChartId] = useState<ChartId | null>(null);
@@ -21,6 +21,7 @@ export function useChartRenderer(containerRef: React.RefObject<HTMLElement | nul
       await chart.mount(container);
       
       setRenderedChartId(chartId);
+      console.log(getHookRegistry());
     } finally {
       setIsRendering(false);
     }

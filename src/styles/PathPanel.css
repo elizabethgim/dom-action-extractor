@@ -1,0 +1,66 @@
+.pathPanel {
+  width: 100%;
+}
+
+.pathPnel .title{
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111827;
+}
+
+.pthPanel .wrap{
+  width: 100%;
+  max-height:320px;
+  overflow-y: auto;
+  overflow-x: auto;
+
+  margin-top: 8px;
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.pathPanel table{
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.pathPanel th,
+.pathPanel td{
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 14px;
+  color: #111827;
+  vertical-align: top;
+}
+
+.pathPanel th:first-child,
+.pathPanel td:first-child {
+  width: 56px;
+}
+
+.pathPanel th:last-child,
+.pathPanel td:last-child {
+  word-break: break-all;
+  white-space: normal;
+}
+
+.pathPanel thead th {
+  position: sticky;
+  top: 0;
+  background: #f9fafb;
+  z-index: 1;
+  font-weight: 600;
+}
+
+.axisEmptyRow {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px 0;
+}

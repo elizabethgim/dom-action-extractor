@@ -185,3 +185,36 @@
   font-size: 12px;
   line-height: 1.4;
 }
+
+
+.detailSection {
+  margin-top: 12px;
+}
+
+.listenerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listenerItem {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: #fafafa;
+}
+
+.listenerItem pre {
+  margin: 6px 0 0;
+  padding: 8px;
+  background: #f3f3f3;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.empty {
+  color: #777;
+}

@@ -1,6 +1,6 @@
 import type { ChartId } from "@core/charts/chartRegistry";
 import { chartRegistry } from "@core/charts/chartRegistry";
-import type { ChartInfo } from "@core/info/chartInfoTypes";
+import type { ChartInfo } from "@core/models/types/chartInfoTypes";
 
 /**
  * chartRegistry 엔트리의 getInfo()를 통해 차트 설명을 가져온다.

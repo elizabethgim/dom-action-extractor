@@ -1,5 +1,5 @@
 // src/core/charts/rendering/iframeAdpater.ts  (파일명이 iframeAdpater라면 그대로)
-import type { ChartInfo } from "@core/charts/info/chartInfoTypes";
+import type { ChartInfo } from "@core/models/types/chartInfoTypes";
 
 export function iframeAdapter(
   url: string,

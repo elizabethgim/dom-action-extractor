@@ -20,13 +20,15 @@ import { cssPath } from "./cssPath";
 import { inferActionHints } from "./inferActionHints";
 import { ExtractionResultsPanel } from "./components/ExtractionResultsPanel";
 import { useExtractionState } from "./hooks/useExtractionState";
-import { getD3OnEntries } from "./core/actionExtractor/d3On";
-import { runD3On } from "./core/actionExtractor/d3Run";
+import { getD3OnEntries } from "@core/actionExtractor/d3On";
+import { runD3On } from "@core/actionExtractor/d3Run";
 import { AxisPanel } from "./components/AxesPanel";
 import { extractAxes, type AxesResult } from "./core/markExtractor/extractAxes";
-import { extractPath } from "./core/markExtractor/extractPath";
+import { extractPath } from "@core/markExtractor/extractPath";
 import { PathPanel } from "./components/PathPanel";
-import { extractDataMarks } from "./core/markExtractor/extractDataMarks";
+import { extractDataMarks } from "@core/markExtractor/extractDataMarks";
+import { mapToResults } from "@core/markExtractor/mapToResults";
+import { getHookEntries } from "@core/actionExtractor/hookEntries";
 
 function App() {
   const [step, setStep] = useState(0);
@@ -96,6 +98,9 @@ function App() {
 
           // 축 추출
           const axis = extractAxes(svg);
+          console.log("x: ", axis.xAxis);
+          console.log("y: ", axis.yAxis);
+
           setAxes(axis);
 
           setSelectedXAxisIndex(axis.xAxis.length > 0 ? 0 : null);
@@ -104,6 +109,8 @@ function App() {
           // path 추출
           const path = extractPath(svg);
           setPath(path);
+          
+          console.log("paths: ", path);
 
           // 데이터 마크 추출을 위한 축 요소 Set 생성
           const axisElements = new Set(
@@ -113,6 +120,8 @@ function App() {
           //  데이터 마크 추출 실행 (차트 렌더링 직후 자동 실행)
           const series = extractDataMarks(svg, axisElements);
 
+          console.log("data marks: ", series);
+          
           // ExtractionReulstsPanel 형식에 맞게 변환하여 저장
           const dataMarksForPanel: ExtractedEl[] = series.flatMap((s) =>
             s.elements.map((el, idx) => {
@@ -139,6 +148,10 @@ function App() {
 
           setDataExtracted(dataMarksForPanel);
 
+          const chartInfo = mapToResults(axis, path, dataMarksForPanel);
+          console.log("chartInfo: ", chartInfo);
+          console.log(JSON.stringify(chartInfo));
+          
           await new Promise<void>((resolve) =>
             requestAnimationFrame(() => resolve()),
           );
@@ -251,7 +264,8 @@ function App() {
                 depth: el.querySelectorAll("*").length,
                 actionHints: inferActionHints(el as HTMLElement),
                 d3On: getD3OnEntries(el),
-                element: el
+                element: el,
+                listeners: getHookEntries(el)
               });
 
               elMapRef.current.set(`${idx}`, el);

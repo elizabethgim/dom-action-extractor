@@ -1,6 +1,6 @@
 // src/core/charts/info/loadChartInfo.ts
-import { chartRegistry, type ChartId } from "@/core/charts/rendering/chartRegistry";
-import type { ChartInfo } from "./chartInfoTypes";
+import { chartRegistry, type ChartId } from "@/core/charts/chartRegistry";
+import type { ChartInfo } from "../models/types/chartInfoTypes";
 import { d3InfoMap } from "./d3InfoMap";
 import { extractObservableMarkdown, parseMarkdownSummary } from "./observableMd";
 

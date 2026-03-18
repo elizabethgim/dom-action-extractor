@@ -1,4 +1,4 @@
-import type { ChartInfo } from "../info/chartInfoTypes";
+import type { ChartInfo } from "../models/types/chartInfoTypes";
 import { d3InfoMap } from "../info/d3InfoMap";
 
 export function d3Adapter(render: (container: HTMLElement) => void, id: string) {  

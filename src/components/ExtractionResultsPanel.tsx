@@ -1,7 +1,7 @@
 import { useExtractionPanel } from "@hooks/useExtractionPanel";
 import type { ExtractedEl } from "@/types/ExtractedEl";
 
-import "@styles/extractionResultsPanel.css";
+import "@styles/ExtractionResultsPanel.css";
 
 type Props = {
   extracted: ExtractedEl[];
@@ -37,7 +37,7 @@ export function ExtractionResultsPanel({
 
   const selected = extracted.find((e) => e.key === selectedKey) ?? null;
   const handlers = selected?.d3On ?? [];
-
+  const nativeListeners = selected?.listeners??[];
 
   return (
     <div className="extractionResultsPanel">
@@ -213,6 +213,24 @@ export function ExtractionResultsPanel({
           )}
         </div>
       )}
+
+      <div className="detailSection">
+        <h4>Native Event Listeners</h4>
+        {nativeListeners.length === 0 ? (
+          <div className="empty">No listeners detected</div>
+        ) : (
+          <ul className="listenerList">
+            {nativeListeners.map((listener, idx) => (
+              <li key={`${listener.eventType}-${listener.name}-${idx}`} className="listenerItem">
+                <div><strong>event:</strong> {listener.eventType}</div>
+                <div><strong>name:</strong> {listener.name}</div>
+                <div><strong>type:</strong> {listener.handlerType}</div>
+                <pre>{listener.source}</pre>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
