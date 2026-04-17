@@ -1,7 +1,7 @@
 import "@styles/ChartPanel.css";
 
 export function ChartPanel({ containerRef, overlay, hasChart, isRendering }: {
-  containerRef: React.RefObject<HTMLDivElement | null>,
+  containerRef: React.RefObject<HTMLElement | null>,
   overlay?:React.ReactNode,
   hasChart: boolean,
   isRendering: boolean;

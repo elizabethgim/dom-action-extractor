@@ -8,8 +8,9 @@ export function PathPanel({ path }: Props){
   return (
     <div className="pathPanel">
       <div className="title">
-        Paths
+        Paths' d value
       </div>
+      
       <div className="wrap">
         <table>
         <thead>
