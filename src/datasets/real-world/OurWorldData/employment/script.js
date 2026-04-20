@@ -76,7 +76,10 @@ export function index(container){
   const root = d3.select(container).classed("employment-chart-host", true);
   root.selectAll("*").remove();
 
-  const svg = root.append("svg")
+  const host = root.append("div")
+  .attr("class", "employment-chart-root");
+
+  const svg = host.append("svg")
   .attr("id", "chart")
   .attr("viewBox", `0 0 ${width} ${height}`)
   .attr("width", "100%")
@@ -114,8 +117,7 @@ export function index(container){
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  const tooltip = d3
-    .select("#chart")
+  const tooltip = host
     .append("div")
     .attr("class", "tooltip");
 
@@ -209,20 +211,27 @@ export function index(container){
       .attr("r", 5)
       .attr("fill", d => colors[d.region] || "#999")
       .on("mouseenter", function (event, d) {
+        const [mx, my] = d3.pointer(event, host.node());
         d3.select(this).classed("active", true).attr("r", 7);
-        dots.classed("dimmed", p => p !== d);
 
+        dots.classed("dimmed", p => p !== d);
+        console.log("event.pageX: ", event.pageX);
+        console.log(mx);
+        console.log(my);
+        
         tooltip
           .style("opacity", 1)
           .html(buildTooltipHtml(d))
-          .style("left", `${event.pageX + 16}px`)
-          .style("top", `${event.pageY - 18}px`);
+          .style("left", `${mx+16}px`)
+          .style("top", `${my-20}px`);
       })
       .on("mousemove", function (event, d) {
+        const [mx, my] = d3.pointer(event, host.node());
+
         tooltip
           .html(buildTooltipHtml(d))
-          .style("left", `${event.pageX + 16}px`)
-          .style("top", `${event.pageY - 18}px`);
+          .style("left", `${mx+16}px`)
+          .style("top", `${my-20}px`);
       })
       .on("mouseleave", function () {
         d3.select(this).classed("active", false).attr("r", 5);
