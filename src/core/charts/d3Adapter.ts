@@ -5,7 +5,13 @@ export function d3Adapter(render: (container: HTMLElement) => void, id: string) 
   return {
     id,
     async mount(container: HTMLElement) {
-      render(container);
+      container.innerHTML = "";
+
+      const mount = document.createElement("div");
+      mount.className = "chartMount chartMount--d3";
+      container.appendChild(mount);
+
+      render(mount);
     },
     async unmount(container: HTMLElement) {
       container.innerHTML = "";

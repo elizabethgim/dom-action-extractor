@@ -17,7 +17,7 @@
 }
 
 .chartResult{
-  overflow: visible;
+  overflow: hidden;
   width: 100%;
   height: auto;
   min-height: 500px;
@@ -26,6 +26,35 @@
   border: 1px solid #d1d5db;
   border-radius: 10px;
   /* background: #f9fafb; */
+}
+
+.chartMount {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chartMount--d3 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.chartMount--d3 > svg,
+.chartMount--d3 svg:first-of-type {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: min(72vh, 760px);
+}
+
+.chartMount--d3 > canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .chartResult > svg,
