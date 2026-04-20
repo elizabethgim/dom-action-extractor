@@ -1,0 +1,63 @@
+{
+  "chart": {
+    "title": "Employment in agriculture vs. urban population",
+    "subtitle": "Share of total employment from the agricultural sector, versus the share of population living in urban areas.",
+    "citation": "ILO via World Bank; World Urbanization Prospects - UN Population Division, via World Bank (2026)",
+    "originalChartUrl": "https://ourworldindata.org/grapher/employment-in-agri-vs-urban-pop?v=1&csvType=full&useColumnShortNames=false",
+    "selection": []
+  },
+  "columns": {
+    "Share of people employed in agricultural sector": {
+      "titleShort": "Share of people employed in agricultural sector",
+      "titleLong": "Share of people employed in agricultural sector",
+      "descriptionShort": "The share of people employed in agriculture includes working-age people with a job in farming, forestry, fishing, and related activities, including those temporarily absent.",
+      "descriptionKey": [
+        "This measures the percentage of all workers who are employed in agriculture.",
+        "Agriculture includes farming, forestry, fishing, and related activities.",
+        "People are counted even if they are temporarily absent from work due to sickness, leave, or seasonal factors."
+      ],
+      "shortUnit": "%",
+      "unit": "%",
+      "timespan": "1991-2023",
+      "type": "Numeric",
+      "owidVariableId": 1105508,
+      "shortName": "sl_agr_empl_zs",
+      "lastUpdated": "2025-09-08",
+      "nextUpdate": "2026-09-08",
+      "citationShort": "ILO via World Bank – processed by Our World in Data",
+      "citationLong": "ILO via World Bank – processed by Our World in Data. “Share of people employed in agricultural sector” [dataset]. World Bank Gender Statistics, “World Bank Gender Statistics” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/1105508.metadata.json"
+    },
+    "Urban population (% of total population)": {
+      "titleShort": "Share of population living in urban areas",
+      "titleLong": "Share of population living in urban areas",
+      "shortUnit": "%",
+      "unit": "% of total",
+      "timespan": "1960-2024",
+      "type": "Numeric",
+      "owidVariableId": 1205483,
+      "shortName": "sp_urb_totl_in_zs",
+      "lastUpdated": "2026-02-27",
+      "nextUpdate": "2027-02-27",
+      "citationShort": "World Urbanization Prospects - UN Population Division, via World Bank (2026) – processed by Our World in Data",
+      "citationLong": "World Urbanization Prospects - UN Population Division, via World Bank (2026) – processed by Our World in Data. “Share of population living in urban areas” [dataset]. World Urbanization Prospects - UN Population Division, via World Bank, “World Development Indicators 125” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/1205483.metadata.json"
+    },
+    "World region according to OWID": {
+      "titleShort": "World region according to OWID",
+      "titleLong": "World region according to OWID",
+      "descriptionShort": "Regions defined by Our World in Data, which are used in OWID charts and maps.",
+      "unit": "",
+      "timespan": "2023-2023",
+      "type": "Continent",
+      "owidVariableId": 900801,
+      "shortName": "owid_region",
+      "lastUpdated": "2023-01-01",
+      "citationShort": "Our World in Data – processed by Our World in Data",
+      "citationLong": "Our World in Data – processed by Our World in Data. “World region according to OWID” [dataset]. Our World in Data, “Regions” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/900801.metadata.json"
+    }
+  },
+  "dateDownloaded": "2026-04-15",
+  "activeFilters": {}
+}

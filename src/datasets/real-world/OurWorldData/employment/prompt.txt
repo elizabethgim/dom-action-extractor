@@ -1,0 +1,8 @@
+Make a d3.js chart just like the given image. 
+The current available interaction is:  
+- Highlights the circle when hovered. 
+- tooltip for the exact value when hovered.
+- the line for the matching value to see with the tooltip
+- along with the line, there is a small circle to see the exact matching point for each stacked area
+Give me separate files: html, js, css.
+I want to load the original dataset in csv long-format.

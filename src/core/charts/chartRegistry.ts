@@ -15,6 +15,9 @@ import {
   MeanBarChart,
   lineHoverChart,
   zoomSunburst,
+  stackedAreaLine,
+  multiLineHover,
+  employ
 } from "@datasets/index";
 
 export const chartRegistry = {
@@ -74,6 +77,22 @@ export const chartRegistry = {
   "tableau:wall-e": iframeAdapter(
     "/tableau/wall-e/index.html"
   ),
+
+  "csv:covid": d3Adapter (
+    stackedAreaLine,
+    "covid"
+  ),
+
+  "csv:childMortality": d3Adapter(
+    multiLineHover,
+    "childMortailiy"
+  ),
+
+  "csv:employment": d3Adapter(
+    employ,
+    "employ"
+  )
+
 } as const;
 
 export type ChartId = keyof typeof chartRegistry;

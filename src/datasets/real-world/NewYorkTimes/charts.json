@@ -1,0 +1,25 @@
+[{
+  "id":"",
+  "url":"https://www.nytimes.com/interactive/2021/world/covid-cases.html",
+  "chart_type":"area",
+  "interactions": [
+    {"id": "", "type": "HOVER"}
+  ]
+}, 
+{
+  "id":"",
+  "url":"https://www.nytimes.com/interactive/2021/world/covid-cases.html",
+  "chart_type":"multiple line",
+  "interactions": [
+    {"id": "", "type": "HOVER"}
+  ]
+}, 
+{
+  "id":"",
+  "url":"https://www.nytimes.com/interactive/2021/world/covid-cases.html",
+  "chart_type":"multiple line",
+  "interactions": [
+    {"id": "", "type": "HOVER"}
+  ]
+}
+]

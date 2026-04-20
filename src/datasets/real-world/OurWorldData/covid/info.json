@@ -1,0 +1,6 @@
+{
+  "url": "https://ourworldindata.org/grapher/daily-cases-covid-region",
+  "title": "Daily confirmed COVID-19 cases by world region",
+  "source": "Our World in Data",
+  "chart_type": "stacked line chart"
+}

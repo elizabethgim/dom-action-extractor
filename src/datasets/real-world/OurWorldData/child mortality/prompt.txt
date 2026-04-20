@@ -1,0 +1,26 @@
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is: 
+- Hovering the label will highlight the corresponding line.
+- When hovered on the line data, the corresponding exact value appears.
+- Along with the tooltip, a line for the matching point on the data appears.
+- Along with the matching line, there is a small circle to see the exact point for each line.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+The first two rows are:
+Entity,Code,Year,Under-five mortality rate (selected)
+Afghanistan,AFG,1957,37.13
+
+
+
+It only apears one country on the line I want it to show the corresponding countries.
+
+
+shared hover
+- hover anywhere in the plot
+- show one vertical guide line
+- show a small circle on every country’s line at that year
+- show one tooltip listing all corresponding countries and values for that year
+- hovering a legend label should still highlight that country

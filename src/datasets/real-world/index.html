@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employment in agriculture vs. urban population, 2023</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="chart-header">
+      <h1>Employment in agriculture vs. urban population, 2023</h1>
+      <p class="subtitle">
+        Share of total employment from the agricultural sector, versus the share of population living in urban areas.
+      </p>
+    </header>
+
+    <div class="chart-card">
+      <div class="top-row">
+        <div class="tab active">Chart</div>
+      </div>
+
+      <div class="chart-layout">
+        <div class="plot-area">
+          <div id="chart"></div>
+        </div>
+
+        <aside class="side-panel">
+          <h2>Select countries and regions</h2>
+          <div class="fake-search">Search for a country or region</div>
+          <div class="legend-title">Regions</div>
+          <div id="legend"></div>
+        </aside>
+      </div>
+
+      <footer class="footer-note">
+        Data shown here is example data for reproducing the visual style and interaction.<br />
+        Replace the dataset in <code>script.js</code> with your full data if needed.
+      </footer>
+    </div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+  <script src="script.js"></script>
+</body>
+</html>

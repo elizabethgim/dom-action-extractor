@@ -1,0 +1,402 @@
+const svg = d3.select("#chart");
+const tooltip = d3.select("#tooltip");
+
+const WIDTH = 1460;
+const HEIGHT = 1000;
+
+svg.attr("viewBox", `0 0 ${WIDTH} ${HEIGHT}`);
+
+const margin = {
+  top: 150,
+  right: 210,
+  bottom: 95,
+  left: 80
+};
+
+const innerWidth = WIDTH - margin.left - margin.right;
+const innerHeight = HEIGHT - margin.top - margin.bottom;
+
+const CHART_TITLE = "Child mortality rate";
+const CHART_SUBTITLE = "Estimated share of newborns who die before age 5.";
+const FOOTER_LEFT_STRONG = "Data source:";
+const FOOTER_LEFT_TEXT = " Gapminder (2015); UN Inter-agency Group for Child Mortality Estimation (2025)";
+const FOOTER_RIGHT_TEXT = "OurWorldinData.org/child-mortality | CC BY";
+
+const DATA_PATH = "data/child-mortality.csv";
+const VALUE_KEY = "Under-five mortality rate (selected)";
+
+// Countries shown in the reference image.
+const selectedCountries = [
+  "Ghana",
+  "India",
+  "Brazil",
+  "United States",
+  "United Kingdom",
+  "France",
+  "South Korea",
+  "Sweden"
+];
+
+const colorMap = new Map([
+  ["Ghana", "#7b4aa8"],
+  ["India", "#2f956c"],
+  ["Brazil", "#123d78"],
+  ["United States", "#9e3b3b"],
+  ["United Kingdom", "#a77a2f"],
+  ["France", "#c54a0a"],
+  ["South Korea", "#b155ab"],
+  ["Sweden", "#4b6da9"]
+]);
+
+const root = svg.append("g");
+const chartG = root.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+const defs = svg.append("defs");
+defs.append("clipPath")
+  .attr("id", "plot-clip")
+  .append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", innerWidth)
+  .attr("height", innerHeight);
+
+root.append("text")
+  .attr("class", "title")
+  .attr("x", 28)
+  .attr("y", 68)
+  .text(CHART_TITLE);
+
+root.append("text")
+  .attr("class", "subtitle")
+  .attr("x", 28)
+  .attr("y", 112)
+  .text(CHART_SUBTITLE);
+
+const plotG = chartG.append("g").attr("clip-path", "url(#plot-clip)");
+const gridG = chartG.append("g");
+const yAxisG = chartG.append("g");
+const xAxisG = chartG.append("g").attr("transform", `translate(0,${innerHeight})`);
+
+chartG.append("line")
+  .attr("class", "x-baseline")
+  .attr("x1", 0)
+  .attr("x2", innerWidth)
+  .attr("y1", innerHeight)
+  .attr("y2", innerHeight);
+
+const guideLine = chartG.append("line")
+  .attr("class", "hover-guide")
+  .attr("y1", 0)
+  .attr("y2", innerHeight)
+  .style("display", "none");
+
+// const pointMarker = chartG.append("circle")
+//   .attr("class", "hover-point")
+//   .attr("r", 5)
+//   .style("display", "none");
+
+const hoverPointsG = chartG.append("g");
+
+let currentActive = null;
+
+d3.csv(DATA_PATH, d => ({
+  entity: d.Entity,
+  code: d.Code,
+  year: +d.Year,
+  value: parseFloat(d[VALUE_KEY])
+})).then(raw => {
+  const filtered = raw
+    .filter(d => selectedCountries.includes(d.entity))
+    .filter(d => Number.isFinite(d.year) && Number.isFinite(d.value));
+
+  const grouped = d3.groups(filtered, d => d.entity)
+    .map(([entity, values]) => ({
+      entity,
+      values: values
+        .sort((a, b) => d3.ascending(a.year, b.year))
+    }))
+    .filter(d => d.values.length > 1);
+
+  const xDomain = d3.extent(filtered, d => d.year);
+  const yMax = Math.max(50, d3.max(filtered, d => d.value));
+
+  const x = d3.scaleLinear()
+    .domain(xDomain)
+    .range([0, innerWidth]);
+
+  const y = d3.scaleLinear()
+    .domain([0, Math.ceil(yMax / 10) * 10])
+    .nice()
+    .range([innerHeight, 0]);
+
+  const yTicks = [0, 10, 20, 30, 40, 50].filter(t => t <= y.domain()[1]);
+
+  const xTicks = [1751, 1800, 1850, 1900, 1950, 2000, 2023]
+    .filter(t => t >= x.domain()[0] && t <= x.domain()[1]);
+
+  const yGrid = d3.axisLeft(y)
+    .tickValues(yTicks)
+    .tickSize(-innerWidth)
+    .tickFormat(d => `${d}%`);
+
+  gridG
+    .attr("class", "grid")
+    .call(yGrid);
+
+  const yAxis = d3.axisLeft(y)
+    .tickValues(yTicks)
+    .tickSize(0)
+    .tickPadding(10)
+    .tickFormat(d => `${d}%`);
+
+  yAxisG
+    .attr("class", "axis")
+    .call(yAxis);
+
+  const xAxis = d3.axisBottom(x)
+    .tickValues(xTicks)
+    .tickSize(0)
+    .tickPadding(12)
+    .tickFormat(d3.format("d"));
+
+  xAxisG
+    .attr("class", "axis")
+    .call(xAxis);
+
+  const line = d3.line()
+    .defined(d => Number.isFinite(d.value))
+    .x(d => x(d.year))
+    .y(d => y(d.value))
+    .curve(d3.curveMonotoneX);
+
+  const seriesG = plotG.append("g");
+  const overlayG = plotG.append("g");
+
+  const series = seriesG.selectAll(".series")
+    .data(grouped)
+    .join("g")
+    .attr("class", "series");
+
+  series.append("path")
+    .attr("class", "series-line")
+    .attr("data-entity", d => d.entity)
+    .attr("stroke", d => colorMap.get(d.entity) || "#666")
+    .attr("d", d => line(d.values));
+
+  series.append("path")
+    .attr("class", "overlay-path")
+    .attr("data-entity", d => d.entity)
+    .attr("d", d => line(d.values))
+    .on("mouseenter", function(event, d) {
+      activateSeries(d.entity);
+      showNearestPoint(event, d, x, y);
+    })
+    .on("mousemove", function(event, d) {
+      showNearestPoint(event, d, x, y);
+    })
+    .on("mouseleave", function() {
+      if (currentActive) {
+        activateSeries(currentActive);
+      } else {
+        clearHover();
+        resetHighlight();
+      }
+    });
+
+  drawLegend(grouped, x, y);
+  drawFooter();
+
+  function drawLegend(seriesData, xScale, yScale) {
+    const legendOrder = [
+      "Ghana",
+      "India",
+      "Brazil",
+      "United States",
+      "United Kingdom",
+      "France",
+      "South Korea",
+      "Sweden"
+    ];
+
+    const sorted = legendOrder
+      .map(name => seriesData.find(d => d.entity === name))
+      .filter(Boolean);
+
+    const legendX = innerWidth + 55;
+    const legendY = innerHeight - 235;
+    const rowHeight = 31;
+    const textPaddingX = 4;
+
+    const legendG = chartG.append("g").attr("class", "legend");
+
+    const items = legendG.selectAll(".legend-item")
+      .data(sorted)
+      .join("g")
+      .attr("class", "legend-item")
+      .attr("transform", (_, i) => `translate(${legendX},${legendY + i * rowHeight})`)
+      .on("mouseenter", function(event, d) {
+        currentActive = d.entity;
+        activateSeries(d.entity);
+      })
+      .on("mouseleave", function() {
+        currentActive = null;
+        clearHover();
+        resetHighlight();
+      });
+
+    items.each(function(d, i) {
+      const g = d3.select(this);
+      const labelY = i * 0;
+      const last = d.values[d.values.length - 1];
+      const lineEndX = xScale(last.year);
+      const lineEndY = yScale(last.value);
+      const connectorY = legendY + i * rowHeight;
+
+      const connectorPoints = [
+        [lineEndX + 6, lineEndY],
+        [legendX - 32, connectorY],
+        [legendX - 4, connectorY]
+      ];
+
+      legendG.append("path")
+        .attr("class", "legend-connector")
+        .attr("data-entity", d.entity)
+        .attr("stroke", colorMap.get(d.entity) || "#666")
+        .attr("d", d3.line().curve(d3.curveLinear)(connectorPoints));
+    });
+
+    items.append("text")
+      .attr("x", textPaddingX)
+      .attr("y", 0)
+      .attr("fill", d => colorMap.get(d.entity) || "#666")
+      .text(d => d.entity)
+      .each(function() {
+        const textWidth = this.getBBox().width;
+        d3.select(this.parentNode).select("rect")
+          .attr("width", textWidth + 26);
+      });
+  }
+
+  function drawFooter() {
+    const footerY = HEIGHT - 20;
+
+    const leftGroup = root.append("g")
+      .attr("transform", `translate(28,${footerY})`);
+
+    leftGroup.append("text")
+      .attr("class", "footer-strong")
+      .attr("x", 0)
+      .attr("y", 0)
+      .text(FOOTER_LEFT_STRONG);
+
+    const strongWidth = leftGroup.select("text").node().getBBox().width;
+
+    leftGroup.append("text")
+      .attr("class", "footer")
+      .attr("x", strongWidth + 4)
+      .attr("y", 0)
+      .text(FOOTER_LEFT_TEXT);
+
+    root.append("text")
+      .attr("class", "footer")
+      .attr("text-anchor", "end")
+      .attr("x", WIDTH - 40)
+      .attr("y", footerY)
+      .text(FOOTER_RIGHT_TEXT);
+  }
+
+  function activateSeries(entity) {
+    currentActive = entity;
+
+    chartG.selectAll(".series-line")
+      .classed("dimmed", d => d.entity !== entity)
+      .classed("active", d => d.entity === entity);
+
+    chartG.selectAll(".legend-item")
+      .classed("dimmed", d => d.entity !== entity);
+
+    chartG.selectAll(".legend-connector")
+      .classed("dimmed", function() {
+        return this.dataset.entity !== entity;
+      });
+  }
+
+  function resetHighlight() {
+    chartG.selectAll(".series-line")
+      .classed("dimmed", false)
+      .classed("active", false);
+
+    chartG.selectAll(".legend-item")
+      .classed("dimmed", false);
+
+    chartG.selectAll(".legend-connector")
+      .classed("dimmed", false);
+  }
+
+  function clearHover() {
+    guideLine.style("display", "none");
+    // pointMarker.style("display", "none");
+    tooltip.classed("hidden", true);
+  }
+
+  function showNearestPoint(event, seriesDatum, xScale, yScale) {
+    const [mx] = d3.pointer(event, chartG.node());
+    const hoveredYear = xScale.invert(mx);
+
+    const bisect = d3.bisector(d => d.year).center;
+    const idx = bisect(seriesDatum.values, hoveredYear);
+    const point = seriesDatum.values[Math.max(0, Math.min(seriesDatum.values.length - 1, idx))];
+
+    if (!point) return;
+
+    const px = xScale(point.year);
+    const py = yScale(point.value);
+
+    guideLine
+      .attr("x1", px)
+      .attr("x2", px)
+      .style("display", null);
+
+    // pointMarker
+    //   .attr("cx", px)
+    //   .attr("cy", py)
+    //   .attr("fill", colorMap.get(seriesDatum.entity) || "#666")
+    //   .style("display", null);
+
+    tooltip.classed("hidden", false);
+    tooltip.select(".tooltip-country").text(seriesDatum.entity);
+    tooltip.select(".tooltip-year").text(`Year: ${point.year}`);
+    tooltip.select(".tooltip-value").text(`Value: ${d3.format(".2f")(point.value)}%`);
+
+    const wrapperRect = document.getElementById("chart-wrapper").getBoundingClientRect();
+    const svgRect = svg.node().getBoundingClientRect();
+    const tooltipNode = tooltip.node();
+    const tooltipWidth = tooltipNode.offsetWidth || 160;
+    const tooltipHeight = tooltipNode.offsetHeight || 70;
+
+    let left = svgRect.left - wrapperRect.left + margin.left + px + 14;
+    let top = svgRect.top - wrapperRect.top + margin.top + py - tooltipHeight - 14;
+
+    if (left + tooltipWidth > WIDTH - 12) {
+      left = svgRect.left - wrapperRect.left + margin.left + px - tooltipWidth - 14;
+    }
+
+    if (top < 12) {
+      top = svgRect.top - wrapperRect.top + margin.top + py + 14;
+    }
+
+    tooltip
+      .style("left", `${left}px`)
+      .style("top", `${top}px`);
+  }
+}).catch(err => {
+  console.error("Failed to load CSV:", err);
+
+  root.append("text")
+    .attr("x", 30)
+    .attr("y", 40)
+    .attr("fill", "crimson")
+    .style("font-family", "sans-serif")
+    .style("font-size", "18px")
+    .text("Failed to load data. Check DATA_PATH and CSV column names.");
+});

@@ -1,0 +1,217 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: #f5f5f5;
+  color: #222;
+}
+
+.wrap {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+.chart-header h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 700;
+  color: #3a3a3a;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 17px;
+  color: #555;
+  max-width: 900px;
+}
+
+.chart-card {
+  margin-top: 22px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.tab {
+  padding: 10px 18px;
+  border: 1px solid #d3d7dd;
+  border-radius: 6px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+  color: #335;
+  background: #eef4fb;
+}
+
+.tab.active {
+  background: #e8f0fb;
+  border-color: #b8c7df;
+  color: #1e4d8a;
+  font-weight: 600;
+}
+
+.chart-layout {
+  display: grid;
+  grid-template-columns: minmax(720px, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+.plot-area {
+  position: relative;
+}
+
+#chart {
+  width: 100%;
+  min-height: 640px;
+}
+
+.side-panel {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #555;
+}
+
+.side-panel h2 {
+  margin: 0 0 18px;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666;
+}
+
+.fake-search {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 13px 14px;
+  color: #999;
+  margin-bottom: 18px;
+  background: #fafafa;
+}
+
+.legend-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 0;
+  flex: 0 0 12px;
+}
+
+.axis-label {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  fill: #555;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.y-top-title {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  fill: #555;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.grid line {
+  stroke: #dcdcdc;
+  stroke-dasharray: 4 5;
+}
+
+.grid path,
+.axis path.domain {
+  display: none;
+}
+
+.axis line {
+  stroke: #999;
+}
+
+.axis text {
+  fill: #666;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
+.point {
+  opacity: 0.9;
+  cursor: pointer;
+  transition: r 120ms ease, opacity 120ms ease, stroke-width 120ms ease;
+}
+
+.point-label {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  fill: #444;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0;
+  background: rgba(34, 34, 34, 0.96);
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transform: translate(12px, 12px);
+  transition: opacity 120ms ease;
+  z-index: 1000;
+}
+
+.tooltip .tt-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.footer-note {
+  margin-top: 12px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  color: #666;
+}
+
+code {
+  background: #f1f1f1;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 1200px) {
+  .chart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .side-panel {
+    order: -1;
+  }
+}

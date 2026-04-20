@@ -1,0 +1,21 @@
+.tooltip {
+  position: absolute;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  pointer-events: none; /* 마우스 이벤트 방해 금지 */
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: none; /* 기본적으로 숨김 */
+}
+.tooltip-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+.tooltip-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

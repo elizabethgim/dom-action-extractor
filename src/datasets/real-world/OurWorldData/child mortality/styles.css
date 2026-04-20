@@ -1,0 +1,227 @@
+/* :root {
+  --bg: #f3f3f3;
+  --text: #3f3f3f;
+  --muted: #6a6a6a;
+  --axis: #9a9a9a;
+  --grid: #d1d1d1;
+  --legend-box: rgba(243, 243, 243, 0.96);
+  --tooltip-bg: rgba(255, 255, 255, 0.97);
+  --tooltip-border: rgba(0, 0, 0, 0.12);
+}
+
+ body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background: white;
+} */
+
+.child-mortality-chart-host #chart-wrapper {
+  position: relative;
+  width: 1460px;
+  margin: 0 auto;
+  background: var(--bg);
+}
+
+.child-mortality-chart-host #chart {
+  display: block;
+  width: 1460px;
+  height: 1000px;
+  background: var(--bg);
+}
+
+.child-mortality-chart-host .title {
+  font-size: 54px;
+  font-weight: 700;
+  fill: #2f2f2f;
+}
+
+.child-mortality-chart-host .subtitle {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 27px;
+  fill: #555;
+}
+
+.child-mortality-chart-host .axis path,
+.child-mortality-chart-host .axis line {
+  stroke: none;
+}
+
+.child-mortality-chart-host .axis text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  fill: #5a5a5a;
+  font-size: 22px;
+}
+
+.child-mortality-chart-host .x-baseline {
+  stroke: var(--axis);
+  stroke-width: 1.3;
+}
+
+.child-mortality-chart-host .grid line {
+  stroke: var(--grid);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 8;
+}
+
+.child-mortality-chart-host .grid path {
+  display: none;
+}
+
+.child-mortality-chart-host .series-line {
+  fill: none;
+  stroke-width: 3;
+  opacity: 0.95;
+  transition: opacity 120ms ease, stroke-width 120ms ease;
+  cursor: pointer;
+}
+
+.child-mortality-chart-host .series-line.dimmed {
+  opacity: 0.18;
+}
+
+.child-mortality-chart-host .series-line.active {
+  stroke-width: 4.5;
+  opacity: 1;
+}
+
+.child-mortality-chart-host .series-endpoint {
+  stroke: var(--bg);
+  stroke-width: 1.4;
+}
+
+.child-mortality-chart-host .legend-item text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+  dominant-baseline: middle;
+  cursor: pointer;
+}
+
+.child-mortality-chart-host .legend-bg {
+  fill: var(--legend-box);
+  stroke: rgba(0, 0, 0, 0.18);
+  stroke-width: 1;
+}
+
+.child-mortality-chart-host .legend-connector {
+  fill: none;
+  stroke-width: 1.5;
+  opacity: 0.7;
+}
+
+.child-mortality-chart-host .legend-connector.dimmed {
+  opacity: 0.15;
+}
+
+.child-mortality-chart-host .legend-item.dimmed text {
+  opacity: 0.35;
+}
+
+.child-mortality-chart-host .hover-guide {
+  stroke: rgba(80, 80, 80, 0.45);
+  stroke-width: 1.3;
+  stroke-dasharray: 4 5;
+  pointer-events: none;
+}
+
+.child-mortality-chart-host .hover-point {
+  stroke: white;
+  stroke-width: 2;
+}
+
+.child-mortality-chart-host .overlay-path {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  cursor: pointer;
+}
+
+.child-mortality-chart-host .footer,
+.child-mortality-chart-host .footer-strong {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 18px;
+  fill: #707070;
+}
+
+.child-mortality-chart-host .footer-strong {
+  font-weight: 700;
+}
+
+.child-mortality-chart-host .tooltip {
+  position: absolute;
+  min-width: 150px;
+  padding: 10px 12px;
+  background: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #333;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.child-mortality-chart-host .tooltip-color-box {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 0; 
+}
+
+.child-mortality-chart-host .tooltip-row {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.child-mortality-chart-host .tooltip.hidden {
+  display: none;
+}
+
+.child-mortality-chart-host .tooltip-country {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.child-mortality-chart-host .tooltip-year,
+.child-mortality-chart-host .tooltip-value {
+  white-space: nowrap;
+}
+
+.child-mortality-chart-host .tooltip-year-shared {
+  padding: 10px 14px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f3f3f3;
+}
+
+.child-mortality-chart-host .tooltip-list {
+  padding: 10px 14px;
+}
+
+.child-mortality-chart-host .tooltip-row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.child-mortality-chart-host .tooltip-color-box {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+}
+
+.child-mortality-chart-host .tooltip-name {
+  color: #333;
+}
+
+.child-mortality-chart-host .tooltip-val {
+  font-weight: 700;
+  color: #333;
+  text-align: right;
+}
