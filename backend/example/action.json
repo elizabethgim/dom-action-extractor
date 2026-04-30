@@ -1,0 +1,16 @@
+{
+  "action_id": "hover-step03-elem12",
+  "action_type": "HOVER",
+  "target_label": "March",
+  "target_role": "data-mark",
+  "datum_summary": {
+    "month": "March",
+    "series": "Revenue"
+  },
+  "expected_effect": "show tooltip with exact value",
+  "already_visited": false,
+  "relevance_score": 0.93,
+  "gain_score": 0.81,
+  "redundancy_score": 0.05,
+  "final_score": 0.84
+}
