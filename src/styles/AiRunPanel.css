@@ -1,0 +1,106 @@
+/* AiRunPanel.css - 예시의 #answer-area 톤 */
+.aiPanel{
+  width: 100%;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #e1e4e8;
+  box-sizing: border-box;
+}
+
+.aiTop {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.aiTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aiTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #334155;
+}
+
+/* 상태 배지 (예시에는 없지만 톤 맞춰서) */
+.aiStatusBlock {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e1e4e8;
+  background: #fff;
+  font-size: 13px;
+  color: #334155;
+}
+
+.aiStatusBlock.running { border-color: #93c5fd; }
+.aiStatusBlock.success { border-color: #86efac; }
+.aiStatusBlock.error { border-color: #fda4af; }
+.aiStatusBlock.warn { border-color: #fdba74; }
+
+.aiControlsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ✅ 예시 #answer-area 느낌 */
+.aiAnswerBox {
+  margin-top: 8px;
+  padding: 20px;
+  background-color: #f0f7ff;
+  border-radius: 10px;
+  border-left: 6px solid #409eff;
+}
+
+.aiAnswerHeader {
+  font-weight: 800;
+  color: #0056b3;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aiAnswerText {
+  color: #0f172a;
+  font-size: 15px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.aiAnswerPlaceholder {
+  color: #64748b;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* 에러 박스도 예시 톤 유지 */
+.aiErrorBox {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+}
+
+.aiErrorTitle {
+  font-weight: 900;
+  color: #9f1239;
+  margin-bottom: 6px;
+}
+
+.aiErrorBody {
+  margin: 0;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
