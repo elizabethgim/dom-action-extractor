@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import type { ChartId } from "@core/charts/chartRegistry";
+import type { ChartId } from "@/core/charts/chartRegistry";
 import { getFamily, getSource, getTitle, type Family, type Source } from "./useChartMeta";
-import { getQuestions } from "@core/charts/questions";
+import type { ChartMetadata } from "@/services/chartApi";
 
-export function useChartFilters(chartIds: ChartId[]) {
+export function useChartFilters(chartCatalog: ChartMetadata[]) {
   // --- UI state ---
   const [source, setSource] = useState<Source | "">("");
   const [family, setFamily] = useState<Family | "">("");
@@ -12,29 +12,29 @@ export function useChartFilters(chartIds: ChartId[]) {
 
   // source options
   const sources = useMemo(() => {
-    return Array.from(new Set(chartIds.map(getSource))).sort() as Source[];
-  }, [chartIds]);
+    return Array.from(new Set(chartCatalog.map(getSource))).sort();
+  }, [chartCatalog]);
 
   // family options based on source
   const families = useMemo(() => {
     if (!source) return [];
-    const f = chartIds.filter((id) => getSource(id) === source).map(getFamily);
-    return Array.from(new Set(f)).sort() as Family[];
-  }, [chartIds, source]);
+    const f = chartCatalog.filter((chart) => getSource(chart) === source).map(getFamily);
+    return Array.from(new Set(f)).sort();
+  }, [chartCatalog, source]);
 
   // chart options based on source+family
   const charts = useMemo(() => {
     if (!source || !family) return [];
-    return chartIds
-      .filter((id) => getSource(id) === source && getFamily(id) === family)
+    return chartCatalog
+      .filter((chart) => getSource(chart) === source && getFamily(chart) === family)
       .sort((a, b) => getTitle(a).localeCompare(getTitle(b)));
-  }, [chartIds, source, family]);
+  }, [chartCatalog, source, family]);
 
   // questions for selected chart
   const questions = useMemo(() => {
     if (!selectedChartId) return [];
-    return getQuestions(selectedChartId as ChartId) ?? [];
-  }, [selectedChartId]);
+    return chartCatalog.find((chart) => chart.id === selectedChartId)?.questions ?? [];
+  }, [chartCatalog, selectedChartId]);
 
   // families가 바뀌었는데 현재 family가 유효하지 않으면 첫 값으로 교정
   useEffect(() => {
@@ -54,8 +54,8 @@ export function useChartFilters(chartIds: ChartId[]) {
     }
 
     setSelectedChartId((prev) => {
-      if (prev && charts.includes(prev as ChartId)) return prev;
-      return charts[0];
+      if (prev && charts.some((chart) => chart.id === prev)) return prev;
+      return charts[0]?.id ?? "";
     });
   }, [charts]);
 

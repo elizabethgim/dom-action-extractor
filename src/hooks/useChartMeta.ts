@@ -1,30 +1,58 @@
-import type { ChartId } from "@core/charts/chartRegistry";
+import { useEffect, useState } from "react";
+import {
+  getChartCatalog,
+  getFallbackChartCatalog,
+  type ChartMetadata,
+} from "@/services/chartApi";
 
-export type Source = "observable" | "dataset" | "csv" | "tableau";
-export type Family = "line" | "bar" | "hierarchy" | "tree" | "map" | "network" | "other";
+export type Source = string;
+export type Family = string;
 
-type ChartEntry =
-  | { source: Exclude<Source, "tableau-html">; family: Family; title: string }
-  | { source: "tableau-html"; family: "tableau"; title: string; htmlPath: string };
-
-const chartMeta: Partial<Record<ChartId, ChartEntry>> = {
-  "observable:zoom-area": { source: "observable", family: "line", title: "Zoomable Area" },
-  "observable:index-line": { source: "observable", family: "line", title: "Index Line" },
-  "observable:multiple-line": { source: "observable", family: "line", title: "Multiple Line (Obs)" },
-  "dataset:collapsible-tree": { source: "dataset", family: "tree", title: "Collapsible Tree" },
-  "dataset:mean-bar-chart": { source: "dataset", family: "bar", title: "Mean Line Bar" },
-  "dataset:hierarchical-bar": { source: "dataset", family: "bar", title: "Hierarchical Bar" },
-  "dataset:multiple-line": { source: "dataset", family: "line", title: "Multiple Line" },
-  "csv:zoomable-sunburst": { source: "csv", family: "hierarchy", title: "Zoomable Sunburst" },
-  "tableau:wall-e": { source: "tableau-html", family: "tableau", title: "Wall-e", htmlPath: "/tableau/index.html" },
-};
-
-export function getSource(id: ChartId): Source {
-  return (chartMeta[id]?.source ?? (id.split(":")[0] as Source)) as Source;
+export function getSource(chart: ChartMetadata): Source {
+  return chart.source;
 }
-export function getFamily(id: ChartId): Family {
-  return (chartMeta[id]?.family ?? "other") as Family;
+
+export function getFamily(chart: ChartMetadata): Family {
+  return chart.family;
 }
-export function getTitle(id: ChartId): string {
-  return chartMeta[id]?.title ?? id;
+
+export function getTitle(chart: ChartMetadata | null | undefined): string {
+  return chart?.title ?? "";
+}
+
+export function useChartCatalog() {
+  const [charts, setCharts] = useState<ChartMetadata[]>([]);
+  const [isLoadingCharts, setIsLoadingCharts] = useState(true);
+  const [chartCatalogError, setChartCatalogError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setIsLoadingCharts(true);
+      try {
+        const nextCharts = await getChartCatalog();
+        if (!cancelled) {
+          setCharts(nextCharts);
+          setChartCatalogError(null);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.warn("Falling back to local chart catalog.", error);
+          setCharts(getFallbackChartCatalog());
+          setChartCatalogError(error as Error);
+        }
+      } finally {
+        if (!cancelled) setIsLoadingCharts(false);
+      }
+    }
+
+    void load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return { charts, isLoadingCharts, chartCatalogError };
 }
