@@ -1,12 +1,12 @@
 import { useState } from "react";
-import type { ChartId } from "@core/charts/chartRegistry";
+import type { ChartId } from "@/core/charts/chartRegistry";
 import { v4 as uuidv4 } from "uuid";
-import { captureState, type imageState } from "@core/utils/getCapture";
-import { extractActions, getActionRegistry } from "@core/actionExtractor/extractActions";
-import { decideNextAction, getAnswer } from "@core/interpretation/decideNextAction";
-import { executeAction } from "@core/autoAction/executeAction";
-import { getQuestions } from "@core/charts/questions";
-import { getImages } from "@core/utils/getImages";
+import { captureState, type imageState } from "@/core/utils/getCapture";
+import { extractActions, getActionRegistry } from "@/core/actionExtractor/extractActions";
+import { decideNextAction, getAnswer } from "@/core/interpretation/decideNextAction";
+import { executeAction } from "@/core/autoAction/executeAction";
+import { getQuestions } from "@/core/charts/questions";
+import { getImages } from "@/core/utils/getImages";
 
 export function useAiRunner(containerRef: React.RefObject<HTMLDivElement | null>) {
   const [isRunning, setIsRunning] = useState(false);
