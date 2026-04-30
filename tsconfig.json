@@ -13,8 +13,9 @@
       "@styles/*": ["src/styles/*"],
       "@models/*": ["src/models/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@datasets/*": ["src/datasets/*"],
-      "@scripts/*": ["scripts"]
+      "@datasets/*": ["datasets/*"],
+      "@scripts/*": ["scripts"],
+      "@debug/*": ["src/debug/*"]
     }
   }
 }

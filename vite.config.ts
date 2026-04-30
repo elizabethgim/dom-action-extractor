@@ -5,6 +5,15 @@ import { fileURLToPath, URL } from "node:url";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+    },
+  },
+
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
@@ -13,8 +22,10 @@ export default defineConfig({
       "@styles": fileURLToPath(new URL("./src/styles", import.meta.url)),
       "@models": fileURLToPath(new URL("./src/models", import.meta.url)),
       "@hooks": fileURLToPath(new URL("./src/hooks", import.meta.url)),
-      "@datasets": fileURLToPath(new URL("./src/datasets", import.meta.url)),
+
+      "@datasets": fileURLToPath(new URL("./datasets", import.meta.url)),
       "@scripts":  fileURLToPath(new URL("./scripts", import.meta.url)),
+      "@debug":  fileURLToPath(new URL("./src/debug", import.meta.url)),  
     },
   },
 })
