@@ -1,19 +1,13 @@
 import { extractAxes } from "@/core/markExtractor/extractAxes";
-import { extractDataMarks } from "@/core/markExtractor/extractDataMarks";
 
-export async function generateChartElements(container: SVGSVGElement){
+export async function generateChartElements(container: HTMLElement){
   const axis = extractAxes(container);
-  const axisElements = new Set(
-    axis.allTicks.map((t) => t.element).filter(Boolean),
-  );
-  const dataMarks = extractDataMarks(container, axisElements);
 
   return `
   This is a interactive chart made by d3.js.
 
   current visual x axis are: ${axis.xAxis}
   current visual y axis are: ${axis.yAxis}
-  and the datas are shown: ${dataMarks}
 
   What kind of chart is this?
 
@@ -21,6 +15,7 @@ export async function generateChartElements(container: SVGSVGElement){
   {
     "chartType" : "Bar"
   }
+  
   NO additional explanation.
   `; 
 }

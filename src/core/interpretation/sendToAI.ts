@@ -1,18 +1,12 @@
-export type SendAIArgs = {
-  path: string;
-  prompt: string;
-  model?: string;
-  images?: string[];
-};
-
-export type AIResponse = any; // 일단 any, 나중에 스키마 정하면 바꾸기
+import type { IAnswer } from "@/core/models/interface/IAnswer";
+import type { AIrequest } from "@/core/models/types/AIrequest";
 
 export async function sendToAIPost({
   path,
   prompt,
   model = "llava:latest",
   images,
-}: SendAIArgs): Promise<AIResponse> {
+}: AIrequest): Promise<IAnswer> {
   const r = await fetch(path, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
