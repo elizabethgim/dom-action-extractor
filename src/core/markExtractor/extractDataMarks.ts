@@ -1,5 +1,5 @@
 export function extractDataMarks(
-  svg: SVGSVGElement,
+  svg: HTMLElement,
   axisElements: Set<Element>,
 ) {
   const allElements = Array.from(svg.querySelectorAll("path, circle, rect"));

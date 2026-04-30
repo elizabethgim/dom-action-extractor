@@ -8,4 +8,3 @@ export async function loadChart(id: ChartId) {
   if (!chart) throw new Error(`Unknown chart id: ${id}`);
   return chart;
 }
-

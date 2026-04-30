@@ -6,7 +6,7 @@ export interface AxesResult {
   allTicks: IAxis[];
 }
 
-export function extractAxes(svg: SVGSVGElement): AxesResult {
+export function extractAxes(svg: HTMLElement): AxesResult {
   const ticks = Array.from(svg.querySelectorAll(".tick"));
   const axis: IAxis[] = [];
 

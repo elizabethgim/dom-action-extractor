@@ -20,7 +20,16 @@ import {
   employ
 } from "@datasets/index";
 
-export const chartRegistry = {
+export type ChartRenderer = {
+  id?: string;
+  label?: string;
+  adapterType?: string;
+  mount: (container: HTMLElement) => void | Promise<void>;
+  unmount?: (container: HTMLElement) => void | Promise<void>;
+  getInfo?: (...args: any[]) => any;
+};
+
+export const chartRegistry: Record<string, ChartRenderer> = {
   "dataset:collapsible-tree": d3Adapter(
     collapsibleTree,
     "collapsible-tree"
@@ -93,6 +102,6 @@ export const chartRegistry = {
     "employ"
   )
 
-} as const;
+};
 
-export type ChartId = keyof typeof chartRegistry;
+export type ChartId = string;

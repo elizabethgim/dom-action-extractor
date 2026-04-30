@@ -1,5 +1,5 @@
 // src/core/charts/info/d3InfoMap.ts
-import type { ChartInfo } from "@core/models/types/chartInfoTypes";
+import type { ChartInfo } from "@/core/models/types/chartInfoTypes";
 
 // chartId -> ChartInfo
 export const d3InfoMap: Record<string, Omit<ChartInfo, "chartId" | "sourceType">> = {

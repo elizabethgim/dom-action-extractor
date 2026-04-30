@@ -1,7 +1,7 @@
 
-export function extractPath(svg: SVGSVGElement): string[]{
+export function extractPath(svg: HTMLElement): string[]{
   const paths=Array.from(svg.querySelectorAll("path"));
-  let dd: string[] = [];
+  const dd: string[] = [];
 
   paths.forEach(path => {
     const d = path.getAttribute("d")?.toString();

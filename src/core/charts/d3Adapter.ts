@@ -1,7 +1,7 @@
 import type { ChartInfo } from "../models/types/chartInfoTypes";
 import { d3InfoMap } from "../info/d3InfoMap";
 
-export function d3Adapter(render: (container: HTMLElement) => void, id: string) {  
+export function d3Adapter(render: (container: HTMLElement) => void | Promise<void>, id: string) {  
   return {
     id,
     async mount(container: HTMLElement) {
@@ -11,7 +11,7 @@ export function d3Adapter(render: (container: HTMLElement) => void, id: string) 
       mount.className = "chartMount chartMount--d3";
       container.appendChild(mount);
 
-      render(mount);
+      await render(mount);
     },
     async unmount(container: HTMLElement) {
       container.innerHTML = "";
