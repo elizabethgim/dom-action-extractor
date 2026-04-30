@@ -1,0 +1,19 @@
+{
+  "id": "dataset:agriculture-urban",
+  "title": "Employment in agriculture vs. urban population",
+  "family": "scatterplot",
+  "source": "dataset",
+  "entry": "index.html",
+  "script": "chart.js",
+  "style": "style.css",
+  "data": "data.csv",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Which region has countries with high urban population and low agricultural employment?",
+      "answer": "..."
+    }
+  ],
+  "interactions": ["hover"],
+  "tags": ["scatterplot", "tooltip", "real-world-data"]
+}
