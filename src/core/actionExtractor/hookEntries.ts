@@ -1,4 +1,4 @@
-import type { ListenerInfo } from "@core/models/types/ListenerInfo";
+import type { ListenerInfo } from "@/core/models/types/ListenerInfo";
 import { getHookRegistry } from "./hook";
 
 type Listener = EventListenerOrEventListenerObject;

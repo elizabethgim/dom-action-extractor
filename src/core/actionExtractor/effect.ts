@@ -6,7 +6,6 @@ import { generateEffect } from "../ai/prompt/generateEffect";
 import { captureState } from "../utils/getCapture";
 import type { imageState } from "../utils/getCapture";
 import { sendToAIPost } from "../ai/sendToAI";
-import { showResponse } from "../../UI/effectResponse";
 import { getCleanResponse } from "../utils/getCleanResponse";
 import { getImages } from "../utils/getImages";
 import { getActionRegistry } from "./extractActions";
@@ -62,21 +61,3 @@ export async function extractEffect(
   effectRegistry.push(...arr);
 }
 
-// interface IRespone {
-//   text: IEffect;
-//   model: string;
-// }
-
-// async function askJsonOnlyRetry(raw: string) {
-//   const fixPrompt = `
-// Your previous output was not valid JSON.
-
-// Return ONLY a single valid JSON array.
-// No markdown, no extra text.
-
-// Here is the previous output:
-// ${raw}
-// `.trim();
-
-//   return await sendToAIPost({ path: "/chat", prompt: fixPrompt });
-// }

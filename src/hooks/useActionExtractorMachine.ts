@@ -1,5 +1,5 @@
-import { getActionHistory } from "@core/actionExtractor/actionLogger";
-import { extractActions } from "@core/actionExtractor/extractActions";
+import { getActionHistory } from "@/core/actionExtractor/actionLogger";
+import { extractActions } from "@/core/actionExtractor/extractActions";
 import { useEffect, useRef, useState } from "react";
 
 export function useActionExtractorMachine(step: number){

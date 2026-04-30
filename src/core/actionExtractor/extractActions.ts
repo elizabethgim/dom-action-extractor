@@ -1,9 +1,9 @@
 import { bindActionId } from "./actionId";
 import { DEFAULT_EVENTS } from "./DefaultEventType";
 import { getHookRegistry } from "./hook";
-import type { IActions } from "@core/models/interface/IActions";
-import type { D3Element } from "@core/models/interface/Id3Element";
-import type { IDatum } from "@core/models/interface/IDatum";
+import type { IActions } from "@/core/models/interface/IActions";
+import type { D3Element } from "@/core/models/interface/Id3Element";
+import type { IDatum } from "@/core/models/interface/IDatum";
 import { indexAction } from "./actionIdStore";
 
 

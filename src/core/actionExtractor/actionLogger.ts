@@ -1,9 +1,9 @@
 import { DEFAULT_EVENTS } from "./DefaultEventType";
 import type { IActions } from "../models/interface/IActions";
-import { getElementByActionId, resolveActionIdFromEvent } from "./actionIdStore";
+import { resolveActionIdFromEvent } from "./actionIdStore";
 
-let mutationBuffer: MutationRecord[] = [];
-let actionHistory: Partial<IActions>[] = [];
+const mutationBuffer: MutationRecord[] = [];
+const actionHistory: Partial<IActions>[] = [];
 
 export async function installActionLogger(container: HTMLElement){
   const observer = new MutationObserver((entries) => {

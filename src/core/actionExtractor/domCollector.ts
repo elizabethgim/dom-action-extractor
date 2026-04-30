@@ -50,7 +50,7 @@ function waitRafs(count: number): Promise<void> {
 /** * container 내부 DOM 변화가 "안정화"되면(container에 chart가 그려졌다고 볼 수 있는 시점) 
  * container 하위의 모든 Element를 반환 */
 export function waitChartMountedAndGetAllElements(
-  container: HTMLDivElement,
+  container: HTMLElement,
   opts: WaitForRenderOptions = {}
 ): Promise<Element[]> {
   const {
