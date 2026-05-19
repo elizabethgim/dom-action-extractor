@@ -1,10 +1,10 @@
-/* reset-ish */
+/* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body, #root {
   font-size: 16px;
-  line-height: 1.4;
-  color: #1f2937;
+  line-height: 1.5;
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,23 +19,45 @@ body {
   padding: 40px 0;
   display: flex;
   justify-content: center;
-  background-color: #f5f7fa;
-  font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-h1 {
-  margin: 0 0 16px 0;
-  font-size: 34px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #1f2937;   /* 너무 검정(#000) 쓰지 말 것 */
-  letter-spacing: -0.5px;
+h1, h2, h3, h4 { margin: 0; line-height: 1.25; }
+
+/* ── Design Tokens ─────────────────────────────────────── */
+:root {
+  --color-brand:        #5b6af8;
+  --color-brand-hover:  #4a58e8;
+  --color-brand-ghost:  rgba(91, 106, 248, 0.08);
+  --color-bg:           #f8f9fc;
+  --color-surface:      #ffffff;
+  --color-border:       #e2e5ec;
+  --color-border-focus: #5b6af8;
+  --color-text:         #111827;
+  --color-text-muted:   #6b7280;
+  --color-error:        #dc2626;
+
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+
+  --panel-bg:     var(--color-surface);
+  --panel-border: var(--color-border);
+  --panel-radius: var(--radius-md);
+  --panel-pad:    28px;
+  --shadow:       var(--shadow-sm);
 }
 
-/* 공통 유틸 */
-.muted{ opacity: .65; }
+/* ── Utilities ─────────────────────────────────────────── */
+.muted      { color: var(--color-text-muted); font-size: 13px; }
+.error-text { color: var(--color-error); font-size: 14px; }
 
-.panel{
+/* ── Panel ─────────────────────────────────────────────── */
+.panel {
   width: 100%;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
@@ -43,40 +65,136 @@ h1 {
   padding: var(--panel-pad);
   box-sizing: border-box;
 }
+.panel--shadow { box-shadow: var(--shadow-md); }
+.panel--tight  { padding: 20px; }
+.panel--flush  { padding: 0; }
 
-.panel--shadow{ box-shadow: var(--shadow); }
-.panel--tight{ padding: 20px; }
-.panel--flush{ padding: 0; }
-
-/* 공통 버튼 (전역으로 남기는 게 편함) */
-.btn{
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-weight: 700;
+/* ── Buttons ───────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
   border: none;
   cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
 }
 
-.btn.secondary{
-  color: white;
-  background: linear-gradient(135deg, #4f7cff, #6a5cff);
-  border: 1px solid #ddd;
+.btn.primary {
+  background: var(--color-brand);
+  color: #fff;
+  border: none;
+}
+.btn.primary:hover:not(:disabled) { background: var(--color-brand-hover); }
+
+.btn.secondary {
+  background: transparent;
+  color: var(--color-brand);
+  border: 1.5px solid var(--color-brand);
+}
+.btn.secondary:hover:not(:disabled) { background: var(--color-brand-ghost); }
+
+.btn:disabled, select:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── Inputs ────────────────────────────────────────────── */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea {
+  width: 100%;
+  padding: 9px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  background: var(--color-surface);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(91, 106, 248, 0.15);
 }
 
-.btn.primary{
-  color: white;
-  background: linear-gradient(135deg, #4f7cff, #6a5cff);
+/* ── Code / Pre ────────────────────────────────────────── */
+.rawResponse {
+  white-space: pre-wrap;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  background: #f5f6fa;
+  border: 1px solid var(--color-border);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 0;
 }
 
-.btn:disabled, select:disabled{
-  opacity: .55;
-  cursor: not-allowed;
+/* ── Step Card (AiPage) ────────────────────────────────── */
+.stepCard {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.stepCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.stepCardHeader h3 { font-size: 15px; font-weight: 700; margin: 0; }
+.stepLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
 }
 
-:root{
-  --panel-bg: #fff;
-  --panel-border: #e1e4e8;
-  --panel-radius: 12px;
-  --panel-pad: 30px;
-  --shadow: 0 4px 12px rgba(0,0,0,0.05);
+/* ── Page Layout ───────────────────────────────────────── */
+.systemPage {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.systemHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.systemTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.systemTitle h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+.systemSubtitle {
+  font-size: 23px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* 패널 내부 섹션 타이틀 */
+.panel > h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 16px;
 }

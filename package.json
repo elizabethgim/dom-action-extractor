@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:backend": "PYTHONPATH=backend backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
+    "dev:all": "concurrently --names \"vite,api,ollama\" --prefix-colors \"cyan,yellow,magenta\" \"npm run dev\" \"npm run dev:backend\" \"ollama serve\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
