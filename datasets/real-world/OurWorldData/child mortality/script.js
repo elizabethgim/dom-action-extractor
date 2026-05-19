@@ -49,7 +49,8 @@ const colorMap = new Map([
 
 export function index(container){
   const root = d3.select(container)
-  .classed("child-mortality-chart-host", true);
+    .classed("child-mortality-chart-host", true)
+    .style("position", "relative");
   
   root.selectAll("*").remove();
 
@@ -60,9 +61,11 @@ export function index(container){
     .attr("width", "100%")
     .attr("height", "auto");
 
-  const tooltip = svg
+  const tooltip = root
     .append("div")
-    .attr("class", "tooltip");
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("pointer-events", "none");
 
   const chartG = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -425,23 +428,27 @@ export function index(container){
           </div>
         `);
 
-      const wrapperRect = document.getElementById("chart-wrapper").getBoundingClientRect();
-      const svgRect = svg.node().getBoundingClientRect();
+      const wrapperRect = container.getBoundingClientRect();
+      const svgEl = svg.node();
+      const svgRect = svgEl.getBoundingClientRect();
+      const scaleX = svgRect.width / WIDTH;
       const tooltipNode = tooltip.node();
       const tooltipWidth = tooltipNode.offsetWidth || 220;
       const tooltipHeight = tooltipNode.offsetHeight || 120;
 
       const guideX = xScale(year);
+      const scaledGuideX = (margin.left + guideX) * scaleX;
+      const scaledTop = (margin.top + 120) * (svgRect.height / HEIGHT);
 
-      let left = svgRect.left - wrapperRect.left + margin.left + guideX + 14;
-      let top = svgRect.top - wrapperRect.top + margin.top + 120;
+      let left = svgRect.left - wrapperRect.left + scaledGuideX + 14;
+      let top = svgRect.top - wrapperRect.top + scaledTop;
 
-      if (left + tooltipWidth > WIDTH - 12) {
-        left = svgRect.left - wrapperRect.left + margin.left + guideX - tooltipWidth - 14;
+      if (left + tooltipWidth > svgRect.width - 12) {
+        left = svgRect.left - wrapperRect.left + scaledGuideX - tooltipWidth - 14;
       }
 
-      if (top + tooltipHeight > HEIGHT - 12) {
-        top = HEIGHT - tooltipHeight - 12;
+      if (top + tooltipHeight > svgRect.height - 12) {
+        top = svgRect.height - tooltipHeight - 12;
       }
 
       tooltip
