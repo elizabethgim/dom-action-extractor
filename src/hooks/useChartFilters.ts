@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import type { ChartId } from "@/core/charts/chartRegistry";
 import { getFamily, getSource, getTitle, type Family, type Source } from "./useChartMeta";
-import type { ChartMetadata } from "@/services/chartApi";
+import type { ChartMetadata } from "@core/models/types/ChartMetadata";
 
 export function useChartFilters(chartCatalog: ChartMetadata[]) {
   // --- UI state ---
   const [source, setSource] = useState<Source | "">("");
   const [family, setFamily] = useState<Family | "">("");
-  const [selectedChartId, setSelectedChartId] = useState<ChartId | "">("");
+  const [selectedChartId, setSelectedChartId] = useState<string | "">("");
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
 
   // source options

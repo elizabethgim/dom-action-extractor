@@ -12,6 +12,7 @@ export async function decideNextAction(
   chartType: string,
   questions: string,
   chartState: imageState | null,
+  signal?: AbortSignal,
 ): Promise<string> {
 
   console.log(chartState?.image);
@@ -23,17 +24,19 @@ export async function decideNextAction(
     actionHistoryRegistry,
     actionRegistry,
   );
-
+  console.log("prompt: ", prompt);
+  
   const img = getImages(chartState, null);
 
   const response = await sendToAIPost({
     path: "/chat",
     prompt,
     images: img,
+    signal,
   });
   console.log("answer:", response);
 
-  const plan: string = await getCleanResponse(JSON.stringify(response));
+  const plan: string = await getCleanResponse(response);
   return plan;
 }
 
@@ -43,7 +46,7 @@ export function getAnswer(plan:string): IAnswer {
     try {
       answer = JSON.parse(plan);
     } catch (e) {
-      console.log("PLAN JSON PARSE FAILED. Raw:", answer);
+      console.log("PLAN JSON PARSE FAILED. Raw:", plan);
       console.error(e);
     }
 

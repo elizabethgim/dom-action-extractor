@@ -1,13 +1,15 @@
 import { useCallback, useRef, useState } from "react";
-import type { ChartId } from "@core/charts/chartRegistry";
 import { v4 as uuidv4 } from "uuid";
 
 import { captureState, type imageState } from "@/core/utils/getCapture";
 import { extractActions, getActionRegistry } from "@/core/actionExtractor/extractActions";
+import { executeAction } from "@/core/autoAction/executeAction";
 import { decideNextAction, getAnswer } from "@core/interpretation/decideNextAction";
 import { getQuestions } from "@core/charts/questions";
 
-import type { StepLog, StopReason } from "@core/models/types/aiRun";
+import type { StepLog } from "@/core/models/types/aiRun/StepLog";
+import type { StopReason } from "@core/models/types/aiRun/StopReason";
+
 
 type Params = {
   containerRef: React.RefObject<HTMLDivElement | null>;
@@ -21,6 +23,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
   const [lastError, setLastError] = useState<string | null>(null);
 
   const stopFlagRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const reset = useCallback(() => {
     stopFlagRef.current = false;
@@ -32,11 +35,12 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
 
   const stop = useCallback(() => {
     stopFlagRef.current = true;
+    abortControllerRef.current?.abort();
   }, []);
 
   const run = useCallback(async (args: {
-    renderedChartId: ChartId | null;
-    selectedChartId: ChartId | "";
+    renderedChartId: string | null;
+    selectedChartId: string | "";
     selectedQuestionIndex: number;
     questionText?: string,
     chartType?: string;
@@ -59,6 +63,8 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     if (!question) throw new Error("Please select or type a question.");
 
     stopFlagRef.current = false;
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     setIsRunning(true);
     setStopReason(null);
     setSteps([]);
@@ -81,7 +87,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         const actionCount = actionRegistry.length;
 
         // 3) decide next
-        const plan = await decideNextAction(chartType, question, before);
+        const plan = await decideNextAction(chartType, question, before, controller.signal);
         const answer = getAnswer(plan);
         const targetIndex = answer?.targetIndex ?? null;
         const answerable = answer?.answerable ?? null;
@@ -109,42 +115,23 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         const chosen = actionRegistry[answer.targetIndex];
         if (!chosen) {
           setSteps((prev) => markStop(prev, step, "NO_ACTION"));
-          setStopReason("NO_ACTION");
-          break;
+          continue;
         }
-        
 
-        // const actionId = chosen.id; // stable id
-        // const selector = `[data-action-id="${actionId}"]`;
+        const actionId = chosen.actionId;
+        const selector = `[data-action-id="${actionId}"]`;
 
-        // setSteps((prev) =>
-        //   patchStep(prev, step, {
-        //     chosenAction: {
-        //       actionId,
-        //       selector,
-        //       type: chosen.type,
-        //       eventType: (chosen as any).eventType,
-        //       description: chosen.description,
-        //       elementIndex: chosen.elementIndex,
-        //       // params: wheel/click이면 추가로 기록 가능
-        //     },
-        //   })
-        // );
+        setSteps((prev) =>
+          patchStep(prev, step, {
+            chosenAction: {
+              actionId,
+              selector,
+              actionType: chosen.actionType,
+            },
+          })
+        );
 
-        // 5) execute
-        // setSteps((prev) =>
-        //   patchStep(prev, step, {
-        //     chosenAction: {
-        //       id: chosen.id,
-        //       type: chosen.type,
-        //       elementIndex: chosen.elementIndex,
-        //       description: chosen.description,
-        //       eventType: (chosen as any).eventType,
-        //     },
-        //   })
-        // );
-
-        // await executeAction(chosen);
+        await executeAction(chosen);
 
         // 6) capture after (optional but 강추)
         const afterCapId = uuidv4().split("-")[0];
@@ -166,17 +153,20 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         }
       }
     } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") {
+        setStopReason("USER_STOP");
+        return;
+      }
       setLastError(String(e));
       setStopReason("ERROR");
 
       const msg = String(e);
-      // 마지막 스텝에 에러 표기(없으면 별도 에러 상태로)
       setSteps((prev) => {
         if (prev.length === 0) return prev;
         const last = prev[prev.length - 1];
         return patchStep(prev, last.step, { stopReason: "ERROR", error: msg });
       });
-      
+
       throw e;
     } finally {
       setIsRunning(false);
