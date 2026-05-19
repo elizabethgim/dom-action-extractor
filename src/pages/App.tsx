@@ -5,6 +5,7 @@ import DebugPage from "./DebugPage";
 import SystemPage from "./SystemPage";
 import AnimationPage from "./AnimationPage";
 import ChartCodeEditorPage from "./ChartCodeEditor";
+import ManualAiPage from "./ManualAiPage";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/animation" element={<AnimationPage />} />
         <Route path="/system" element={<SystemPage />} />
         <Route path="/registry" element={<ChartCodeEditorPage />} />
+        <Route path="/manual" element={<ManualAiPage />} />
       </Routes>
     </div>
   );
