@@ -4,7 +4,8 @@ export interface IActions {
   step?: number
   num?: number
   actionId: string
-  actionType: string
+  actionType: "click" | "hover" | "zoom"
+  eventType?: string
   element: Element,
   elementInfo: {
     id: string,

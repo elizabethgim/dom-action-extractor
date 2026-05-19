@@ -40,9 +40,9 @@ ${pa}`;
 
 
 function summarizeActions(actions: Partial<IActions>[]){
-  return actions.map(a => {
+  return actions.map((a, i) => {
     return {
-      index: a.num,
+      index: i,
       actionType: a.actionType,
       datum: a.datum,
       boundingBox:a.boundingBox,
