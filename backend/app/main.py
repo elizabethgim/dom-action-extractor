@@ -4,7 +4,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.database import init_database
-from app.domain.charts.repository import seed_charts_if_empty
 from app.routes.ai_runs import router as ai_runs_router
 from app.routes.charts import router as charts_router
 from app.routes.datasets import router as datasets_router
@@ -14,14 +13,18 @@ from app.routes.chart_codes import router as chart_codes_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_database()
-    seed_charts_if_empty()
     yield
 
 app = FastAPI(lifespan=lifespan)
 
+origins =[
+    "http://localhost:5173", 
+    "http://127.0.0.1:5173"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

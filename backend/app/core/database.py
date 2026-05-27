@@ -60,8 +60,8 @@ def init_database() -> None:
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS ai_runs (
-              id SERIAL PRIMARY KEY,
-              chart_id UUID NOT NULL REFERENCES charts(id) ON DELETE CASCADE,
+              id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+              chart_id UUID NOT NULL REFERENCES charts(id) ON DELETE RESTRICT,
               source TEXT NOT NULL,
               family TEXT NOT NULL,
               selected_question_index INTEGER NOT NULL DEFAULT 0,
@@ -76,11 +76,23 @@ def init_database() -> None:
             """
             CREATE TABLE IF NOT EXISTS ai_run_steps (
               id SERIAL PRIMARY KEY,
-              run_id INTEGER NOT NULL REFERENCES ai_runs(id) ON DELETE CASCADE,
+              run_id UUID NOT NULL REFERENCES ai_runs(id) ON DELETE RESTRICT,
               step_index INTEGER NOT NULL,
               payload_json JSONB NOT NULL,
               created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
               UNIQUE (run_id, step_index)
+            );
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chart_codes (
+              id SERIAL PRIMARY KEY,
+              title TEXT NOT NULL,
+              html_code TEXT NOT NULL DEFAULT '',
+              css_code TEXT NOT NULL DEFAULT '',
+              js_code TEXT NOT NULL DEFAULT '',
+              created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
             """
         )

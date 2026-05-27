@@ -1,52 +1,14 @@
 from psycopg.rows import DictRow
 
 from app.core.database import db_connection, chart_slug_to_uuid
-from app.domain.charts.registry import CHARTS
 from app.domain.charts.schemas import ChartCreate, ChartDefinition
 
-
-def seed_charts_if_empty() -> None:
-    with db_connection() as connection:
-        row = connection.execute("SELECT COUNT(*) AS count FROM charts").fetchone()
-        if row and row["count"] > 0:
-            return
-
-        for chart in CHARTS.values():
-            chart_uuid = chart_slug_to_uuid(chart.id)
-            connection.execute(
-                """
-                INSERT INTO charts (
-                  id, slug, title, source, family, renderer, description, dataset_id
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                """,
-                (
-                    chart_uuid,
-                    chart.id,
-                    chart.title,
-                    chart.source,
-                    chart.family,
-                    chart.renderer,
-                    chart.description,
-                    chart.dataset_id,
-                ),
-            )
-            with connection.cursor() as cursor:
-                cursor.executemany(
-                    """
-                    INSERT INTO chart_questions (chart_id, question, sort_order)
-                    VALUES (%s, %s, %s)
-                    """,
-                    [
-                        (chart_uuid, question, index)
-                        for index, question in enumerate(chart.questions)
-                    ],
-                )
 
 
 def _row_to_chart(row: DictRow, questions: list[str]) -> ChartDefinition:
     return ChartDefinition(
-        id=str(row["slug"]),
+        id=str(row["id"]),
+        slug=str(row["slug"] or ""),
         title=str(row["title"]),
         source=str(row["source"]),
         family=str(row["family"]),
@@ -128,7 +90,8 @@ def create_chart_definition(data: ChartCreate) -> ChartDefinition:
                 ],
             )
     return ChartDefinition(
-        id=data.slug,
+        id=chart_uuid,
+        slug=data.slug,
         title=data.title,
         source=data.source,
         family=data.family,
@@ -145,7 +108,7 @@ def get_chart_definition(chart_id: str) -> ChartDefinition | None:
             """
             SELECT id, slug, title, source, family, renderer, description, dataset_id
             FROM charts
-            WHERE slug = %s
+            WHERE id = %s
             """,
             (chart_id,),
         ).fetchone()

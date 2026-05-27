@@ -29,7 +29,7 @@ def create_ai_run(payload: AiRunCreate) -> AiRunRead:
         
         if row is None:
             raise RuntimeError("AI run insert did not return an id.")
-        run_id = int(row["id"])
+        run_id = str(row["id"])
 
         with connection.cursor() as step_cursor:
             step_cursor.executemany(
@@ -53,7 +53,7 @@ def create_ai_run(payload: AiRunCreate) -> AiRunRead:
     return run
 
 
-def get_ai_run(run_id: int) -> AiRunRead | None:
+def get_ai_run(run_id: str) -> AiRunRead | None:
     with db_connection() as connection:
         row = connection.execute(
             """
@@ -80,10 +80,11 @@ def get_ai_run(run_id: int) -> AiRunRead | None:
         ).fetchall()
 
     return AiRunRead(
-        id=int(row["id"]),
+        id=str(row["id"]),
         source=str(row["source"]),
         family=str(row["family"]),
         chartId=str(row["chart_id"]),
+        runId=str(row["id"]),
         selectedQuestionIndex=int(row["selected_question_index"]),
         questionText=str(row["question_text"]),
         stopReason=str(row["stop_reason"]) if row["stop_reason"] is not None else None,

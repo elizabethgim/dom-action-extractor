@@ -19,10 +19,11 @@ class AiRunStep(BaseModel):
 
 
 class AiRunRead(BaseModel):
-    id: int
+    id: str
     source: str
     family: str
     chart_id: str = Field(alias="chartId")
+    run_id: str = Field(alias="runId")
     selected_question_index: int = Field(alias="selectedQuestionIndex")
     question_text: str = Field(alias="questionText")
     stop_reason: str | None = Field(alias="stopReason")

@@ -7,6 +7,7 @@ from app.domain.charts.schemas import ChartCreate, ChartDefinition
 def _serialize_chart(chart: ChartDefinition) -> dict[str, object]:
     return {
         "id": chart.id,
+        "slug": chart.slug,
         "title": chart.title,
         "source": chart.source,
         "family": chart.family,

@@ -6,6 +6,7 @@ from pydantic import BaseModel
 @dataclass(frozen=True)
 class ChartDefinition:
     id: str
+    slug: str
     title: str
     source: str
     family: str

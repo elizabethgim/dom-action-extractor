@@ -13,6 +13,6 @@ def create_ai_run_entry(payload: AiRunCreate):
 
 
 @router.get("/{run_id}")
-def get_ai_run_entry(run_id: int):
+def get_ai_run_entry(run_id: str):
     return load_ai_run(run_id)
 
