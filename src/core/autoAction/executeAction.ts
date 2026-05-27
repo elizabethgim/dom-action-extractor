@@ -17,7 +17,7 @@ export async function executeAction(chosen: IActions) {
       }
       break;
     case "hover":
-      await autoHover(chosen.element);
+      await autoHover(chosen.element, chosen.eventType);
       break;
     case "zoom":
       await autoWheel(chosen.element, -1000);
