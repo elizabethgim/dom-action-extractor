@@ -38,6 +38,9 @@ export function getHookRegistry() {
   return registry;
 }
 
+export function clearHookRegistry() {
+  registry.clear();
+}
 
 export function uninstallHook() {
   uninstallFn?.();
