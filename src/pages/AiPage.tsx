@@ -1,66 +1,96 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 
-import { ChartPanel } from "@components/builder/ChartPanel";
-import { ChartSelectPanel } from "@components/builder/ChartSelectPanel";
 import { ResultPanel } from "@components/builder/ResultPanel";
 
 import { useChartRenderer } from "@hooks/useChartRenderer";
 import { useAiRunnerMachine } from "@hooks/useAiRunnerMachine";
 import { useChartFilters } from "@/hooks/useChartFilters";
 import { useChartCatalog } from "@/hooks/useChartMeta";
-import { saveAiRun } from "@/services/aiRunApi";
+import { saveAiRun } from "@/api/aiRunApi";
 
-import type { ChartId } from "@core/charts/chartRegistry";
-import type { AiToAnimationState, SystemToAiState } from "./navigationState";
+import type { AiToAnimationState, SystemToAiState } from "@/types/navigationState";
 
 import "@styles/global.css";
+import "@styles/AIPage.css";
 
 function stringifyStepValue(value: unknown) {
   if (typeof value === "string") return value;
   return JSON.stringify(value, null, 2);
 }
 
+function parsePlan(planRaw: unknown): { reason?: string; answerable?: string; type?: string; targetIndex?: number } {
+  try {
+    const obj = typeof planRaw === "string" ? JSON.parse(planRaw) : planRaw;
+    return obj ?? {};
+  } catch { return {}; }
+}
+
+function StopBadge({ reason }: { reason?: string }) {
+  if (!reason) return null;
+
+  const color: Record<string, string> = {
+    ANSWERED: "#16a34a", 
+    NO_PLAN: "#dc2626", 
+    NO_ACTION: "#d97706",
+    REPEATED_ACTION: "#d97706", 
+    MAX_STEP: "#6b7280", 
+    USER_STOP: "#6b7280", 
+    ERROR: "#dc2626",
+  };
+
+  return (
+    <span style={{
+      fontSize: 11, padding: "2px 8px", borderRadius: 10, fontWeight: 600,
+      background: `${color[reason] ?? "#6b7280"}22`,
+      color: color[reason] ?? "#6b7280",
+      border: `1px solid ${color[reason] ?? "#6b7280"}44`,
+    }}>
+      {reason}
+    </span>
+  );
+}
+
 function AiPage() {
   const maxStep = 7;
   const location = useLocation();
   const navigate = useNavigate();
-  const initialState = location.state as SystemToAiState | null;
-  const autoRenderedChartRef = useRef<ChartId | null>(null);
+  const [searchParams] = useSearchParams();
+
+  const stateFromUrl: SystemToAiState | null = (() => {
+    const chartId = searchParams.get("chartId");
+    const questionIndex = searchParams.get("questionIndex");
+    const question = searchParams.get("question");
+    if (!chartId) return null;
+    return {
+      source: "",
+      family: "",
+      selectedChartId: chartId,
+      selectedQuestionIndex: Number(questionIndex ?? 0),
+      questionText: question ?? "",
+    };
+  })();
+
+  const initialState = (location.state as SystemToAiState | null) ?? stateFromUrl;
+  const autoRenderedChartRef = useRef<string | null>(null);
   const savedStepsLengthRef = useRef(0);
 
-  const { charts: chartCatalog, isLoadingCharts, chartCatalogError } =
-    useChartCatalog();
-
-  const chartContainerRef = useRef<HTMLDivElement | null>(null);
+  const { charts: chartCatalog } = useChartCatalog();
   const resultContainerRef = useRef<HTMLDivElement | null>(null);
-
   const filters = useChartFilters(chartCatalog);
-
-  const viewRender = useChartRenderer(chartContainerRef);
   const mainRender = useChartRenderer(resultContainerRef);
 
-  const {
-    isRunning,
-    steps,
-    stopReason,
-    lastError,
-    run,
-    stop,
-    reset,
-  } = useAiRunnerMachine({
+  const { isRunning, steps, stopReason, lastError, run, stop, reset } = useAiRunnerMachine({
     containerRef: resultContainerRef,
     maxStep,
   });
 
   const [customQuestion, setCustomQuestion] = useState("");
-  const [savedRunId, setSavedRunId] = useState<number | null>(null);
+  const [savedRunId, setSavedRunId] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
 
   const presetQuestion = filters.questions[filters.selectedQuestionIndex] ?? "";
   const effectiveQuestion = customQuestion.trim() || presetQuestion;
-
-  const selectedChartId = filters.selectedChartId as ChartId;
 
   useEffect(() => {
     setSavedRunId(null);
@@ -70,10 +100,8 @@ function AiPage() {
 
   useEffect(() => {
     if (!initialState || chartCatalog.length === 0) return;
-
     const chart = chartCatalog.find((item) => item.id === initialState.selectedChartId);
     if (!chart) return;
-
     filters.setSource(chart.source);
     filters.setFamily(chart.family);
     filters.setSelectedQuestionIndex(initialState.selectedQuestionIndex);
@@ -83,27 +111,25 @@ function AiPage() {
   useEffect(() => {
     if (!initialState) return;
     if (!filters.charts.some((chart) => chart.id === initialState.selectedChartId)) return;
-
     filters.setSelectedChartId(initialState.selectedChartId);
   }, [filters.charts, initialState]);
 
   useEffect(() => {
     if (!filters.selectedChartId) return;
     if (autoRenderedChartRef.current === filters.selectedChartId) return;
-
-    const id = filters.selectedChartId as ChartId;
+    const id = filters.selectedChartId;
     autoRenderedChartRef.current = id;
-    viewRender.renderChart(id).catch((e) => alert(String(e)));
-    mainRender.renderChart(id).catch((e) => alert(String(e)));
-  }, [filters.selectedChartId, mainRender, viewRender]);
+    const chartMeta = chartCatalog.find((c) => c.id === id);
+    if (!chartMeta) return;
+    mainRender.renderChart(chartMeta).catch((e) => alert(String(e)));
+  }, [filters.selectedChartId, mainRender]);
 
   const goToAnimationPage = (selectedStepIndex: number) => {
     if (!filters.source || !filters.family || !filters.selectedChartId) return;
-
     const state: AiToAnimationState = {
       source: filters.source,
       family: filters.family,
-      selectedChartId: filters.selectedChartId as ChartId,
+      selectedChartId: filters.selectedChartId,
       selectedQuestionIndex: filters.selectedQuestionIndex,
       questionText: effectiveQuestion,
       runId: savedRunId ?? undefined,
@@ -111,33 +137,27 @@ function AiPage() {
       selectedStepIndex,
       stopReason,
     };
-
     const query = savedRunId
       ? `?runId=${savedRunId}&step=${selectedStepIndex}`
       : `?step=${selectedStepIndex}`;
-
     navigate(`/animation${query}`, { state });
   };
 
   useEffect(() => {
     if (isRunning || !stopReason || steps.length === 0 || !filters.selectedChartId) return;
     if (savedStepsLengthRef.current === steps.length) return;
-
     savedStepsLengthRef.current = steps.length;
     setSaveError(null);
-
     saveAiRun({
       source: filters.source,
       family: filters.family,
-      chartId: filters.selectedChartId as ChartId,
+      chartId: filters.selectedChartId,
       selectedQuestionIndex: filters.selectedQuestionIndex,
       questionText: effectiveQuestion,
       stopReason,
       steps,
     })
-      .then((run) => {
-        setSavedRunId(run.id);
-      })
+      .then((run) => setSavedRunId(run.id))
       .catch((error) => {
         savedStepsLengthRef.current = 0;
         setSaveError(String(error));
@@ -153,77 +173,41 @@ function AiPage() {
     stopReason,
   ]);
 
+  const chartTitle = chartCatalog.find((c) => c.id === initialState?.selectedChartId)?.title;
+
   return (
     <div className="systemPage">
       <header className="systemHeader">
         <div className="systemTitle">
-          <h1>AI Step Debugger</h1>
+          <h1>AI Step Tracker</h1>
           {initialState ? (
             <p className="systemSubtitle">
-              {initialState.source} / {initialState.family} / {initialState.selectedChartId}
+              {initialState.source} / {initialState.family} /{" "}
+              {chartTitle ?? initialState.selectedChartId}
             </p>
           ) : null}
         </div>
-
-        <ChartSelectPanel
-          source={filters.source}
-          setSource={filters.setSource}
-          family={filters.family}
-          setFamily={filters.setFamily}
-          selectedChartId={filters.selectedChartId}
-          setSelectedChartId={filters.setSelectedChartId}
-          sources={filters.sources}
-          families={filters.families}
-          charts={filters.charts}
-          isLoadingCharts={isLoadingCharts}
-          chartCatalogError={chartCatalogError}
-          onRender={() => {
-            if (!filters.selectedChartId) return;
-
-            viewRender.renderChart(selectedChartId).catch((e) => alert(String(e)));
-            mainRender.renderChart(selectedChartId).catch((e) => alert(String(e)));
-          }}
-          renderedChartId={viewRender.renderedChartId}
-          isRunning={isRunning}
-          isRendering={viewRender.isRendering || mainRender.isRendering}
-          onSourceChanged={() => {
-            if (isRunning) stop();
-
-            viewRender.resetRendered();
-            mainRender.resetRendered();
-
-            filters.setSelectedChartId("");
-            filters.setSelectedQuestionIndex(0);
-            reset();
-          }}
-        />
-
-        <section className="panel chartView">
-          <ChartPanel
-            containerRef={chartContainerRef}
-            hasChart={Boolean(viewRender.renderedChartId)}
-            isRendering={viewRender.isRendering}
-            overlay={null}
-          />
-        </section>
+        <div>
+          <button
+            className="btn primary"
+            onClick={() => navigate("/")}
+          >
+            Back
+          </button>
+        </div>
+        
       </header>
 
       <section className="panel systemSection">
-        <div style={{ display: "grid", gap: 12 }}>
-          <label style={{ fontWeight: 700 }}>Question</label>
-
+        <h1>Question</h1>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <input
             value={customQuestion}
             onChange={(e) => setCustomQuestion(e.target.value)}
             placeholder={presetQuestion || "Type a question..."}
-            style={{
-              padding: 10,
-              borderRadius: 10,
-              border: "1px solid #e5e5e5",
-            }}
           />
 
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className="controlBox" style={{ display: "flex", gap: 8 }}>
             <button
               className="btn primary"
               disabled={isRunning || !filters.selectedChartId}
@@ -234,6 +218,7 @@ function AiPage() {
                   selectedQuestionIndex: filters.selectedQuestionIndex,
                   questionText: effectiveQuestion,
                   chartType: "",
+                  renderVersion: mainRender.renderVersion,
                 }).catch((e) => alert(String(e)));
               }}
             >
@@ -245,86 +230,83 @@ function AiPage() {
             </button>
 
             <button className="btn secondary" onClick={reset}>
-            Reset
+              Reset
             </button>
           </div>
 
           {stopReason && <p className="muted">Stop reason: {stopReason}</p>}
-          {savedRunId ? <p className="muted">Saved run ID: {savedRunId}</p> : null}
-          {lastError && <p style={{ color: "crimson" }}>{lastError}</p>}
-          {saveError && <p style={{ color: "crimson" }}>Save error: {saveError}</p>}
+          {savedRunId && <p className="muted">Saved run: {savedRunId}</p>}
+          {lastError && <p className="error-text">{lastError}</p>}
+          {saveError && <p className="error-text">Save error: {saveError}</p>}
         </div>
       </section>
 
       <section className="panel animationSection">
         <h1>Execution View</h1>
-
         <ResultPanel containerRef={resultContainerRef} />
       </section>
 
       <section className="panel systemSection">
-        <h1>AI Intermediate Responses</h1>
-
+        <h1>AI Steps</h1>
         {steps.length === 0 ? (
-          <p className="muted">No steps</p>
+          <p className="muted">No steps yet.</p>
         ) : (
-          <div style={{ display: "grid", gap: 16 }}>
-            {steps.map((step, index) => (
-              <article
-                key={index}
-                style={{
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 12,
-                  padding: 16,
-                  background: "#fff",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 12,
-                  }}
-                >
-                  <h3>Step {index + 1}</h3>
-                  <button className="btn secondary" onClick={() => goToAnimationPage(index)}>
-                    Show Animation
-                  </button>
-                </div>
+          <div style={{ display: "grid", gap: 20 }}>
+            {steps.map((step, index) => {
+              const plan = parsePlan(step.planRaw);
+              const beforeImg = step.beforeAction ?? step.before;
+              return (
+                <article key={index} className="stepCard">
+                  {/* header */}
+                  <div className="stepCardHeader">
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <h3>Step {index + 1}</h3>
+                      <StopBadge reason={step.stopReason} />
+                    </div>
+                    <button className="btn secondary" onClick={() => goToAnimationPage(index)}>
+                      Show Animation
+                    </button>
+                  </div>
 
-                <div>
-                  <strong>Question</strong>
-                  <pre style={{ whiteSpace: "pre-wrap" }}>
-                    {step.question}
-                  </pre>
-                </div>
+                  {/* before / after */}
+                  <div className="captureBox">
+                    <div key="Before">
+                      <p className="stepLabel">Before</p>
+                      {beforeImg
+                      ? <img className="captureImage" src={beforeImg.image} alt="Before" />
+                      : <div className="captureEmpty">No Capture</div>}
+                    </div>
+                    <div key="After">
+                      <p className="stepLabel">After</p>
+                      {step.after
+                      ? <img className="captureImage" src={step.after.image} alt="After" />
+                      : <div className="captureEmpty">No Capture</div>}
+                    </div>
+                  </div>
 
-                <div>
-                  <strong>AI Raw Response</strong>
-                  <pre style={{ whiteSpace: "pre-wrap" }}>
-                    {stringifyStepValue(step.planRaw)}
-                  </pre>
-                </div>
+                  {/* reason */}
+                  {plan.reason && (
+                    <div>
+                      <p className="stepLabel" style={{ marginBottom: 4 }}>Reason</p>
+                      <p style={{ fontSize: 13, margin: 0 }}>{plan.reason}</p>
+                    </div>
+                  )}
 
-                <div>
-                  <strong>Parsed Action</strong>
-                  <pre style={{ whiteSpace: "pre-wrap" }}>
-                    {JSON.stringify(
-                      {
-                        targetIndex: step.targetIndex,
-                        answerable: step.answerable,
-                        actionCount: step.actionCount,
-                        stopReason: step.stopReason,
-                        error: step.error,
-                      },
-                      null,
-                      2,
-                    )}
-                  </pre>
-                </div>
-              </article>
-            ))}
+                  {/* action summary */}
+                  <div style={{ display: "flex", gap: 16, fontSize: 13, color: "var(--color-text-muted)" }}>
+                    {plan.type && <span>Action: <strong style={{ color: "var(--color-text)" }}>{plan.type}</strong></span>}
+                    {step.targetIndex != null && <span>Index: <strong style={{ color: "var(--color-text)" }}>{step.targetIndex}</strong> / {step.actionCount}</span>}
+                    <span>Answerable: <strong style={{ color: "var(--color-text)" }}>{step.answerable ?? "?"}</strong></span>
+                  </div>
+
+                  {/* raw */}
+                  <details>
+                    <summary style={{ fontSize: 12, color: "var(--color-text-muted)", cursor: "pointer" }}>Raw response</summary>
+                    <pre className="rawResponse" style={{ marginTop: 6 }}>{stringifyStepValue(step.planRaw)}</pre>
+                  </details>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
