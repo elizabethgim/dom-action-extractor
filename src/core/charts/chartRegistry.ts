@@ -1,7 +1,3 @@
-import { observableAdapter } from "./observableAdapter.js";
-import { iframeAdapter } from "./iframeAdpater.js";
-import { d3Adapter } from "./d3Adapter.js";
-
 import {
   collapsibleTree,
   defineZoomAreaChart,
@@ -20,88 +16,22 @@ import {
   employ
 } from "@datasets/index";
 
-export type ChartRenderer = {
-  id?: string;
-  label?: string;
-  adapterType?: string;
-  mount: (container: HTMLElement) => void | Promise<void>;
-  unmount?: (container: HTMLElement) => void | Promise<void>;
-  getInfo?: (...args: any[]) => any;
+
+export const chartRegistry: Record<string, RenderFunction> = {
+  "8f645c0f": collapsibleTree,
+  "23688ae5": defineZoomAreaChart,
+  "9e91daa0": defineMultiLine,
+  "1f58f654": defineIndexChart,
+  "dcc3634d": defineIcicle,
+  "def56758": defineZoomCircle,
+  "7acf6e8a": defineBivoriate,
+
+  "f6dda5d0": multiLine,
+  "8dc4a50a": MeanBarChart,
+  "c86cd4ac": hierarchicalBarChart,
+
+  "0550b7b7": zoomSunburst,
+  "9c66f1e5": stackedAreaLine,
+  "6ceadaea": multiLineHover,
+  "ecb14d77": employ,
 };
-
-export const chartRegistry: Record<string, ChartRenderer> = {
-  "dataset:collapsible-tree": d3Adapter(
-    collapsibleTree,
-    "collapsible-tree"
-  ),
-
-  "observable:zoom-area": observableAdapter(
-    defineZoomAreaChart,
-    "zoom-area"
-  ),
-
- "observable:multiple-line": observableAdapter(
-    defineMultiLine,
-    "multi-line"
-  ),
-
-  "observable:index-line": observableAdapter(
-    defineIndexChart,
-    "index-line"
-  ),
-
-  "observable:zoomable-icicle": observableAdapter(
-    defineIcicle,
-    "zoomable-icicle"
-  ),
-
-  "observable:zoomable-circle-packing": observableAdapter(
-    defineZoomCircle,
-    "zoomable-icicle"
-  ),
-  
-  "observable:bivariate-choropleth": observableAdapter(
-    defineBivoriate,
-    "bivariate-choropleth"
-  ),
-  "dataset:multiple-line": d3Adapter(
-    multiLine,
-    "multi-line"
-  ),
-
-  "dataset:mean-bar-chart": d3Adapter(
-    MeanBarChart,
-    "mean-bar"
-  ),
-
-  "dataset:hierarchical-bar": d3Adapter(
-    hierarchicalBarChart,
-    "hier-bar"
-  ),
-
-  "csv:zoomable-sunburst" : d3Adapter (
-    zoomSunburst,
-    "zoom-sunburst"
-  ),
-  "tableau:wall-e": iframeAdapter(
-    "/tableau/wall-e/index.html"
-  ),
-
-  "csv:covid": d3Adapter (
-    stackedAreaLine,
-    "covid"
-  ),
-
-  "csv:childMortality": d3Adapter(
-    multiLineHover,
-    "childMortailiy"
-  ),
-
-  "csv:employment": d3Adapter(
-    employ,
-    "employ"
-  )
-
-};
-
-export type ChartId = string;

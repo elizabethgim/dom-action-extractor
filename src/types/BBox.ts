@@ -1,1 +1,6 @@
-export type BBox = { x: number; y: number; w: number; h: number };
+export type BBox = { 
+  x: number; 
+  y: number; 
+  w: number; 
+  h: number 
+};
