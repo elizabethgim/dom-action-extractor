@@ -16,6 +16,14 @@ export default defineConfig({
         target: "http://0.0.0.0:3000",
         changeOrigin: true,
       },
+      "/keywords": {
+        target: "http://localhost:5001",
+        changeOrigin: true
+      },
+      "/rank-actions": {
+        target: "http://localhost:5002",
+        changeOrigin: true
+      },
     },
   },
 

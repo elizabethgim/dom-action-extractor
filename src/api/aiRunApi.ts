@@ -1,6 +1,5 @@
 import type { StepLog } from "@/core/models/types/aiRun/StepLog";
 
-const AI_RUN_API_BASE = import.meta.env.VITE_CHART_API_BASE ?? "";
 
 export type SaveAiRunInput = {
   source: string;
@@ -32,7 +31,7 @@ type AiRunResponse = Omit<SavedAiRun, "steps"> & {
 };
 
 export async function saveAiRun(input: SaveAiRunInput): Promise<SavedAiRun> {
-  const url = new URL(`${AI_RUN_API_BASE}/ai-logs`, window.location.origin);
+  const url = new URL(`/api/ai-logs`, window.location.origin);
   const response = await fetch(url.toString(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -45,7 +44,7 @@ export async function saveAiRun(input: SaveAiRunInput): Promise<SavedAiRun> {
 }
 
 export async function getAiRun(runId: string): Promise<SavedAiRun> {
-  const url = new URL(`${AI_RUN_API_BASE}/ai-logs/${runId}`, window.location.origin);
+  const url = new URL(`/api/ai-logs/${runId}`, window.location.origin);
   const response = await fetch(url.toString());
 
   if (!response.ok) throw new Error(await response.text());
