@@ -7,6 +7,7 @@
   "type": "commonjs",
   "main": "app.ts",
   "scripts": {
+    "dev": "ts-node-dev --respawn app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
