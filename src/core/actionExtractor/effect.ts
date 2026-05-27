@@ -6,11 +6,9 @@ import { generateEffect } from "../ai/prompt/generateEffect";
 import { captureState } from "../utils/getCapture";
 import type { imageState } from "../utils/getCapture";
 import { sendToAIPost } from "../ai/sendToAI";
-import { getCleanResponse } from "../utils/getCleanResponse";
 import { getImages } from "../utils/getImages";
 import { getActionRegistry } from "./extractActions";
 import { getHookRegistry } from "./hook";
-import { appendLogItem } from "../../UI/loading";
 
 let effectRegistry: IEffect[] = [];
 
@@ -40,12 +38,11 @@ export async function extractEffect(
     path: "/chat",
     prompt: effectPrompt,
     images: imgs,
-    loadingId: "effectLoading",
   });
 
   // const effect = await sendToGemini(effectPrompt, []);
   if(!effect) throw new Error("No response AI");
-  await appendLogItem("effectBody", JSON.stringify(getCleanResponse(effect.text), null, 2));
+  // await appendLogItem("effectBody", JSON.stringify(getCleanResponse(effect.text), null, 2));
 
   // const result = JSON.parse(effect);
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ChartInfo } from "@core/models/types/chartInfoTypes";
-import { chartRegistry, type ChartId } from "@core/charts/chartRegistry";
+import { chartRegistry } from "@core/charts/chartRegistry";
 
-export function useChartInfo(selectedChartId: ChartId | "" | null | undefined) {
+export function useChartInfo(selectedChartId: string | "" | null | undefined) {
   const [info, setInfo] = useState<ChartInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

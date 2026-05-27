@@ -8,7 +8,7 @@ export async function getChartType(container: HTMLElement, img:string[]){
   await extractTags(container);
   const prompt = await generateChartElements();
   // const res = await sendToGemini(prompt, img);
-  const res = await sendToAIPost({path:"/chat", prompt, images: img, loadingId: "typeLoading" });
+  const res = await sendToAIPost({path:"/chat", prompt, images: img});
   if(!res) throw new Error("No response from AI server");
 
   appendLogItem("typeBody", res.text);

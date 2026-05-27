@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "@styles/ChartCodeEditor.module.css";
 import { ChartPreview } from "./ChartPreview";
+import type { SavedChart } from "@/types/SavedChart";
+
 
 export default function ChartCodeEditorPage() {
   const [title, setTitle] = useState("");
   const [htmlCode, setHtmlCode] = useState("");
   const [cssCode, setCssCode] = useState("");
   const [jsCode, setJsCode] = useState("");
+  const [savedCharts, setSavedCharts] = useState<SavedChart[]>([]);
+
+  useEffect(() => {
+    fetch("/chart-codes")
+      .then((r) => r.json())
+      .then((data) => setSavedCharts(data as SavedChart[]))
+      .catch(console.error);
+  }, []);
 
   const [previewCode, setPreviewCode] = useState<{
     htmlCode: string;
@@ -24,7 +34,7 @@ export default function ChartCodeEditorPage() {
       return;
     }
 
-    const response = await fetch("/api/chrart-codes", {
+    const response = await fetch("/chart-codes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

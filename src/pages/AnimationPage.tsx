@@ -3,11 +3,11 @@ import { useLocation, useNavigate, useSearchParams } from "react-router";
 
 import { ResultPanel } from "@components/builder/ResultPanel";
 import { useChartRenderer } from "@hooks/useChartRenderer";
-import { getAiRun } from "@/services/aiRunApi";
+import { useChartCatalog } from "@/hooks/useChartMeta";
+import { getAiRun } from "@/api/aiRunApi";
 
-import type { ChartId } from "@core/charts/chartRegistry";
-import type { StepLog } from "@core/models/types/aiRun";
-import type { AiToAnimationState } from "./navigationState";
+import type { StepLog } from "@/core/models/types/aiRun/StepLog";
+import type { AiToAnimationState } from "@/types/navigationState";
 
 import "@styles/global.css";
 
@@ -24,21 +24,23 @@ function stringify(value: unknown) {
 function CapturePreview({ title, step }: { title: string; step?: StepLog["before"] }) {
   if (!step) {
     return (
-      <div className="panel panel--tight">
-        <h3>{title}</h3>
+      <div>
+        <p className="stepLabel" style={{ marginBottom: 6 }}>{title}</p>
         <p className="muted">No capture</p>
       </div>
     );
   }
 
   return (
-    <div className="panel panel--tight">
-      <h3>{title}</h3>
-      <p className="muted">{formatTime(step.timestamp)}</p>
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <p className="stepLabel">{title}</p>
+        <span style={{ fontSize: 12, color: "var(--color-text-muted)" }}>{formatTime(step.timestamp)}</span>
+      </div>
       <img
         src={step.image}
         alt={`${title} capture`}
-        style={{ width: "100%", border: "1px solid #e5e7eb", borderRadius: 8 }}
+        style={{ width: "100%", borderRadius: 8, border: "1px solid var(--color-border)", display: "block" }}
       />
     </div>
   );
@@ -49,11 +51,12 @@ function AnimationPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const state = location.state as AiToAnimationState | null;
-  const queryRunId = Number(searchParams.get("runId") ?? state?.runId ?? 0) || null;
+  const queryRunId = searchParams.get("runId") ?? state?.runId ?? null;
   const queryStepIndex = Number(searchParams.get("step") ?? state?.selectedStepIndex ?? 0);
 
+  const { charts: chartCatalog } = useChartCatalog();
   const resultContainerRef = useRef<HTMLDivElement | null>(null);
-  const renderedOnceRef = useRef<ChartId | null>(null);
+  const renderedOnceRef = useRef<string | null>(null);
   const chartRender = useChartRenderer(resultContainerRef);
 
   const [dbState, setDbState] = useState<AiToAnimationState | null>(null);
@@ -86,6 +89,7 @@ function AnimationPage() {
   }, [queryRunId, queryStepIndex]);
 
   const activeState = dbState ?? state;
+  const activeChartTitle = chartCatalog.find((c) => c.id === activeState?.selectedChartId)?.title;
   const steps = activeState?.steps ?? [];
   const selectedStep = steps[selectedStepIndex];
 
@@ -94,7 +98,9 @@ function AnimationPage() {
     if (renderedOnceRef.current === activeState.selectedChartId) return;
 
     renderedOnceRef.current = activeState.selectedChartId;
-    chartRender.renderChart(activeState.selectedChartId).catch((e) => alert(String(e)));
+    const chartMeta = chartCatalog.find((c) => c.id === activeState.selectedChartId);
+    if (!chartMeta) return;
+    chartRender.renderChart(chartMeta).catch((e) => alert(String(e)));
   }, [activeState, chartRender]);
 
   if (!activeState) {
@@ -119,9 +125,21 @@ function AnimationPage() {
         <div className="systemTitle">
           <h1>Animation</h1>
           <p className="systemSubtitle">
-            {activeState.source} / {activeState.family} / {activeState.selectedChartId}
+            {activeState.source} / {activeState.family} / {activeChartTitle ?? activeState.selectedChartId}
             {activeState.runId ? ` / run ${activeState.runId}` : ""}
           </p>
+          <button
+            className="btn secondary"
+            onClick={() => navigate("/ai", { state: activeState })}
+          >
+            ← Back to AI
+          </button>
+          <button
+            className="btn secondary"
+            onClick={() => navigate("/", { state: activeState })}
+          >
+            Home
+          </button>
         </div>
 
         <section className="panel animationSection">
@@ -171,27 +189,17 @@ function AnimationPage() {
             </div>
           </section>
 
-          <section
-            className="systemSection"
-            style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 16 }}
-          >
-            <CapturePreview title="Before" step={selectedStep.before} />
-            <CapturePreview title="After" step={selectedStep.after} />
+          <section className="panel systemSection">
+            <h1>Before / After</h1>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 24 }}>
+              <CapturePreview title="Before" step={selectedStep.beforeAction ?? selectedStep.before} />
+              <CapturePreview title="After" step={selectedStep.after} />
+            </div>
           </section>
 
           <section className="panel systemSection">
             <h1>AI Raw Response</h1>
-            <pre
-              style={{
-                whiteSpace: "pre-wrap",
-                padding: 16,
-                borderRadius: 8,
-                background: "#f8fafc",
-                border: "1px solid #e5e7eb",
-              }}
-            >
-              {stringify(selectedStep.planRaw)}
-            </pre>
+            <pre className="rawResponse">{stringify(selectedStep.planRaw)}</pre>
           </section>
         </>
       ) : null}

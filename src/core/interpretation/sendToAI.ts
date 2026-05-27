@@ -1,16 +1,17 @@
-import type { IAnswer } from "@/core/models/interface/IAnswer";
 import type { AIrequest } from "@/core/models/types/AIrequest";
 
 export async function sendToAIPost({
   path,
   prompt,
-  model = "llava:latest",
+  model = "qwen3.6:latest",
   images,
-}: AIrequest): Promise<IAnswer> {
+  signal,
+}: AIrequest & { signal?: AbortSignal }): Promise<string> {
   const r = await fetch(path, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt, model, images }),
+    signal,
   });
 
   if (!r.ok) {
@@ -18,5 +19,6 @@ export async function sendToAIPost({
     throw new Error(`AI server error: ${r.status}\n${msg}`);
   }
 
-  return await r.json();
+  const json = await r.json();
+  return json.text ?? json.response ?? JSON.stringify(json);
 }

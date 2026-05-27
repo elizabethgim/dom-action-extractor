@@ -7,29 +7,22 @@ import type { D3Element } from "@/core/models/interface/Id3Element";
 import type { IDatum } from "@/core/models/interface/IDatum";
 import { indexAction } from "./actionIdStore";
 
+const ACTION_ATTR = "data-action-id"; // actionType별: data-action-id-hover 등
 
 let actionRegistry: IActions[] = [];
-let elementRegistry: IElement[] = [];
-
-export interface IElement {
-  index: number;
-  element: Element;
-}
 
 export function resetExtractRegistries() {
   actionRegistry = [];
-  elementRegistry = [];
+  // 차트 재렌더 시 호출 — 기존에 부여된 DOM attribute도 정리
+  document.querySelectorAll(`[${ACTION_ATTR}]`).forEach(el => {
+    Array.from(el.attributes)
+      .filter(a => a.name.startsWith(ACTION_ATTR))
+      .forEach(a => el.removeAttribute(a.name));
+  });
 }
 
 export async function extractActions(step: number) {
-  // 이전 step의 DOM attribute 제거
-  for (const { element } of elementRegistry) {
-    for (const attr of Array.from(element.attributes)) {
-      if (attr.name.startsWith("action-id-")) element.removeAttribute(attr.name);
-    }
-  }
   actionRegistry = [];
-  elementRegistry = [];
 
   const registry = getHookRegistry();
   let num = 0;
@@ -38,9 +31,6 @@ export async function extractActions(step: number) {
     if (!(el instanceof Element)) continue;
     if (!el.closest("svg")) continue;
 
-    elementRegistry.push({ index: num, element: el });
-
-    // 감지된 이벤트를 actionType별로 그룹화
     const byActionType = new Map<ActionType, string[]>();
     for (const evtType of DEFAULT_EVENTS) {
       const handlers = events?.[evtType];
@@ -51,36 +41,34 @@ export async function extractActions(step: number) {
       byActionType.get(actionType)!.push(evtType);
     }
 
-    // actionType당 하나씩만 등록 (우선순위 높은 rawEvent 선택)
     for (const [actionType, candidates] of byActionType) {
-      const attrName = `action-id-${actionType}`;
+      const attrName = `${ACTION_ATTR}-${actionType}`;
       const existing = el.getAttribute(attrName);
       const actionId = existing ?? bindActionId(actionType, step, num);
 
       if (!existing) {
         el.setAttribute(attrName, actionId);
-
-        actionRegistry.push({
-          step,
-          num,
-          actionId,
-          actionType,
-          eventType: bestEvent(candidates),
-          element: el,
-          elementInfo: {
-            id: el.id,
-            className: el.className,
-            innerHTML: el.innerHTML,
-          },
-          selector: shortSelector(el),
-          text: (el.textContent || "").trim(),
-          boundingBox: bboxSummary(el),
-          code: events.listener,
-          datum: getDatumLabel(el),
-        });
-
         indexAction(el, actionType, actionId);
       }
+
+      actionRegistry.push({
+        step,
+        num,
+        actionId,
+        actionType,
+        eventType: bestEvent(candidates),
+        element: el,
+        elementInfo: {
+          id: el.id,
+          className: el.getAttribute("class") ?? "",
+          innerHTML: el.innerHTML,
+        },
+        selector: shortSelector(el),
+        text: (el.textContent || "").trim(),
+        boundingBox: bboxSummary(el),
+        code: events.listener,
+        datum: getDatumLabel(el),
+      });
     }
 
     num++;
@@ -104,8 +92,8 @@ export function getActionRegistry() {
   return actionRegistry;
 }
 
-export function getElementRegistry() {
-  return elementRegistry;
+export function setActionRegistry(ranked: IActions[]) {
+  actionRegistry = ranked;
 }
 
 function getDatumLabel(el: D3Element): IDatum | null {

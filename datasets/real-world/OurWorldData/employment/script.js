@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { getEmploymentDataset } from "@/services/datasetApi";
 import "./styles.css";
 
 const regionOrder = [
@@ -71,6 +70,7 @@ const width = margin.left + plotWidth + legendWidth + 40;
 const height = 1000;
 const innerWidth = plotWidth;
 const innerHeight = 640;
+const CSV_PATH = "employment-in-agri-vs-urban-pop/employment-in-agri-vs-urban-pop.CSV";
 
 export async function index(container) {
   const root = d3.select(container).classed("employment-chart-host", true);
@@ -123,8 +123,7 @@ export async function index(container) {
     .append("div")
     .attr("class", "tooltip");
 
-  const dataset = await getEmploymentDataset(2023);
-  const data = dataset.rows;
+  const dataset = await d3.csv(CSV_PATH);
 
   const x = d3.scaleLinear().domain([0, 100]).range([0, innerWidth]);
   const y = d3.scaleLinear().domain([0, 100]).range([innerHeight, 0]);

@@ -1,5 +1,5 @@
 // AiRunPanel.tsx
-import type { StepLog, StopReason } from "@/core/models/types/aiRun";
+import type { StepLog, StopReason } from "@/core/models/types/aiRun/StepLog";
 import "@styles/AiRunPanel.css";
 
 type Props = {

@@ -7,7 +7,6 @@ import { ChartPanel } from "@/components/builder/ChartPanel";
 import { ActionExtractControlPanel } from "@/components/extracter/ActionExtractControlPanel";
 import { BoundingBoxOverlay } from "@/components/extracter/BoundingBoxOverlay";
 
-import type { ChartId } from "@/core/charts/chartRegistry";
 import { waitChartMountedAndGetAllElements } from "@/core/actionExtractor/domCollector";
 
 import { useChartFilters } from "@/hooks/useChartFilters";
@@ -16,9 +15,9 @@ import { useChartRenderer } from "@/hooks/useChartRenderer";
 import { useActionExtractorMachine } from "@/hooks/useActionExtractorMachine";
 
 import type { ExtractedEl } from "../types/ExtractedEl";
-import { toContainerBBox } from "../toContainerBBox";
-import { cssPath } from "../cssPath";
-import { inferActionHints } from "../inferActionHints";
+import { toContainerBBox } from "../service/toContainerBBox";
+import { cssPath } from "../service/cssPath";
+import { inferActionHints } from "../service/inferActionHints";
 import { ExtractionResultsPanel } from "../components/extracter/ExtractionResultsPanel";
 import { useExtractionState } from "../hooks/useExtractionState";
 import { getD3OnEntries } from "@/core/actionExtractor/d3On";
@@ -75,7 +74,9 @@ function DebugPage() {
   
   const handleRender = async () => {
       if (!filters.selectedChartId) return;
-      await renderChart(filters.selectedChartId as ChartId).catch((e) =>
+      const chartMeta = chartCatalog.find((c) => c.id === filters.selectedChartId);
+      if (!chartMeta) return;
+      await renderChart(chartMeta).catch((e) =>
         alert(String(e)),
       );
 

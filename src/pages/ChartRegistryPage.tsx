@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createChart, type ChartCreatePayload, type ChartMetadata } from "@/services/chartApi";
+import { createChart, type ChartCreatePayload, type ChartMetadata } from "@/api/chartApi";
 import "@styles/global.css";
 
 const SOURCES = ["dataset", "observable", "csv", "tableau"];

@@ -1,7 +1,6 @@
-import type { ChartId } from "@/core/charts/chartRegistry";
 import type { Family, Source } from "@/hooks/useChartMeta";
 import { getTitle } from "@/hooks/useChartMeta";
-import type { ChartMetadata } from "@/services/chartApi";
+import type { ChartMetadata } from "@core/models/types/ChartMetadata";
 import "@styles/ChartSelectPanel.css";
 
 type Props = {
@@ -9,8 +8,8 @@ type Props = {
   setSource: (v: Source) => void;
   family: Family | "";
   setFamily: (v: Family) => void;
-  selectedChartId: ChartId | "";
-  setSelectedChartId: (v: ChartId | "") => void;
+  selectedChartId: string | "";
+  setSelectedChartId: (v: string | "") => void;
 
   sources: Source[];
   families: Family[];
@@ -19,7 +18,7 @@ type Props = {
   chartCatalogError?: Error | null;
 
   onRender: () => void;
-  renderedChartId: ChartId | null;
+  renderedChartId: string | null;
 
   isRunning: boolean;
   isRendering: boolean;
@@ -42,7 +41,7 @@ export function ChartSelectPanel(props: Props) {
 
   return (
     <section className="selectPanel">
-      <h1>Chart Select</h1>
+      <h1 className="title">Chart Select</h1>
       <div className="filters">
         <select
           value={source}
@@ -67,7 +66,7 @@ export function ChartSelectPanel(props: Props) {
 
         <select
           value={selectedChartId}
-          onChange={(e) => setSelectedChartId(e.target.value as ChartId)}
+          onChange={(e) => setSelectedChartId(e.target.value)}
           disabled={isRunning || isLoadingCharts}
         >
           <option value="" disabled>{isLoadingCharts ? "Loading charts" : "Select id"}</option>
@@ -77,11 +76,11 @@ export function ChartSelectPanel(props: Props) {
         </select>
 
         <button
-          className="btn secondary"
+          className="btn primary"
           onClick={onRender}
           disabled={!selectedChartId || isRendering || isRunning || isLoadingCharts}
         >
-          {isRendering ? "Rendering…" : "Render Chart"}
+          {isRendering ? "Rendering…" : "Render"}
         </button>
 
         <div className="badge">

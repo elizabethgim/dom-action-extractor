@@ -1,10 +1,8 @@
-import type { ChartId } from "@/core/charts/chartRegistry";
-
-export function getQuestions(qId: ChartId): string[] {
+export function getQuestions(qId: string): string[] {
   return questionRegistry[qId] ?? [];
 }
 
-const questionRegistry: Partial<Record<ChartId, string[]>> = {
+const questionRegistry: Partial<Record<string, string[]>> = {
   "dataset:collapsible-tree" : ["What is the common ancesstor of S and J?", "What is the max depth of this tree?", "How many children nodes are there in node A?"] ,
   "observable:zoom-area" : ["How many flights were there in 1992 January to March?"],
   "dataset:multiple-line" : ["What is the exact value of Drag at December 21st?",

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  getChartCatalog,
-  getFallbackChartCatalog,
-  type ChartMetadata,
-} from "@/services/chartApi";
+import { getChartCatalog } from "@/api/chartApi";
+import   type { ChartMetadata } from "@core/models/types/ChartMetadata";
 
 export type Source = string;
 export type Family = string;
@@ -39,7 +36,6 @@ export function useChartCatalog() {
       } catch (error) {
         if (!cancelled) {
           console.warn("Falling back to local chart catalog.", error);
-          setCharts(getFallbackChartCatalog());
           setChartCatalogError(error as Error);
         }
       } finally {

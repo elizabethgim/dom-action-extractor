@@ -1,6 +1,7 @@
 import { generatePrompt } from "@/core/prompts/answer";
 import { getActionHistory } from "@/core/actionExtractor/actionLogger";
 import { getActionRegistry } from "@/core/actionExtractor/extractActions";
+import { findMatchingEffects } from "@/core/actionExtractor/semanticRegistry";
 import { getImages } from "@/core/utils/getImages";
 import { sendToAIPost } from "@/core/interpretation/sendToAI";
 import { getCleanResponse } from "@/core/utils/getCleanResponse";
@@ -15,14 +16,15 @@ export async function decideNextAction(
   signal?: AbortSignal,
 ): Promise<string> {
 
-  console.log(chartState?.image);
   const actionHistoryRegistry = await getActionHistory();
   const actionRegistry = await getActionRegistry();
+  const semanticContext = findMatchingEffects(actionRegistry);
   const prompt = await generatePrompt(
     chartType,
     questions,
     actionHistoryRegistry,
     actionRegistry,
+    semanticContext,
   );
   console.log("prompt: ", prompt);
   

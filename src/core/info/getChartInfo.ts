@@ -1,4 +1,3 @@
-import type { ChartId } from "@/core/charts/chartRegistry";
 import { chartRegistry } from "@/core/charts/chartRegistry";
 import type { ChartInfo } from "@/core/models/types/chartInfoTypes";
 
@@ -6,7 +5,7 @@ import type { ChartInfo } from "@/core/models/types/chartInfoTypes";
  * chartRegistry 엔트리의 getInfo()를 통해 차트 설명을 가져온다.
  * - 엔트리에 getInfo가 없으면 fallback을 만든다.
  */
-export async function getChartInfo(chartId: ChartId): Promise<ChartInfo> {
+export async function getChartInfo(chartId: string): Promise<ChartInfo> {
   const entry = chartRegistry[chartId];
 
   // entry 자체가 없을 때(이론상 ChartId면 없으면 안 되지만, 안전)
