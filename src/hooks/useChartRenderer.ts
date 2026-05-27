@@ -1,13 +1,17 @@
 import { useState } from "react";
-import type { ChartId } from "@/core/charts/chartRegistry";
 import { loadChart } from "@/core/charts/loadChart";
-import { getHookRegistry, hook } from "@/core/actionExtractor/hook";
+import { hook, clearHookRegistry } from "@/core/actionExtractor/hook";
+import { resetExtractRegistries } from "@/core/actionExtractor/extractActions";
+import { clearActionIdIndex } from "@/core/actionExtractor/actionIdStore";
+import { resetSemanticRegistry } from "@/core/actionExtractor/semanticRegistry";
+import type { ChartMetadata } from "@/core/models/types/ChartMetadata";
 
 export function useChartRenderer(containerRef: React.RefObject<HTMLElement | null>) {
-  const [renderedChartId, setRenderedChartId] = useState<ChartId | null>(null);
+  const [renderedChartId, setRenderedChartId] = useState<string | null>(null);
   const [isRendering, setIsRendering] = useState(false);
+  const [renderVersion, setRenderVersion] = useState(0);
 
-  async function renderChart(chartId: ChartId) {
+  async function renderChart(chartMeta: ChartMetadata) {
     setIsRendering(true);
 
     try {
@@ -15,13 +19,18 @@ export function useChartRenderer(containerRef: React.RefObject<HTMLElement | nul
       if (!container) throw new Error("chart container not found");
       container.innerHTML = "";
 
+      clearHookRegistry();
+      resetExtractRegistries();
+      clearActionIdIndex();
+      resetSemanticRegistry();
+
       await hook();
 
-      const chart = await loadChart(chartId);
+      const chart = loadChart(chartMeta);
       await chart.mount(container);
-      
-      setRenderedChartId(chartId);
-      console.log(getHookRegistry());
+
+      setRenderedChartId(chartMeta.id);
+      setRenderVersion((v) => v + 1);
     } finally {
       setIsRendering(false);
     }
@@ -31,5 +40,5 @@ export function useChartRenderer(containerRef: React.RefObject<HTMLElement | nul
     setRenderedChartId(null);
   }
 
-  return { renderedChartId, isRendering, renderChart, resetRendered };
+  return { renderedChartId, renderVersion, isRendering, renderChart, resetRendered };
 }
