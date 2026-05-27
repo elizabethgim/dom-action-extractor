@@ -141,12 +141,14 @@ input:focus, textarea:focus {
   flex-direction: column;
   gap: 14px;
 }
+
 .stepCardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
+
 .stepCardHeader h3 { font-size: 15px; font-weight: 700; margin: 0; }
 .stepLabel {
   font-size: 11px;
