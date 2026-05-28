@@ -2,6 +2,7 @@ import { bindActionId } from "./actionId";
 import { DEFAULT_EVENTS, toActionType, bestEvent } from "./DefaultEventType";
 import type { ActionType } from "./DefaultEventType";
 import { getHookRegistry } from "./hook";
+import { getD3OnEntries } from "./d3On";
 import type { IActions } from "@/core/models/interface/IActions";
 import type { D3Element } from "@/core/models/interface/Id3Element";
 import type { IDatum } from "@/core/models/interface/IDatum";
@@ -67,6 +68,7 @@ export async function extractActions(step: number) {
         text: (el.textContent || "").trim(),
         boundingBox: bboxSummary(el),
         code: events.listener,
+        d3On: getD3OnEntries(el),
         datum: getDatumLabel(el),
       });
     }

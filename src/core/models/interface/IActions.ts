@@ -1,4 +1,5 @@
 import type { IDatum } from "./IDatum"
+import type { D3OnEntry } from "@/core/actionExtractor/d3On"
 
 export interface IActions {
   step?: number
@@ -21,5 +22,6 @@ export interface IActions {
     h: number
   },
   code?: Set<EventListenerOrEventListenerObject>,
+  d3On?: D3OnEntry[],
   datum: IDatum | null
 }

@@ -6,6 +6,7 @@ import SystemPage from "./SystemPage";
 import AnimationPage from "./AnimationPage";
 import ChartCodeEditorPage from "./ChartCodeEditor";
 import ManualAiPage from "./ManualAiPage";
+import DirectAnswerPage from "./DirectAnswerPage";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/system" element={<SystemPage />} />
         <Route path="/registry" element={<ChartCodeEditorPage />} />
         <Route path="/manual" element={<ManualAiPage />} />
+        <Route path="/direct" element={<DirectAnswerPage />} />
       </Routes>
     </div>
   );
