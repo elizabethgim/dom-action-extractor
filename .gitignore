@@ -27,3 +27,11 @@ backend/data/*.db-*
 
 src/datsets/*
 .env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Run results
+results/
