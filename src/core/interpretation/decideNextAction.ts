@@ -6,7 +6,7 @@ import { getImages } from "@/core/utils/getImages";
 import { sendToAIPost } from "@/core/interpretation/sendToAI";
 import { getCleanResponse } from "@/core/utils/getCleanResponse";
 
-import type { imageState } from "@/core/utils/getCapture";
+import type { imageState } from "@core/models/interface/IimageState";
 import type { IAnswer } from "@/core/models/interface/IAnswer";
 
 export async function decideNextAction(

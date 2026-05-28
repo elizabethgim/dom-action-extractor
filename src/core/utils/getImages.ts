@@ -19,5 +19,5 @@ export function getImages(before: imageState | null, after: imageState | null): 
 }
 
 export function removePrefix(image: string){
-  return image.replace(/^data:image\/png;base64,/, "");
+  return image.replace(/^data:image\/[a-z]+;base64,/, "");
 }

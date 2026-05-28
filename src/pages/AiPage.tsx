@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 
-import { ResultPanel } from "@components/builder/ResultPanel";
 
 import { useChartRenderer } from "@hooks/useChartRenderer";
 import { useAiRunnerMachine } from "@hooks/useAiRunnerMachine";
@@ -13,6 +12,7 @@ import type { AiToAnimationState, SystemToAiState } from "@/types/navigationStat
 
 import "@styles/global.css";
 import "@styles/AIPage.css";
+import "@styles/ChartPanel.css";
 
 function stringifyStepValue(value: unknown) {
   if (typeof value === "string") return value;
@@ -80,7 +80,7 @@ function AiPage() {
   const filters = useChartFilters(chartCatalog);
   const mainRender = useChartRenderer(resultContainerRef);
 
-  const { isRunning, steps, stopReason, lastError, run, stop, reset } = useAiRunnerMachine({
+  const { isRunning, steps, stopReason, lastError, run, stop, reset, initSteps } = useAiRunnerMachine({
     containerRef: resultContainerRef,
     maxStep,
   });
@@ -91,6 +91,17 @@ function AiPage() {
 
   const presetQuestion = filters.questions[filters.selectedQuestionIndex] ?? "";
   const effectiveQuestion = customQuestion.trim() || presetQuestion;
+
+  // AnimationPage에서 돌아올 때 steps/runId 복원
+  useEffect(() => {
+    const s = location.state as AiToAnimationState | null;
+    if (!s?.steps?.length) return;
+    initSteps(s.steps, (s.stopReason ?? null) as Parameters<typeof initSteps>[1]);
+    if (s.runId) {
+      setSavedRunId(s.runId);
+      savedStepsLengthRef.current = s.steps.length;
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setSavedRunId(null);
@@ -236,14 +247,33 @@ function AiPage() {
 
           {stopReason && <p className="muted">Stop reason: {stopReason}</p>}
           {savedRunId && <p className="muted">Saved run: {savedRunId}</p>}
-          {lastError && <p className="error-text">{lastError}</p>}
+          {lastError && (
+            <p className="error-text">
+              {lastError}
+              {lastError.includes("re-rendered") && (
+                <button
+                  className="btn primary"
+                  style={{ marginLeft: 10, fontSize: 12, padding: "2px 10px" }}
+                  disabled={mainRender.isRendering}
+                  onClick={() => {
+                    const chartMeta = chartCatalog.find((c) => c.id === filters.selectedChartId);
+                    if (!chartMeta) return;
+                    reset();
+                    mainRender.renderChart(chartMeta).catch((e) => alert(String(e)));
+                  }}
+                >
+                  Render Now
+                </button>
+              )}
+            </p>
+          )}
           {saveError && <p className="error-text">Save error: {saveError}</p>}
         </div>
       </section>
 
       <section className="panel animationSection">
         <h1>Execution View</h1>
-        <ResultPanel containerRef={resultContainerRef} />
+        <div ref={resultContainerRef} className="chartResult" />
       </section>
 
       <section className="panel systemSection">
@@ -293,9 +323,18 @@ function AiPage() {
                   )}
 
                   {/* action summary */}
-                  <div style={{ display: "flex", gap: 16, fontSize: 13, color: "var(--color-text-muted)" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 13, color: "var(--color-text-muted)" }}>
                     {plan.type && <span>Action: <strong style={{ color: "var(--color-text)" }}>{plan.type}</strong></span>}
                     {step.targetIndex != null && <span>Index: <strong style={{ color: "var(--color-text)" }}>{step.targetIndex}</strong> / {step.actionCount}</span>}
+                    {step.chosenAction?.datumName && (
+                      <span>Datum: <strong style={{ color: "var(--color-text)" }}>{step.chosenAction.datumName}</strong></span>
+                    )}
+                    {step.chosenAction?.text && !step.chosenAction?.datumName && (
+                      <span>Text: <strong style={{ color: "var(--color-text)" }}>{step.chosenAction.text}</strong></span>
+                    )}
+                    {step.chosenAction?.selector && (
+                      <span style={{ fontFamily: "monospace", fontSize: 11 }}>{step.chosenAction.selector}</span>
+                    )}
                     <span>Answerable: <strong style={{ color: "var(--color-text)" }}>{step.answerable ?? "?"}</strong></span>
                   </div>
 

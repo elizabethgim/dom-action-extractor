@@ -8,6 +8,7 @@ from app.routes.ai_runs import router as ai_runs_router
 from app.routes.charts import router as charts_router
 from app.routes.datasets import router as datasets_router
 from app.routes.chart_codes import router as chart_codes_router
+from app.routes.rank_actions import router as rank_actions_router
 
 
 @asynccontextmanager
@@ -34,3 +35,4 @@ app.include_router(datasets_router)
 app.include_router(charts_router)
 app.include_router(ai_runs_router)
 app.include_router(chart_codes_router)
+app.include_router(rank_actions_router)

@@ -21,7 +21,13 @@ export type StepLog = {
   answerable: "YES" | "NO" | null;
 
   // chosen action snapshot
-  // chosenAction?: Pick<IActions, "id" | "type" | "elementIndex" | "description" | "eventType">;
+  chosenAction?: {
+    actionId: string;
+    actionType: string;
+    selector: string;
+    datumName?: string;
+    text?: string;
+  };
 
   // action before/after (action 직전/직후 — 효과 비교용)
   beforeActionCapId?: string;

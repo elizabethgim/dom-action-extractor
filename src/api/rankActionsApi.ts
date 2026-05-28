@@ -38,7 +38,7 @@ export async function rankActionsApi(
   }));
 
   try {
-    const res = await fetch("/rank-actions", {
+    const res = await fetch("/api/rank-actions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question, actions: payload, top_k: topK }),

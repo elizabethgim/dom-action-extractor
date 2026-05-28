@@ -14,7 +14,7 @@ export function renderChart(container: HTMLElement){
   // “bottom”, in the data domain. The width of a column is based on the tree’s height.
   const root = d3.hierarchy(data);
   const dx = 10;
-  const dy = (width - marginRight - marginLeft) / (1 + root.height);
+  const dy = (width - marginRight - marginLeft) / (1 + root.height) * 1.5;
 
   // Define the tree layout and the shape for links.
   const tree = d3.tree().nodeSize([dx, dy]);

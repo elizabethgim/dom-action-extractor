@@ -2,13 +2,16 @@ import { useCallback, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { captureState } from "@/core/utils/getCapture";
-import { extractActions, getActionRegistry, setActionRegistry, resetExtractRegistries } from "@/core/actionExtractor/extractActions";
-import { rankActionsApi } from "@/api/rankActionsApi";
+import { extractActions, getActionRegistry, resetExtractRegistries } from "@/core/actionExtractor/extractActions";
+// import { setActionRegistry } from "@/core/actionExtractor/extractActions"; // used by rankActionsApi (disabled)
+// import { rankActionsApi } from "@/api/rankActionsApi";
 import { addSemanticEntry, resetSemanticRegistry } from "@/core/actionExtractor/semanticRegistry";
+import { addActionToHistory, clearActionHistory } from "@/core/actionExtractor/actionLogger";
 import { clearActionIdIndex } from "@/core/actionExtractor/actionIdStore";
 import { sendToAIPost } from "@/core/interpretation/sendToAI";
 import { getImages } from "@/core/utils/getImages";
 import { captureWithHighlight } from "@/core/utils/highlightElement";
+import { waitForDomSettle } from "@/core/utils/waitForDomSettle";
 import { executeAction } from "@/core/autoAction/executeAction";
 import { decideNextAction, getAnswer } from "@core/interpretation/decideNextAction";
 import { getEffectPrompt } from "@core/interpretation/getEffectPrompt";
@@ -44,6 +47,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     resetSemanticRegistry();
     resetExtractRegistries();
     clearActionIdIndex();
+    clearActionHistory();
     lastRunRenderVersionRef.current = null;
   }, []);
 
@@ -60,7 +64,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     chartType?: string;
     renderVersion?: number;
   }) => {
-    setLastError(null);
+    // setLastError(null);
     const { renderedChartId, selectedChartId, selectedQuestionIndex } = args;
     const chartType = args.chartType ?? "";
     const renderVersion = args.renderVersion ?? null;
@@ -70,13 +74,13 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     }
 
     // 같은 render 버전으로 이미 run한 경우 → 차트를 다시 rendering해야 함
-    if (
-      renderVersion !== null &&
-      lastRunRenderVersionRef.current !== null &&
-      lastRunRenderVersionRef.current === renderVersion
-    ) {
-      throw new Error("Chart must be re-rendered before running again. Click 'Render Chart'.");
-    }
+    // if (
+    //   renderVersion !== null &&
+    //   lastRunRenderVersionRef.current !== null &&
+    //   lastRunRenderVersionRef.current === renderVersion
+    // ) {
+    //   throw new Error("Chart must be re-rendered before running again. Click 'Render Chart'.");
+    // }
 
     const container = containerRef.current;
     if (!container) throw new Error("chart container not found");
@@ -94,9 +98,11 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     setStopReason(null);
     setSteps([]);
     resetSemanticRegistry();
+    clearActionHistory();
 
     try {
       let consecutiveNoAction = 0;
+      let consecutiveRepeatedAction = 0;
       let lastActionId: string | null = null;
 
       for (let step = 0; step < maxStep; step++) {
@@ -114,10 +120,10 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         await extractActions(step);
         if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
 
-        const ranked = await rankActionsApi(question, getActionRegistry(), 30, controller.signal);
-        if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
-        setActionRegistry(ranked);
-        
+        // const ranked = await rankActionsApi(question, getActionRegistry(), 30, controller.signal);
+        // if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
+        // setActionRegistry(ranked);
+
         const actionRegistry = getActionRegistry();
         const actionCount = actionRegistry.length;
 
@@ -148,10 +154,18 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
           break;
         }
 
+        if (answer.answerable === "YES") {
+          setSteps((prev) => markStop(prev, step, "ANSWERED"));
+          setStopReason("ANSWERED");
+          break;
+        }
+
         const chosen = actionRegistry[answer.targetIndex];
-        
+
         if (!chosen || answer.targetIndex < 0) {
           consecutiveNoAction++;
+          consecutiveRepeatedAction = 0;
+          lastActionId = null;
           setSteps((prev) => markStop(prev, step, "NO_ACTION"));
           if (consecutiveNoAction >= 2) {
             setStopReason("NO_ACTION");
@@ -166,10 +180,15 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         const selector = `[data-action-id="${actionId}"]`;
 
         if (actionId === lastActionId) {
+          consecutiveRepeatedAction++;
           setSteps((prev) => markStop(prev, step, "REPEATED_ACTION"));
-          setStopReason("REPEATED_ACTION");
-          break;
+          if (consecutiveRepeatedAction >= 2) {
+            setStopReason("REPEATED_ACTION");
+            break;
+          }
+          continue;
         }
+        consecutiveRepeatedAction = 0;
         lastActionId = actionId;
 
         setSteps((prev) =>
@@ -178,6 +197,8 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
               actionId,
               selector,
               actionType: chosen.actionType,
+              datumName: chosen.datum?.name != null ? String(chosen.datum.name) : undefined,
+              text: chosen.text || undefined,
             },
           })
         );
@@ -193,7 +214,8 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         }
 
         await executeAction(chosen);
-        await new Promise((r) => setTimeout(r, 400)); // D3 transition 대기
+        addActionToHistory(chosen);
+        await waitForDomSettle(container, { debounce: 150, timeout: 2000 }); // D3 transition 대기
 
         // action 직후 캡처
         const afterCapId = uuidv4().split("-")[0];
@@ -202,37 +224,30 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
           setSteps((prev) => patchStep(prev, step, { afterCapId, after }));
 
           const refImage = beforeAction ?? before;
-          if (refImage.image === after.image) {
-            // 시각적 변화 없음 → 즉시 기록
+          if (before.image === after.image) {
+            // 시각적 변화 없음 → 즉시 기록 (outline 없는 before로 비교)
             addSemanticEntry(chosen, "no change");
           } else {
-            // 변화 있음 → AI로 effect 분석 (fire-and-forget)
-            const imgs = getImages(refImage, after);
-            sendToAIPost({
-              path: "/chat",
-              prompt: getEffectPrompt(chosen.actionType),
-              images: imgs,
-            }).then((res) => {
-              try {
-                const raw = typeof res === "string" ? res : JSON.stringify(res);
-                const parsed = JSON.parse(raw);
-                if (parsed?.effect) addSemanticEntry(chosen, parsed.effect);
-              } catch { /* ignore */ }
-            }).catch(() => {});
+            try {
+              const imgs = getImages(refImage, after);
+              const res = await sendToAIPost({
+                path: "/chat",
+                prompt: getEffectPrompt(chosen.actionType),
+                images: imgs,
+                signal: controller.signal,
+              });
+              const raw = typeof res === "string" ? res : JSON.stringify(res);
+              const parsed = JSON.parse(raw);
+              if (parsed?.effect) addSemanticEntry(chosen, parsed.effect);
+            } catch { /* ignore */ }
           }
         }
 
-        if (answer.answerable === "YES") {
-          setSteps((prev) => markStop(prev, step, "ANSWERED"));
-          setStopReason("ANSWERED");
-          break;
-        }
-
-        // 계속 루프
-        if (step === maxStep - 1) {
-          setSteps((prev) => markStop(prev, step, "MAX_STEP"));
-          setStopReason("MAX_STEP");
-        }
+        // // 계속 루프
+        // if (step === maxStep - 1) {
+        //   setSteps((prev) => markStop(prev, step, "MAX_STEP"));
+        //   setStopReason("MAX_STEP");
+        // }
       }
     } catch (e) {
       if (e instanceof DOMException && e.name === "AbortError") {
@@ -255,7 +270,14 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     }
   }, [containerRef, maxStep]);
 
-  return { isRunning, steps, stopReason, lastError, run, stop, reset };
+  const initSteps = useCallback((savedSteps: StepLog[], savedStopReason: StopReason | null = null) => {
+    setSteps(savedSteps);
+    setStopReason(savedStopReason);
+    setLastError(null);
+    setIsRunning(false);
+  }, []);
+
+  return { isRunning, steps, stopReason, lastError, run, stop, reset, initSteps };
 }
 
 // --- helpers ---

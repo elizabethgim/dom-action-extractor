@@ -23,6 +23,7 @@ Rules:
 - Do NOT give general advice. Output JSON only.
 - You MUST choose exactly one action from the provided action list.
 - If none of the possible actions list help, return {"answerable": "YES", "type":"NO_ACTION","reason":"..."}.
+- The last answer returns {"answerable":"YES", "answer": "..." }
 
 Output JSON example:
 {
@@ -46,8 +47,8 @@ function summarizeActions(actions: Partial<IActions>[]) {
     index: i,
     actionType: a.actionType,
     datum: a.datum,
-    boundingBox: a.boundingBox,
-    callbackFunction: a.code,
+    text: a.text || undefined,
+    selector: a.selector || undefined,
   }));
 }
 
@@ -61,8 +62,8 @@ function summarizeActionsWithEffects(
       index: i,
       actionType: a.actionType,
       datum: a.datum,
-      boundingBox: a.boundingBox,
-      callbackFunction: a.code,
+      // boundingBox: a.boundingBox,
+      // callbackFunction: a.code,
     };
     const known = effectMap.get(i);
     return known ? { ...base, knownEffect: known } : base;

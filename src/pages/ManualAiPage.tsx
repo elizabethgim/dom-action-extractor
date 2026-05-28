@@ -9,22 +9,23 @@ import { useChartCatalog } from "@hooks/useChartMeta";
 import { ChartSelectPanel } from "@components/builder/ChartSelectPanel";
 
 import { captureState } from "@core/utils/getCapture";
-import { extractActions, getActionRegistry, setActionRegistry } from "@core/actionExtractor/extractActions";
+import { extractActions, getActionRegistry } from "@core/actionExtractor/extractActions";
+// import { fetchKeywords } from "@/api/keywordsApi";
+// import { scoreActions } from "@core/actionExtractor/rankActions";
+// import { setActionRegistry } from "@core/actionExtractor/extractActions";
+// import type { ScoredAction } from "@core/actionExtractor/rankActions";
+// import type { KeywordResult } from "@/api/keywordsApi";
 import { generatePrompt } from "@core/prompts/answer";
 import { getCleanResponse } from "@core/utils/getCleanResponse";
 import { getAnswer } from "@core/interpretation/decideNextAction";
 import { executeAction } from "@core/autoAction/executeAction";
 import { sendToAIPost } from "@core/ai/sendToAI";
 import { getImages } from "@core/utils/getImages";
-import { fetchKeywords } from "@/api/keywordsApi";
-import { scoreActions } from "@core/actionExtractor/rankActions";
 import { addSemanticEntry, getSemanticRegistry } from "@core/actionExtractor/semanticRegistry";
 import { getEffectPrompt } from "@core/interpretation/getEffectPrompt";
-import type { ScoredAction } from "@core/actionExtractor/rankActions";
 import type { SemanticEntry } from "@core/actionExtractor/semanticRegistry";
-import type { KeywordResult } from "@/api/keywordsApi";
 import type { IActions } from "@core/models/interface/IActions";
-import type { imageState } from "@core/utils/getCapture";
+import type { imageState } from "@core/models/interface/IimageState";
 
 import "@styles/global.css";
 
@@ -71,8 +72,8 @@ export default function ManualAiPage() {
   const [effectResponse, setEffectResponse] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [copiedImage, setCopiedImage] = useState(false);
-  const [scoredActions, setScoredActions] = useState<ScoredAction[] | null>(null);
-  const [kwResult, setKwResult] = useState<KeywordResult | null>(null);
+  // const [scoredActions, setScoredActions] = useState<ScoredAction[] | null>(null);
+  // const [kwResult, setKwResult] = useState<KeywordResult | null>(null);
   const [semanticEntries, setSemanticEntries] = useState<SemanticEntry[]>([]);
 
   // multi-step state
@@ -104,20 +105,20 @@ export default function ManualAiPage() {
 
     try {
       const id = uuidv4().split("-")[0];
-      const state = await captureState("before", id);
+      const state = await captureState("before", id, containerRef.current);
       if (!state) throw new Error("스크린샷 캡처 실패");
 
       await extractActions(0);
       const q = effectiveQuestionRef.current;
-      const kw = await fetchKeywords(q).catch(() => null);
-      setKwResult(kw);
-      if (kw) {
-        const scored = scoreActions(getActionRegistry(), kw).sort((a, b) => b.score - a.score);
-        setScoredActions(scored);
-        setActionRegistry(scored.map(s => s.action));
-      } else {
-        setScoredActions(null);
-      }
+      // const kw = await fetchKeywords(q).catch(() => null);
+      // setKwResult(kw);
+      // if (kw) {
+      //   const scored = scoreActions(getActionRegistry(), kw).sort((a, b) => b.score - a.score);
+      //   setScoredActions(scored);
+      //   setActionRegistry(scored.map(s => s.action));
+      // } else {
+      //   setScoredActions(null);
+      // }
       const actionRegistry = getActionRegistry();
       actionRegistryRef.current = actionRegistry;
 
@@ -166,8 +167,20 @@ export default function ManualAiPage() {
   // ── copy helpers ─────────────────────────────────────────────────────────
   async function handleCopyImage() {
     if (!captured) return;
-    const res = await fetch(captured.screenshot);
-    const blob = await res.blob();
+    // captured.screenshot is a JPEG data URL; clipboard API requires PNG → convert via canvas
+    const img = new Image();
+    img.src = captured.screenshot;
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = reject;
+    });
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    canvas.getContext("2d")!.drawImage(img, 0, 0);
+    const blob = await new Promise<Blob>((resolve, reject) =>
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png"),
+    );
     await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
     setCopiedImage(true);
     setTimeout(() => setCopiedImage(false), 2000);
@@ -200,7 +213,7 @@ export default function ManualAiPage() {
       // record executed action so next step's prompt sees the history
       executedActionsRef.current = [...executedActionsRef.current, chosen];
       const id = uuidv4().split("-")[0];
-      const after = await captureState("after", id);
+      const after = await captureState("after", id, containerRef.current);
       if (after) {
         afterImg = after.image;
         setAfterScreenshot(after.image);
@@ -379,7 +392,7 @@ export default function ManualAiPage() {
         </section>
       )}
 
-      {/* ── 키워드 + 랭킹 ──────────────────────────────────────────────────── */}
+      {/* ── 키워드 + 랭킹 (비활성화) ─────────────────────────────────────────
       {captured && (
         <section className="panel systemSection">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -456,6 +469,7 @@ export default function ManualAiPage() {
           {!kwResult && <p style={{ fontSize: 13, color: "var(--color-text-muted)" }}>키워드 서버 응답 없음 — 랭킹 미적용</p>}
         </section>
       )}
+      ── */}
 
       {/* ── 프롬프트 + 스크린샷 ────────────────────────────────────────────── */}
       {captured && (

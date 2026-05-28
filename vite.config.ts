@@ -20,10 +20,6 @@ export default defineConfig({
         target: "http://localhost:5001",
         changeOrigin: true
       },
-      "/rank-actions": {
-        target: "http://localhost:5002",
-        changeOrigin: true
-      },
     },
   },
 

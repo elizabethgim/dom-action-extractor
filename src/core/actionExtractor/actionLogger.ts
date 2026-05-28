@@ -1,4 +1,4 @@
-import { DEFAULT_EVENTS } from "./DefaultEventType";
+import { DEFAULT_EVENTS, toActionType } from "./DefaultEventType";
 import type { IActions } from "../models/interface/IActions";
 import { resolveActionIdFromEvent } from "./actionIdStore";
 
@@ -19,8 +19,11 @@ export async function installActionLogger(container: HTMLElement){
     
     const evtType = evt.type;
     
+    const actionType = toActionType(evtType);
+    if (!actionType) return;
+
     const action: Partial<IActions> = {
-      actionType: evtType,
+      actionType,
       element: target,
     }
     const actionId = resolveActionIdFromEvent(evt);
@@ -52,4 +55,12 @@ export function getMutationBuffer() {
 
 export function getActionHistory(){
   return actionHistory;
+}
+
+export function addActionToHistory(action: Partial<IActions>) {
+  actionHistory.push(action);
+}
+
+export function clearActionHistory() {
+  actionHistory.length = 0;
 }

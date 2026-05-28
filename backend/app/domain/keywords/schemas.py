@@ -5,17 +5,20 @@ from typing import List
 class ActionDescriptor(BaseModel):
     id: str
     text: str = ""
-    datum: str = ""
-    action_type: str=""
+    datum_name: str = ""
+    action_type: str = ""
 
-class RanekdEntry(BaseModel):
+
+class RankedEntry(BaseModel):
     id: str
-    scroe: float
+    score: float
+
 
 class RankActionsRequest(BaseModel):
     question: str
     actions: List[ActionDescriptor]
-    top_k: int = 10
+    top_k: int = 30
+
 
 class RankedActionResponse(BaseModel):
-    ranked: List[RanekdEntry]
+    ranked: List[RankedEntry]
