@@ -1,3 +1,121 @@
+.animationChartResult {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animationChartResult .chartMount,
+.animationChartResult .chartMount--d3 {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animationChartResult .chartMount--d3 > svg,
+.animationChartResult .chartMount--d3 svg:first-of-type {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.animationCue {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  border: 2px solid var(--color-brand);
+  border-radius: 8px;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.34);
+  animation: animationCuePulse 1.4s ease-out forwards;
+}
+
+.animationCue::before,
+.animationCue::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.38);
+  animation: animationCueRipple 1.4s ease-out forwards;
+}
+
+.animationCue::after {
+  animation-delay: 0.18s;
+}
+
+.animationCue--hover {
+  border-color: #059669;
+  box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.3);
+}
+
+.animationCue--hover::before,
+.animationCue--hover::after {
+  border-color: rgba(5, 150, 105, 0.34);
+}
+
+.animationCue--zoom {
+  border-color: #d97706;
+  box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.3);
+}
+
+.animationCue--zoom::before,
+.animationCue--zoom::after {
+  border-color: rgba(217, 119, 6, 0.34);
+}
+
+.animationCueLabel {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  max-width: min(260px, 50vw);
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes animationCuePulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  62% {
+    opacity: 1;
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes animationCueRipple {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.82);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
 .captureImage {
   width: 100%;
   height: 300px;

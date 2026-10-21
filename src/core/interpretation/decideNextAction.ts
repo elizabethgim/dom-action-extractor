@@ -13,6 +13,7 @@ export async function decideNextAction(
   chartType: string,
   questions: string,
   chartState: imageState | null,
+  model?: string,
   signal?: AbortSignal,
 ): Promise<string> {
 
@@ -33,6 +34,7 @@ export async function decideNextAction(
   const response = await sendToAIPost({
     path: "/chat",
     prompt,
+    model,
     images: img,
     signal,
   });

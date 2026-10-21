@@ -4,4 +4,5 @@ export interface IAnswer {
   target_action_id: string;
   targetIndex: number;
   reason: string;
+  answer?: string;
 }

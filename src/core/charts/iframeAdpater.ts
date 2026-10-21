@@ -20,7 +20,7 @@ export function iframeAdapter(
       const iframe = document.createElement("iframe");
       iframe.src = url;
       iframe.style.width = "100%";
-      iframe.style.height = "800px";
+      iframe.style.height = "940px";
       iframe.style.border = "0";
       iframe.setAttribute("loading", "lazy");
 
@@ -43,7 +43,7 @@ export function iframeAdapter(
 
     getInfo(): ChartInfo {
       return {
-        chartId: entry.id,
+        chartId: slug,
         sourceType: "iframe",
         title: info?.title ?? "Embedded Visualization",
         description: info?.description ?? "This visualization is loaded via iframe.",

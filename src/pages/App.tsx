@@ -7,6 +7,9 @@ import AnimationPage from "./AnimationPage";
 import ChartCodeEditorPage from "./ChartCodeEditor";
 import ManualAiPage from "./ManualAiPage";
 import DirectAnswerPage from "./DirectAnswerPage";
+import RunLogTestPage from "./RunLogTestPage";
+import OurWorldDataPage from "./OurWorldDataPage";
+import BenchmarkPage from "./BenchmarkPage";
 
 export default function App() {
   return (
@@ -21,6 +24,9 @@ export default function App() {
         <Route path="/registry" element={<ChartCodeEditorPage />} />
         <Route path="/manual" element={<ManualAiPage />} />
         <Route path="/direct" element={<DirectAnswerPage />} />
+        <Route path="/test" element={<RunLogTestPage />} />
+        <Route path="/owid" element={<OurWorldDataPage />} />
+        <Route path="/benchmark" element={<BenchmarkPage />} />
       </Routes>
     </div>
   );

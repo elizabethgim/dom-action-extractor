@@ -32,5 +32,11 @@ export const d3InfoMap: Record<string, Omit<ChartInfo, "chartId" | "sourceType">
     description: "",
     tags: ["Hierarchical"],
     source:  "D3 Gallery / Mike Bostock",
-  }
+  },
+  "owid:gdp-per-capita": {
+    title: "GDP per capita",
+    description: "GDP per capita by country and year (Maddison Project Database). Table/Map/Line/Bar views with a draggable year range, country search/selection, and map compare-years mode.",
+    tags: ["Map", "Line", "Bar", "Table", "Geographical"],
+    source: "OurWorldInData / Maddison Project Database",
+  },
 };

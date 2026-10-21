@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createChart, type ChartCreatePayload, type ChartMetadata } from "@/api/chartApi";
 import "@styles/global.css";
 
-const SOURCES = ["dataset", "observable", "csv", "tableau"];
+const SOURCES = ["dataset", "observable", "csv", "tableau", "ourworldindata"];
 const FAMILIES = ["tree", "line", "bar", "scatter", "hierarchy", "map", "tableau"];
 const RENDERERS = ["d3", "observable", "iframe"];
 

@@ -1,0 +1,253 @@
+.owidPage {
+  /* match the OWID dashboards' own blue accent instead of the app's default
+     purple brand color, since this page embeds those dashboards directly */
+  --color-brand: #2c7fb8;
+  --color-brand-hover: #1d6699;
+  --color-brand-ghost: rgba(44, 127, 184, 0.08);
+  --color-border-focus: #2c7fb8;
+
+  /* match the OWID dashboards' own typeface instead of the app's default
+     Inter, since this page embeds those dashboards directly */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  width: 100%;
+  max-width: 2240px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.owidHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.owidHeader h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0;
+  color: #173a5e;
+}
+
+.owidSelect {
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #b8d2e6;
+  background: #fff;
+  color: #173a5e;
+  min-width: 360px;
+}
+.owidSelect:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px rgba(44, 127, 184, 0.15);
+}
+
+.owidError {
+  color: #dc2626;
+  margin: 0;
+}
+
+.owidBody {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.owidMain {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Large chart stage — OWID dashboards are full app layouts (owid-card grid,
+   up to 1760px wide), not small single-SVG charts, so they need far more
+   room than ChartPanel.css's default (max-height clamp meant for synthetic
+   single-SVG charts). */
+.owidChartView {
+  position: relative;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid #b8d2e6;
+  border-radius: var(--radius-md);
+}
+
+.owidChartView .chartResult {
+  min-height: 900px;
+  padding: 0;
+  border: none;
+}
+
+/* shown instead of a blank box while no chart has rendered yet */
+.owidChartEmpty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 900px;
+  font-size: 18px;
+  color: #6b7280;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--radius-md);
+  z-index: 1;
+}
+
+.owidChartView .chartMount--d3 {
+  display: block;
+  width: 100%;
+}
+
+.owidChartView .chartMount--d3 > svg,
+.owidChartView .chartMount--d3 svg:first-of-type {
+  max-height: none;
+}
+
+/* ── AI panel — full-width section above the chart, steps stack inside
+   their own scrollable box ── */
+.owidAiPanel--top {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid #b8d2e6;
+  border-radius: var(--radius-md);
+}
+
+/* same box model as the plain <input> below it (global.css's input rule),
+   so the preset-question dropdown lines up exactly with the question textbox */
+.owidQuestionSelect {
+  width: 100%;
+  padding: 9px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  background: var(--color-surface);
+}
+
+.owidQuestionRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.owidQuestionRow label {
+  font-weight: 600;
+  color: #173a5e;
+  white-space: nowrap;
+}
+.owidQuestionRow input {
+  flex: 1 1 auto;
+}
+
+.owidAiPanel h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0;
+  color: #173a5e;
+}
+
+.owidAnswerPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid #b8d2e6;
+  border-radius: var(--radius-md);
+}
+
+.owidAnswerText {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #173a5e;
+}
+
+.owidGrading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.owidGradingPanel { margin-top: 0; }
+
+.owidGradingTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.owidGradingTable th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid #e2e5ec;
+  color: #173a5e;
+  font-weight: 700;
+}
+.owidGradingTable td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+/* fixed height regardless of the embedded chart's own height (which varies
+   by tab/mode, e.g. map compare view); .owidStepStack scrolls once steps
+   overflow that height instead of growing the box taller */
+.owidStepBox {
+  flex: 0 0 420px;
+  width: 420px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e2e5ec;
+  border-radius: var(--radius-md);
+  background: #f8fafc;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.owidStepBox h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #173a5e;
+  margin: 0;
+}
+
+.owidStepStack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-right: 4px;
+}
+
+@media (max-width: 1300px) {
+  .owidBody { flex-direction: column; }
+  .owidStepBox { width: 100%; flex: 1 1 auto; height: auto; max-height: 600px; }
+}
+
+.owidStepStack .captureBox {
+  grid-template-columns: 1fr 1fr;
+}
+
+.owidStepStack .captureImage {
+  height: 140px;
+}

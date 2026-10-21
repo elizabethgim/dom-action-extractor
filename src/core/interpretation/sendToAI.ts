@@ -1,9 +1,11 @@
 import type { AIrequest } from "@/core/models/types/AIrequest";
 
+export const DEFAULT_AI_MODEL = "qwen3.6:latest";
+
 export async function sendToAIPost({
   path,
   prompt,
-  model = "qwen3.6:latest",
+  model = DEFAULT_AI_MODEL,
   images,
   signal,
 }: AIrequest & { signal?: AbortSignal }): Promise<string> {

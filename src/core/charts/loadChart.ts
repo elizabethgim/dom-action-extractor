@@ -36,7 +36,7 @@ export function loadChart(chart: ChartMetadata): ChartRenderer{
       return observableAdapter(fn, chart.slug);
 
     case "iframe":
-      return iframeAdapter(`/tableau/${chart.slug}/index.html`);
+      return iframeAdapter(`/tableau/${chart.slug}/index.html`, chart.slug);
 
     default:
       throw new Error(`Unknown renderer: ${chart.renderer}`);

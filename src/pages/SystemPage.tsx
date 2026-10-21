@@ -55,6 +55,10 @@ function SystemPage() {
           {/* <p className="systemSubtitle">Select a chart  ask a question.</p> */}
         </div>
 
+        <button className="btn" onClick={() => navigate("/test")}>
+          Step Log 테스트
+        </button>
+
         <ChartSelectPanel
           source={filters.source}
           setSource={filters.setSource}
