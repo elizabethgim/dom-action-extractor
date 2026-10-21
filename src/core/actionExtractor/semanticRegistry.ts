@@ -1,7 +1,7 @@
 import type { IActions } from "@/core/models/interface/IActions";
 
 export type SemanticEntry = {
-  signature: string;
+  actionId: string;
   actionType: IActions["actionType"];
   datumName: string | null;
   effect: string;
@@ -17,28 +17,22 @@ export function getSemanticRegistry(): SemanticEntry[] {
   return registry;
 }
 
-function elementSignature(action: IActions): string {
-  const tag = action.element.tagName.toLowerCase();
-  const cls = (action.elementInfo.className ?? "")
-    .split(/\s+/)
-    .filter(c => !c.startsWith("action-id"))
-    .slice(0, 3)
-    .join(".");
-  return `${tag}${cls ? "." + cls : ""}`;
-}
-
+// actionId is a stable per-DOM-element attribute (see extractActions.ts), so it
+// uniquely identifies one node — unlike tag+class, which every sibling in a
+// hierarchy/bar chart shares, causing one node's effect to bleed onto all others.
 export function addSemanticEntry(action: IActions, effect: string) {
-  const signature = elementSignature(action);
+  const datumName = action.datum?.name?.toString() ?? null;
   const existing = registry.find(
-    e => e.signature === signature && e.actionType === action.actionType
+    e => e.actionId === action.actionId && e.actionType === action.actionType
   );
   if (existing) {
     existing.effect = effect;
+    existing.datumName = datumName;
   } else {
     registry.push({
-      signature,
+      actionId: action.actionId,
       actionType: action.actionType,
-      datumName: action.datum?.name?.toString() ?? null,
+      datumName,
       effect,
     });
   }
@@ -48,13 +42,16 @@ export function findMatchingEffects(
   actions: IActions[]
 ): { index: number; effect: string }[] {
   return actions.flatMap((action, index) => {
-    const sig = elementSignature(action);
     const datumName = action.datum?.name?.toString() ?? null;
-    const match = registry.find(
-      e =>
-        e.actionType === action.actionType &&
-        (e.signature === sig || (datumName && e.datumName === datumName))
-    );
+    const match =
+      registry.find(
+        e => e.actionId === action.actionId && e.actionType === action.actionType
+      ) ??
+      (datumName
+        ? registry.find(
+            e => e.actionType === action.actionType && e.datumName === datumName
+          )
+        : undefined);
     return match ? [{ index, effect: match.effect }] : [];
   });
 }

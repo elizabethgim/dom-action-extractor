@@ -604,7 +604,7 @@ export default function ManualAiPage() {
       {steps.length > 0 && (
         <section className="panel systemSection">
           <h1>Step History ({steps.length})</h1>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div className="stepList" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {steps.map((step) => (
               <details
                 key={step.stepNumber}
@@ -717,7 +717,7 @@ export default function ManualAiPage() {
                 alignItems: "start",
                 fontSize: 13,
               }}>
-                <span style={{ fontFamily: "monospace", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>{entry.signature}</span>
+                <span style={{ fontFamily: "monospace", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>{entry.actionId}</span>
                 <span style={{ padding: "1px 8px", borderRadius: 10, background: "var(--color-surface)", border: "1px solid var(--color-border)", fontSize: 11, whiteSpace: "nowrap" }}>{entry.actionType}</span>
                 <span style={{ color: "var(--color-text)" }}>{entry.effect}</span>
               </div>
