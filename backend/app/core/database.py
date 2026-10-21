@@ -74,6 +74,13 @@ def init_database() -> None:
         )
         connection.execute(
             """
+            ALTER TABLE ai_runs ADD COLUMN IF NOT EXISTS expected_answer TEXT;
+            ALTER TABLE ai_runs ADD COLUMN IF NOT EXISTS grade TEXT;
+            ALTER TABLE ai_runs ADD COLUMN IF NOT EXISTS pipeline_variant TEXT NOT NULL DEFAULT 'baseline';
+            """
+        )
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS ai_run_steps (
               id SERIAL PRIMARY KEY,
               run_id UUID NOT NULL REFERENCES ai_runs(id) ON DELETE RESTRICT,
@@ -81,6 +88,25 @@ def init_database() -> None:
               payload_json JSONB NOT NULL,
               created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
               UNIQUE (run_id, step_index)
+            );
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS benchmark_episodes (
+              id SERIAL PRIMARY KEY,
+              run_id UUID NOT NULL UNIQUE REFERENCES ai_runs(id) ON DELETE RESTRICT,
+              answer TEXT NOT NULL,
+              question_type TEXT NOT NULL
+                CHECK (question_type IN ('exact_value_lookup', 'comparison', 'hierarchical_reveal')),
+              structural_complexity TEXT NOT NULL
+                CHECK (structural_complexity IN ('flat', 'hierarchical')),
+              interaction_complexity TEXT NOT NULL
+                CHECK (interaction_complexity IN ('low', 'high')),
+              reasoning_complexity TEXT NOT NULL
+                CHECK (reasoning_complexity IN ('single_step', 'multi_step')),
+              notes TEXT NOT NULL DEFAULT '',
+              created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
             """
         )

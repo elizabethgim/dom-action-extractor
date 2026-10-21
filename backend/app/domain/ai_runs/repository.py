@@ -3,7 +3,7 @@ import json
 from psycopg.types.json import Jsonb
 
 from app.core.database import db_connection
-from app.domain.ai_runs.schemas import AiRunCreate, AiRunRead, AiRunStep
+from app.domain.ai_runs.schemas import AiRunCreate, AiRunRead, AiRunStep, AiRunSummary
 
 
 def create_ai_run(payload: AiRunCreate) -> AiRunRead:
@@ -11,9 +11,10 @@ def create_ai_run(payload: AiRunCreate) -> AiRunRead:
         cursor = connection.execute(
             """
             INSERT INTO ai_runs (
-              chart_id, source, family, selected_question_index, question_text, stop_reason
+              chart_id, source, family, selected_question_index, question_text, stop_reason,
+              expected_answer, grade, pipeline_variant
             )
-            VALUES (%s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
             (
@@ -23,6 +24,9 @@ def create_ai_run(payload: AiRunCreate) -> AiRunRead:
                 payload.selected_question_index,
                 payload.question_text,
                 payload.stop_reason,
+                payload.expected_answer,
+                payload.grade,
+                payload.pipeline_variant,
             ),
         )
         row = cursor.fetchone()
@@ -53,13 +57,48 @@ def create_ai_run(payload: AiRunCreate) -> AiRunRead:
     return run
 
 
+def list_ai_runs() -> list[AiRunSummary]:
+    with db_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+              r.id, r.source, r.family, r.chart_id, r.selected_question_index,
+              r.question_text, r.stop_reason, r.expected_answer, r.grade, r.pipeline_variant, r.created_at,
+              COUNT(s.id) AS step_count
+            FROM ai_runs r
+            LEFT JOIN ai_run_steps s ON s.run_id = r.id
+            GROUP BY r.id, r.source, r.family, r.chart_id, r.selected_question_index,
+                     r.question_text, r.stop_reason, r.expected_answer, r.grade, r.pipeline_variant, r.created_at
+            ORDER BY r.created_at DESC
+            """
+        ).fetchall()
+
+    return [
+        AiRunSummary(
+            id=str(row["id"]),
+            source=str(row["source"]),
+            family=str(row["family"]),
+            chartId=str(row["chart_id"]),
+            selectedQuestionIndex=int(row["selected_question_index"]),
+            questionText=str(row["question_text"]),
+            stopReason=str(row["stop_reason"]) if row["stop_reason"] is not None else None,
+            expectedAnswer=row["expected_answer"],
+            grade=row["grade"],
+            pipelineVariant=str(row["pipeline_variant"]),
+            createdAt=str(row["created_at"]),
+            stepCount=int(row["step_count"]),
+        )
+        for row in rows
+    ]
+
+
 def get_ai_run(run_id: str) -> AiRunRead | None:
     with db_connection() as connection:
         row = connection.execute(
             """
             SELECT
               id, source, family, chart_id, selected_question_index,
-              question_text, stop_reason, created_at
+              question_text, stop_reason, expected_answer, grade, pipeline_variant, created_at
             FROM ai_runs
             WHERE id = %s
             """,
@@ -88,6 +127,9 @@ def get_ai_run(run_id: str) -> AiRunRead | None:
         selectedQuestionIndex=int(row["selected_question_index"]),
         questionText=str(row["question_text"]),
         stopReason=str(row["stop_reason"]) if row["stop_reason"] is not None else None,
+        expectedAnswer=row["expected_answer"],
+        grade=row["grade"],
+        pipelineVariant=str(row["pipeline_variant"]),
         createdAt=str(row["created_at"]),
         steps=[
             AiRunStep(
