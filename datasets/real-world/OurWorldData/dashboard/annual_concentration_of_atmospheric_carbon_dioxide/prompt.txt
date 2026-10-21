@@ -1,0 +1,20 @@
+UUID: 952ee7e7-fd3a-4953-97dd-803cef195b30
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/co2-long-term-concentration
+DATA: https://ourworldindata.org/grapher/co2-long-term-concentration.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: line
+Title: Carbon dioxide concentration in the atmosphere
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering the line appears two things, a vertical line with a dot and a tooltip showing the corresponding data.
+- The play button shows an animation which change the x-axis to show the data moving.
+- the year slider changes the time range of data, which is the x-axis.
+- the slider has a two circle, which shows the start and the end point of the year.
+- when hovering the year circle you can move the starting point. 
+When dragging the year next to the circle the year appears as a little box.
+
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.

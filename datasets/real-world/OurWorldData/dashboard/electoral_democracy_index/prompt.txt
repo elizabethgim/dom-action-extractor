@@ -1,0 +1,15 @@
+UUID: bd4484d2-3509-4fbc-a3f0-d606e0ae679d
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/electoral-democracy-index
+DATA: https://ourworldindata.org/grapher/electoral-democracy-index.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Geographical
+Title: Electoral democracy index
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.

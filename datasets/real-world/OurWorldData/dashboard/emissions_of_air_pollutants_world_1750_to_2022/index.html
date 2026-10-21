@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emissions of air pollutants, World, 1750 to 2022</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="owid-card" id="app">
+    <section class="chart-panel">
+      <header class="chart-header">
+        <div>
+          <h1 id="title"><span id="title-text"></span><span id="title-year"></span></h1>
+          <p class="subtitle" id="subtitle"></p>
+        </div>
+      </header>
+
+      <div class="tabs-row">
+        <nav class="tabs" aria-label="Visualization tabs">
+          <button class="tab" data-view="table">Table</button>
+          <button class="tab active" data-view="line">Line</button>
+          <button class="tab" data-view="bar">Bar</button>
+        </nav>
+      </div>
+
+      <section class="visual-wrap">
+        <div id="table-view" class="view">
+          <div class="table-tools">
+            <strong id="table-title">Data</strong>
+            <div class="table-right-tools">
+              <select id="table-filter-select" class="table-filter-select">
+                <option value="all">All</option>
+                <option value="selection">Selection</option>
+                <option value="countries" selected>Countries</option>
+              </select>
+              <input id="table-search" type="search" placeholder="Search for a country" />
+            </div>
+          </div>
+          <div class="data-table-wrap">
+            <table id="data-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="bar-view" class="view">
+          <svg id="bar-svg" role="img"></svg>
+        </div>
+
+        <div id="line-view" class="view active">
+          <div id="line-legend" class="area-legend hidden"></div>
+          <div id="charts-container" class="charts-grid"></div>
+          <div id="tooltip" class="hidden">
+            <div id="tip-name"></div>
+            <div id="tip-val"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="year-control" aria-label="Year range filter">
+        <button id="play-button" class="play" aria-label="Play animation">▶</button>
+        <span id="start-label" class="year-label"></span>
+        <div class="slider-wrap">
+          <div id="slider-track">
+            <div id="slider-fill"></div>
+            <div class="slider-handle ghost-handle hidden" id="handle-ghost"></div>
+            <div class="slider-handle" id="handle-start"></div>
+            <div class="slider-handle" id="handle-end"></div>
+          </div>
+        </div>
+        <span id="end-label" class="year-label"></span>
+      </section>
+
+      <footer class="chart-footer">
+        <p><strong>Data source:</strong> <span id="source-text"></span></p>
+      </footer>
+    </section>
+
+    <aside class="side-panel">
+      <h2 id="side-title">ADD/REMOVE COUNTRIES AND REGIONS</h2>
+      <input id="country-search" type="search" placeholder="Search for a country or region" />
+      <div id="selection-section" class="hidden">
+        <div class="selection-title">
+          <span id="selection-count"></span>
+          <button id="clear-selection">Clear</button>
+        </div>
+        <div id="selected-list"></div>
+      </div>
+      <div class="all-countries-label">All countries</div>
+      <div id="country-list" class="country-list"></div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="script.js"></script>
+</body>
+</html>

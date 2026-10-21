@@ -1,0 +1,16 @@
+UUID: 4ee583eb-5d87-41a2-8001-ea9f5429cf96
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/long-run-air-pollution
+Chart type: Line
+Title: Emissions of air pollutants, World, 1750 to 2022
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering the label highlights the corresponding line.
+- When hovered on the line, the corresponding exact value appears.
+- Along with the tooltip, a vertical guideline appears at the matching point.
+- A small circle appears on the line at the exact hovered position.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.

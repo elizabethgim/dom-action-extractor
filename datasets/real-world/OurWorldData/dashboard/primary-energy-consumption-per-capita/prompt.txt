@@ -1,0 +1,18 @@
+UUID: fd0fd8f1-2a66-40da-b6ef-b670ab286481
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/per-capita-energy-use
+Chart type: Geographical
+Title: Primary energy consumption per capita
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/primary_energy_consumption_per_capita into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

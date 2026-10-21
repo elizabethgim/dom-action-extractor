@@ -1,0 +1,189 @@
+.life-expectancy-marimekko-chart-host {
+  --blue: #2c7fb8;
+  --light-blue: #dfeaf5;
+  --axis-blue: #4d6f9f;
+  --text: #555;
+  --heading: #333;
+  --border: #e5e5e5;
+  --panel-bg: #fff;
+  --muted-bg: #f7f7f7;
+  --row-highlight: #e9edf2;
+
+  margin: 0;
+  background: #fff;
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.life-expectancy-marimekko-chart-host, .life-expectancy-marimekko-chart-host * { box-sizing: border-box; }
+
+.life-expectancy-marimekko-chart-host .owid-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 0;
+  max-width: 1760px;
+  min-height: 900px;
+  margin: 16px auto;
+  border: 1px solid #eee;
+  background: var(--panel-bg);
+}
+
+.life-expectancy-marimekko-chart-host .chart-panel { padding: 26px 36px 0; position: relative; }
+.life-expectancy-marimekko-chart-host .side-panel { border-left: 1px solid #eee; padding: 24px 24px 0; }
+
+.life-expectancy-marimekko-chart-host h1 {
+  margin: 0 0 8px;
+  color: var(--heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+}
+.life-expectancy-marimekko-chart-host .subtitle {
+  max-width: 1260px;
+  margin: 0 0 26px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+.life-expectancy-marimekko-chart-host a { color: inherit; text-decoration: underline; text-decoration-style: dotted; }
+
+.life-expectancy-marimekko-chart-host .tabs {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 12px;
+}
+.life-expectancy-marimekko-chart-host .tab {
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: white;
+  color: #777;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+.life-expectancy-marimekko-chart-host .tab:last-child { border-right: 0; }
+.life-expectancy-marimekko-chart-host .tab.active { color: #173a5e; background: var(--light-blue); }
+
+.life-expectancy-marimekko-chart-host .visual-wrap { min-height: 580px; position: relative; }
+.life-expectancy-marimekko-chart-host .view { display: none; position: relative; }
+.life-expectancy-marimekko-chart-host .view.active { display: block; }
+.life-expectancy-marimekko-chart-host #mekko-svg { width: 100%; display: block; }
+
+.life-expectancy-marimekko-chart-host .tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(255,255,255,.98);
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 24px rgba(0,0,0,.15);
+  padding: 10px;
+  width: 220px;
+  z-index: 3;
+}
+.life-expectancy-marimekko-chart-host .hidden { display: none; }
+.life-expectancy-marimekko-chart-host .tooltip h3 { margin: 0 0 6px; color: #333; font-size: 16px; }
+
+.life-expectancy-marimekko-chart-host .year-control {
+  display: grid;
+  grid-template-columns: 48px 72px 1fr 72px;
+  align-items: center;
+  gap: 18px;
+  margin: 10px 0 18px;
+}
+.life-expectancy-marimekko-chart-host .play,
+.life-expectancy-marimekko-chart-host .small-button,
+.life-expectancy-marimekko-chart-host .footer-buttons button,
+.life-expectancy-marimekko-chart-host .sort-button {
+  border: 0;
+  background: #f2f2f2;
+  border-radius: 6px;
+  color: #555;
+  padding: 11px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.life-expectancy-marimekko-chart-host .play { width: 48px; height: 48px; padding: 0; }
+.life-expectancy-marimekko-chart-host .year-label { font-size: 18px; font-weight: 600; }
+.life-expectancy-marimekko-chart-host .slider-wrap { position: relative; }
+.life-expectancy-marimekko-chart-host #slider-svg { width: 100%; display: block; overflow: visible; }
+.life-expectancy-marimekko-chart-host .yr-input {
+  position: absolute;
+  top: -4px;
+  width: 58px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  padding: 3px 6px;
+  background: #fff;
+  z-index: 5;
+}
+.life-expectancy-marimekko-chart-host #start-input { left: 0; }
+.life-expectancy-marimekko-chart-host #end-input { right: 0; }
+
+.life-expectancy-marimekko-chart-host .chart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 14px;
+  font-size: 16px;
+}
+.life-expectancy-marimekko-chart-host .footer-buttons { display: flex; gap: 10px; }
+
+.life-expectancy-marimekko-chart-host .side-panel h2 { margin: 0 0 20px; font-size: 17px; color: #666; letter-spacing: .1em; }
+.life-expectancy-marimekko-chart-host #country-search, .life-expectancy-marimekko-chart-host #table-search {
+  width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 12px 14px; font-size: 16px; margin-bottom: 14px;
+}
+.life-expectancy-marimekko-chart-host .sort-button { width: 100%; text-align: left; margin-bottom: 14px; background: white; border: 1px solid var(--border); }
+.life-expectancy-marimekko-chart-host .selection-title { display: flex; justify-content: space-between; margin: 6px 0 4px; font-style: italic; }
+.life-expectancy-marimekko-chart-host .all-countries-label { font-style: italic; color: var(--text); font-size: 16px; margin: 8px 0 4px; }
+.life-expectancy-marimekko-chart-host #clear-selection { border: 0; background: transparent; text-decoration: underline; color: #555; cursor: pointer; }
+.life-expectancy-marimekko-chart-host .country-list { max-height: 735px; overflow: auto; }
+.life-expectancy-marimekko-chart-host .country-row {
+  display: grid;
+  grid-template-columns: 26px 1fr 54px;
+  gap: 8px;
+  align-items: center;
+  padding: 11px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 17px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.life-expectancy-marimekko-chart-host .country-row::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; height: 100%;
+  width: var(--bar-w, 0%);
+  background: var(--row-highlight);
+  pointer-events: none;
+  z-index: 0;
+}
+.life-expectancy-marimekko-chart-host .country-row:hover, .life-expectancy-marimekko-chart-host .country-row.active { background: var(--row-highlight); }
+.life-expectancy-marimekko-chart-host .country-row > * { position: relative; z-index: 1; }
+.life-expectancy-marimekko-chart-host .country-row input { width: 18px; height: 18px; pointer-events: none; }
+.life-expectancy-marimekko-chart-host .country-value { text-align: right; font-size: 14px; color: #666; }
+
+.life-expectancy-marimekko-chart-host .table-tools { display: flex; align-items: center; justify-content: space-between; margin: 12px 0 14px; font-size: 18px; }
+.life-expectancy-marimekko-chart-host .table-tools input { width: 380px !important; margin: 0 !important; }
+.life-expectancy-marimekko-chart-host .data-table-wrap { max-height: 520px; overflow: auto; border: 1px solid #f0f0f0; }
+.life-expectancy-marimekko-chart-host table { width: 100%; border-collapse: collapse; font-size: 17px; }
+.life-expectancy-marimekko-chart-host th { position: sticky; top: 0; background: #f6f6f6; z-index: 1; text-align: left; color: #555; padding: 14px 20px; border-bottom: 1px solid #eee; }
+.life-expectancy-marimekko-chart-host td { padding: 11px 20px; border-bottom: 1px solid #f0f0f0; }
+.life-expectancy-marimekko-chart-host tbody tr:nth-child(even) { background: #f7f7f7; }
+.life-expectancy-marimekko-chart-host .sparkline { width: 150px; height: 42px; display: block; }
+.life-expectancy-marimekko-chart-host .sparkline path { fill: none; stroke: var(--axis-blue); stroke-width: 2; }
+.life-expectancy-marimekko-chart-host .sparkline circle { fill: var(--axis-blue); }
+
+@media (max-width: 1100px) {
+  .life-expectancy-marimekko-chart-host .owid-card { grid-template-columns: 1fr; }
+  .life-expectancy-marimekko-chart-host .side-panel { border-left: 0; border-top: 1px solid #eee; }
+}
+
+/* ── Marimekko view ── */
+.life-expectancy-marimekko-chart-host .mekko-bar { cursor: pointer; }
+.life-expectancy-marimekko-chart-host .mekko-labels text { cursor: pointer; }
+.life-expectancy-marimekko-chart-host #mekko-tooltip { position: absolute; pointer-events: none; }

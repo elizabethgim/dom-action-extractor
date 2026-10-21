@@ -1,0 +1,18 @@
+UUID: 0b815a82-9340-4b4c-a861-3b371c333bc6
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/share-of-population-with-improved-sanitation-faciltities
+Chart type: Geographical
+Title: Share of the population using at least basic sanitation services
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/share_of_the_population_using_at_least_basic_sanit into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

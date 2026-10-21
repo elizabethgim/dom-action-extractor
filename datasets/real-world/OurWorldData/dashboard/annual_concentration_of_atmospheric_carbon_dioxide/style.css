@@ -1,0 +1,295 @@
+/* ─── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ─── App shell ─────────────────────────────────────────────── */
+#app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 32px;
+}
+
+/* ─── Header ────────────────────────────────────────────────── */
+#header {
+  margin-bottom: 16px;
+}
+
+#main-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+#subtitle {
+  font-size: 13px;
+  color: #555;
+  max-width: 720px;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+/* ─── Tabs ──────────────────────────────────────────────────── */
+#tab-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+#tabs {
+  display: flex;
+  gap: 4px;
+}
+
+button.tabs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #555;
+  background: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+button.tabs:hover {
+  background: #f0f0f0;
+}
+
+button.tabs.active {
+  background: #e8f0f7;
+  border-color: #3c7aad;
+  color: #1a5276;
+  font-weight: 600;
+}
+
+/* Tab icons rendered via ::before pseudo */
+button.tabs:nth-child(1)::before {
+  content: "⊞";
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+button.tabs:nth-child(2)::before {
+  content: "⌇";
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+/* ─── Main content ──────────────────────────────────────────── */
+#main-content {
+  position: relative;
+}
+
+/* ─── Chart section ─────────────────────────────────────────── */
+#line-section {
+  position: relative;
+  width: 100%;
+}
+
+#line-section svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* ─── Axis labels ────────────────────────────────────────────── */
+.axis-label {
+  font-size: 12px;
+  fill: #666;
+}
+
+.tick text {
+  font-size: 12px;
+  fill: #666;
+  font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
+}
+
+.tick line {
+  stroke: #ddd;
+  stroke-dasharray: 3 3;
+}
+
+.domain { display: none; }
+
+/* ─── Grid lines ─────────────────────────────────────────────── */
+.grid line {
+  stroke: #e8e8e8;
+  stroke-dasharray: 3 3;
+}
+
+.grid .domain { display: none; }
+
+/* ─── CO2 line ───────────────────────────────────────────────── */
+.co2-line {
+  fill: none;
+  stroke: #3c7aad;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* ─── Series label ───────────────────────────────────────────── */
+.series-label {
+  font-size: 12px;
+  fill: #3c7aad;
+  font-weight: 600;
+}
+
+/* ─── Tooltip ────────────────────────────────────────────────── */
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.1s;
+  z-index: 10;
+}
+
+#tooltip strong { display: block; margin-bottom: 2px; color: #3c7aad; }
+
+/* ─── Crosshair ──────────────────────────────────────────────── */
+.crosshair {
+  stroke: #999;
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  pointer-events: none;
+}
+
+/* ─── Time controls ──────────────────────────────────────────── */
+#time-controls {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px;
+  user-select: none;
+}
+
+#play-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #bbb;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+#play-btn:hover { background: #f0f0f0; }
+
+#play-btn svg { display: block; }
+
+#range-start,
+#range-end {
+  font-size: 12px;
+  color: #555;
+  min-width: 72px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ─── Range slider track ─────────────────────────────────────── */
+#slider-track-wrap {
+  flex: 1;
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+#slider-track {
+  width: 100%;
+  height: 4px;
+  background: #d8d8d8;
+  border-radius: 2px;
+  position: relative;
+}
+
+#slider-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #3c7aad;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.slider-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #3c7aad;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  transition: transform 0.05s;
+}
+
+.slider-handle:active { cursor: grabbing; transform: translate(-50%, -50%) scale(1.2); }
+
+/* ─── Footer / source ────────────────────────────────────────── */
+#footer {
+  margin-top: 18px;
+  font-size: 11.5px;
+  color: #888;
+  line-height: 1.6;
+}
+
+#footer a { position:left; color: #3c7aad; text-decoration: underline; }
+
+/* ─── Table view ─────────────────────────────────────────────── */
+#table-section {
+  display: none;
+  overflow-x: auto;
+}
+
+#table-section table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+#table-section th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 2px solid #ddd;
+  font-weight: 600;
+  color: #333;
+  background: #f7f9fb;
+}
+
+#table-section td {
+  padding: 6px 10px;
+  border-bottom: 1px solid #eee;
+  color: #444;
+}
+
+#table-section tr:hover td { background: #f7f9fb; }

@@ -1,0 +1,62 @@
+{
+  "uuid": "d8abded1-7c33-463c-9e56-8494fc7c1f1c",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/dashboard/population-growth-rate",
+  "chart_type": "Table, Map, Line",
+  "topic": "Population growth rate",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "In the Line view, what was the World population growth rate in 2023 — the last year of actual (non-projected) data?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "0.871%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What is the UN's projected World population growth rate for 2025, shown as the dashed portion of the line?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "0.841% (projected)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "Which country had the highest population growth rate in 2023, and what was the value?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Filter",
+        "Hover"
+      ],
+      "answer": "South Sudan, 5.862%",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "Which major European country had a negative population growth rate in 2023, and what was the value?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Filter",
+        "Hover"
+      ],
+      "answer": "Greece, -2.077%",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q05",
+      "question": "Click the year slider track to enter range/compare mode and set the range to 1950–2000. By how much did the World growth rate decline over that span?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "Compare",
+        "Hover"
+      ],
+      "answer": "1.738% → 1.353% (-0.385 percentage points)",
+      "difficulty": "Hard"
+    }
+  ]
+}

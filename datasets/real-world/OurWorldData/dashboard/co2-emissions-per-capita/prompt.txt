@@ -1,0 +1,19 @@
+UUID: b81d067d-2a35-40e6-8c45-dc00cc70f3c4
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/co-emissions-per-capita?tab=map&country=OWID_WRL~USA~GBR~OWID_EU27
+DATA: https://ourworldindata.org/grapher/co-emissions-per-capita.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Geographical
+Title: CO₂ emissions per capita
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/co₂_emissions_per_capita into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

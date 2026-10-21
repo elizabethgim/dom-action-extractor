@@ -1,0 +1,19 @@
+UUID: 00dd6c19-fb05-41c3-90c7-7a99074f25ff
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/deaths-from-indoor-air-pollution-by-age
+Chart type: Area
+Title: Deaths from indoor air pollution, by age, World
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/deaths_from_indoor_air_pollution_by_age_world into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

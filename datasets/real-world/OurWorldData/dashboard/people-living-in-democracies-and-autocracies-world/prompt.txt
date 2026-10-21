@@ -1,0 +1,19 @@
+UUID: de24f788-6f37-42a5-a567-fd2a66c5a53f
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/people-living-in-democracies-autocracies
+Chart type: Area
+Title: People living in democracies and autocracies, World
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/people_living_in_democracies_and_autocracies_world into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

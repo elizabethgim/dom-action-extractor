@@ -1,0 +1,19 @@
+UUID: 61473b33-5dd7-4efa-9934-465bffee66cb
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/lives-saved-vaccines
+Chart type: Bar
+Title: Number of lives saved by childhood vaccinations from 1974 to
+2024, World
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering the bar highlights the corresponding data.
+- A tooltip shows the matching value when hovered.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/number_of_lives_saved_by_childhood_vaccinations_fr into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

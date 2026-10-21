@@ -1,0 +1,18 @@
+UUID: ff451431-661b-40dc-bda2-438e86aa95b9
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/human-development-index
+Chart type: Geographical
+Title: Human Development Index
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/human_development_index into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

@@ -1,0 +1,18 @@
+UUID: d462d72e-4b36-46f6-a825-68c4cfc0c75d
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/share-population-female
+Chart type: Geographical
+Title: Share of the population that is female
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/share_of_the_population_that_is_female into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

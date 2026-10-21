@@ -1,0 +1,21 @@
+UUID: 04007ef6-19d5-42c5-94d5-d0e44900d15e
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/yearly-number-of-objects-launched-into-outer-space
+Chart type: Geographical
+Title: Annual number of objects launched into space
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights with a bolder edge on the corresponding area and shows the corresponding line chart.
+- clicking on the area appears the country's value.
+- Clicking on "Zoom to selection" changes to a glope view.
+- If you choose multiple area the view needs to include every countries.
+- A tooltip appears showing the region name and the corresponding value.
+- Hovering on the label color highlights the corresponding countries.
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+data URL (CSV format): https://ourworldindata.org/grapher/yearly-number-of-objects-launched-into-outer-space.csv?v=1&csvType=full&useColumnShortNames=true
+Meta data url: https://ourworldindata.org/grapher/yearly-number-of-objects-launched-into-outer-space.metadata.json?v=1&csvType=full&useColumnShortNames=true
+

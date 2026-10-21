@@ -1,0 +1,19 @@
+UUID: 061999e3-3e61-423c-addb-0dd0e87ace21
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/global-energy-substitution
+Chart type: Area
+Title: Global primary energy consumption by source
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/global_primary_energy_consumption_by_source into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

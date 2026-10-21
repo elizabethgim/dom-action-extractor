@@ -1,0 +1,18 @@
+UUID: 1df9caf2-37ee-4336-a74c-8184f9fab7df
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/share-of-people-who-say-accepting-a-bribe-is-never-justifiable
+Chart type: Geographical
+Title: Share of people who say accepting a bribe is never justifiable
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/share_of_people_who_say_accepting_a_bribe_is_never into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

@@ -1,0 +1,18 @@
+UUID: c9941552-a5c9-4afe-a647-1d4ef1cca1df
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/bribery-prevalence-un?country=FRA~PER~IND~MYS
+Chart type: Geographical
+Title: Share of people who said they were asked for a bribe or paid one
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/share_of_people_who_said_they_were_asked_for_a_bri into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

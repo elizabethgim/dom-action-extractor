@@ -1,0 +1,19 @@
+UUID: 060ef6ab-ebc8-4f89-a28a-6c0e7c351cce
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-country?tab=chart
+DATA: https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-country.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Geographical
+Title: Deaths in armed conflicts based on where they occurred
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/deaths_in_armed_conflicts_based_on_where_they_occu into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

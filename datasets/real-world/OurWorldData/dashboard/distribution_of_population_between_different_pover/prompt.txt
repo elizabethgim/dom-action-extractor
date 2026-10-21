@@ -1,0 +1,15 @@
+UUID: fee2583b-3dbe-48ac-baee-7d1e53c67332
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/distribution-of-population-poverty-thresholds
+Chart type: Area
+Title: Distribution of population between different poverty lines, World
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.

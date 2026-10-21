@@ -1,0 +1,19 @@
+UUID: 4e09e8fd-f104-478c-980a-a57c45b5044b
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/mean-years-of-schooling-long-run
+DATA: https://ourworldindata.org/grapher/mean-years-of-schooling-long-run.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Geographical
+Title: Average years of schooling
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/average_years_of_schooling into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World Population</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="owid-card" id="app">
+    <section class="chart-panel">
+      <header class="chart-header">
+        <div>
+          <h1 id="title"><span id="title-text"></span><span id="title-year"></span></h1>
+          <p class="subtitle" id="subtitle"></p>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="Visualization tabs">
+        <button class="tab" data-view="table">▦ Table</button>
+        <button class="tab active" data-view="map">🌐 Map</button>
+        <button class="tab" data-view="line">⌁ Line</button>
+      </nav>
+
+      <section class="visual-wrap">
+        <div id="map-view" class="view active">
+          <div class="map-toolbar">
+            <button id="compare-btn" class="small-button">⇄ Compare years</button>
+            <button id="zoom-sel-btn" class="small-button hidden">⊙ Zoom to selection</button>
+            <button id="reset-zoom-btn" class="small-button hidden">↺ Reset zoom</button>
+            <select id="region-select" class="region-select">
+              <option value="world">World</option>
+              <option value="africa">Africa</option>
+              <option value="americas">Americas</option>
+              <option value="asia">Asia</option>
+              <option value="europe">Europe</option>
+              <option value="oceania">Oceania</option>
+            </select>
+          </div>
+          <div id="map-pair">
+            <svg id="map-left" role="img"></svg>
+            <svg id="map-svg" role="img"></svg>
+          </div>
+          <div id="map-tooltip" class="tooltip hidden"></div>
+          <div id="legend" class="legend"></div>
+
+          <div id="continent-filter">
+            <div class="continent-filter-header">
+              <span class="continent-filter-title">Filter by continent</span>
+              <div class="continent-filter-actions">
+                <button id="filter-all">All</button>
+                <button id="filter-none">None</button>
+              </div>
+            </div>
+            <div id="filter-chips"></div>
+          </div>
+        </div>
+
+        <div id="table-view" class="view">
+          <div class="table-tools">
+            <strong id="table-title">Data</strong>
+            <input id="table-search" type="search" placeholder="Search for a country or region" />
+          </div>
+          <div class="data-table-wrap">
+            <table id="data-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="line-view" class="view">
+          <svg id="line-svg" role="img"></svg>
+        </div>
+      </section>
+
+      <section class="year-control" aria-label="Year range filter">
+        <button id="play-button" class="play" aria-label="Play animation">▶</button>
+        <span id="start-label" class="year-label"></span>
+        <div class="slider-wrap">
+          <svg id="slider-svg"></svg>
+          <input id="start-input" type="number" class="yr-input" style="display:none" />
+          <input id="end-input" type="number" class="yr-input" style="display:none" />
+        </div>
+        <span id="end-label" class="year-label"></span>
+      </section>
+
+      <footer class="chart-footer">
+        <p><strong>Data source:</strong> <span id="source-text"></span></p>
+        <div class="footer-buttons">
+          <button>⇩ Download</button>
+          <button>↗ Share</button>
+          <button>⛶ Enter full-screen</button>
+        </div>
+      </footer>
+    </section>
+
+    <aside class="side-panel">
+      <h2 id="side-title">SELECT COUNTRIES</h2>
+      <input id="country-search" type="search" placeholder="Search for a country or region" />
+      <button class="sort-button">↕ Sort by value, <span id="sort-year"></span></button>
+      <div id="selection-section" class="hidden">
+        <div class="selection-title">
+          <span id="selection-count"></span>
+          <button id="clear-selection">Clear</button>
+        </div>
+        <div id="selected-list"></div>
+      </div>
+      <div class="all-countries-label">All countries</div>
+      <div id="country-list" class="country-list"></div>
+    </aside>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <script src="script.js"></script>
+</body>
+</html>

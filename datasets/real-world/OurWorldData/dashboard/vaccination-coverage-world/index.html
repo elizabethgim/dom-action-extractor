@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vaccination coverage, World</title>
+  <!-- Only needed standalone: script.js uses bare "d3"/"topojson-client"
+       imports so the same source works unmodified inside the Vite app,
+       which resolves those from node_modules instead of this map. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "d3": "https://cdn.jsdelivr.net/npm/d3@7/+esm",
+        "topojson-client": "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="standalone-root"></div>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

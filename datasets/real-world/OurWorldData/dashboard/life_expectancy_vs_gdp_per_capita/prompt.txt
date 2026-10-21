@@ -1,0 +1,14 @@
+UUID: 8057a85a-9480-446a-b65d-14ad4f151f11
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/life-expectancy-vs-gdp-per-capita
+Chart type: Scatter
+Title: Life expectancy vs. GDP per capita
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering a point highlights it.
+- A tooltip appears showing the country/region name and corresponding values.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.

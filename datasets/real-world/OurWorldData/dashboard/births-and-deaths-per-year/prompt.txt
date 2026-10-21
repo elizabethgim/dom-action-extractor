@@ -1,0 +1,21 @@
+UUID: ff2672fa-d096-4c47-a7c7-d511b257f894
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/births-and-deaths-projected-to-2100
+DATA: https://ourworldindata.org/grapher/births-and-deaths-projected-to-2100.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Line
+Title: Births and deaths per year
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering the label highlights the corresponding line.
+- When hovered on the line, the corresponding exact value appears.
+- Along with the tooltip, a vertical guideline appears at the matching point.
+- A small circle appears on the line at the exact hovered position.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/births_and_deaths_per_year into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

@@ -1,0 +1,18 @@
+UUID: e03848fc-c95b-4f33-aaab-c837049b64e4
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/military-spending-as-a-share-of-gdp-sipri
+Chart type: Geographical
+Title: Military spending as a share of GDP
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/military_spending_as_a_share_of_gdp into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

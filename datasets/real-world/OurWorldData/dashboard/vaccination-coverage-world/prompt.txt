@@ -1,0 +1,20 @@
+UUID: d0b34ba6-06e4-4ac7-9c15-877e2f171393
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/global-vaccination-coverage
+Chart type: Line
+Title: Vaccination coverage
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering the label highlights the corresponding line.
+- When hovered on the line, the corresponding exact value appears.
+- Along with the tooltip, a vertical guideline appears at the matching point.
+- A small circle appears on the line at the exact hovered position.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/vaccination_coverage into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

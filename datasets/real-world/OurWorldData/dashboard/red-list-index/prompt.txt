@@ -1,0 +1,18 @@
+UUID: d45263a8-02d9-4cac-84f6-625f71b5c16f
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/red-list-index
+Chart type: Geographical
+Title: Red List Index
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/red_list_index into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

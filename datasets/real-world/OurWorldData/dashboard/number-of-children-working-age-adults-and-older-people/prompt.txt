@@ -1,0 +1,19 @@
+UUID: 8fe8b643-93a8-4046-82af-c73443565786
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/population-young-working-elderly?tab=table
+Chart type: Area
+Title: Number of children, working-age adults, and older people
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/number_of_children_working_age_adults_and_older_pe into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

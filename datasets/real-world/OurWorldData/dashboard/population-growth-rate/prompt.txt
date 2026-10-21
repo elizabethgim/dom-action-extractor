@@ -1,0 +1,26 @@
+UUID: d8abded1-7c33-463c-9e56-8494fc7c1f1c
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/population-growth-rates
+DATA: https://ourworldindata.org/grapher/population-growth-rates.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Table, Map, Line
+Title: Population growth rate
+
+Make a d3.js dashboard just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Three tabs (Table / Map / Line) switch between views; the active view is the one shown.
+- Map view: hovering a country shows a tooltip with a tiny sparkline; clicking selects/deselects it.
+  "Compare years" splits the map into a start-year/end-year pair; a region dropdown lets you zoom to a continent.
+- Line view: hovering a line highlights it and dims the others; entity labels sit at the end of each line.
+- Table view: sortable by end-year value, with a small sparkline and the absolute change per row.
+- The play button animates the end year forward.
+- The year slider has two draggable handles (start/end); dragging the filled bar between them shifts both
+  while keeping the span fixed. Hovering shows the year in a small tooltip above the handle.
+- The side panel lets you search countries/regions and toggle which ones are selected (shared across views).
+
+Values are a percentage growth rate and can be negative, so the y-axis/color scale must NOT be clamped at 0.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format (note: this export has two value columns —
+"...variant_estimates" for historical years and "...variant_medium__projected" for UN projections to 2100 —
+fall back to the projected column when the estimates column is empty).

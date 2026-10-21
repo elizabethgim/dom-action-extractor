@@ -1,0 +1,18 @@
+UUID: ab457a79-227c-4194-8309-5e30de285650
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/share-of-children-younger-than-5-who-suffer-from-stunting
+Chart type: Geographical
+Title: Malnutrition: Share of children who are stunted
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/malnutrition_share_of_children_who_are_stunted into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

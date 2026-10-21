@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annual number of objects launched into space</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <div id="header">
+      <h1 id="main-title">Annual number of objects launched into space</h1>
+      <p id="subtitle">
+        This includes satellites, probes, landers, crewed spacecrafts, and space station
+        flight elements launched into Earth orbit or beyond.
+      </p>
+      <div id="tabs-row">
+        <div id="tabs">
+          <button class="tab">⊞ Table</button>
+          <button class="tab active">🗺 Map</button>
+          <button class="tab">↗ Line</button>
+          <button class="tab">▦ Bar</button>
+        </div>
+        
+      </div>
+    </div>
+
+    <div id="main-content">
+      <div id="map-section">
+        <div id="map-toolbar">
+          <button id="reset-btn">↺ Reset view</button>
+          <select id="region-select">
+            <option value="world">World</option>
+            <option value="europe">Europe</option>
+            <option value="africa">Africa</option>
+            <option value="americas">Americas</option>
+            <option value="asia">Asia</option>
+            <option value="oceania">Oceania</option>
+          </select>
+        </div>
+        <div id="map-zoom-btns">
+          <button id="zoom-sel-btn" class="hidden">⊕ Zoom to selection</button>
+          <button id="reset-zoom-btn" class="hidden">↺ Reset zoom</button>
+        </div>
+        <div id="map-pair">
+          <div class="map-half">
+            <div class="map-yr-label" id="start-yr-label">1957</div>
+            <svg class="world-map" id="map-left"></svg>
+          </div>
+          
+          <div class="map-half">
+            <div class="map-yr-label" id="end-yr-label">2025</div>
+            <svg class="world-map" id="map-right"></svg>
+          </div>
+        </div>
+        <div id="tooltip" class="hidden">
+          <div id="tip-name"></div>
+          <div id="tip-val"></div>
+          <svg id="tip-chart"></svg>
+        </div>
+        <div id="time-controls">
+          <button id="play-btn">▶</button>
+          <input type="text" id="start-input" class="yr-input" value="1957">
+          <svg id="slider-svg"></svg>
+          <input type="text" id="end-input" class="yr-input" value="2025">
+          <span id="max-yr">2025</span>
+        </div>
+        <div id="legend"></div>
+      </div>
+
+      <div id="sidebar">
+        <div id="sb-header">SELECT COUNTRIES</div>
+        <input type="text" id="sb-search" placeholder="🔍  Search for a country">
+        <div id="sb-sort">
+          <span>↕ Sort by: Annual number of objec...</span>
+          <button id="sort-dir-btn">↓</button>
+        </div>
+        <div id="sel-section" class="hidden">
+          <div class="sb-label">
+            Selection (<span id="sel-count">0</span>)
+            <button id="clear-btn">Clear</button>
+          </div>
+          <div id="sel-list"></div>
+        </div>
+        <div class="sb-label" id="all-label">All countries</div>
+        <div id="country-list"></div>
+      </div>
+    </div>
+
+    <div id="data-source">
+      <strong>Data source:</strong> United Nations Office for Outer Space Affairs (2026) –
+      <a href="https://ourworldindata.org/grapher/yearly-number-of-objects-launched-into-outer-space"
+         target="_blank">Learn more about this data</a><br>
+      Note: Where they differ, launch attributions are based on the commissioning country,
+      not the country conducting the operations.
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <script src="main.js"></script>
+</body>
+</html>

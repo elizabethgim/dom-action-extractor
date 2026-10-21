@@ -1,0 +1,18 @@
+UUID: 0df323ff-477f-44e0-9df3-1cc4bb5d950b
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/outdoor-air-pollution-exposure
+Chart type: Geographical
+Title: Exposure to outdoor air pollution
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering over the region highlights the corresponding area on the map.
+- A tooltip appears showing the region name and the corresponding value.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/exposure_to_outdoor_air_pollution into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.

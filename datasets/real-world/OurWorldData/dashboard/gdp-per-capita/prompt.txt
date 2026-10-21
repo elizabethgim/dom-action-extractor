@@ -1,0 +1,14 @@
+UUID: 18cfa5a3-e51c-45c2-8e91-dab08ce22c5a
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/gdp-per-capita-maddison-project-database
+DATA: https://ourworldindata.org/grapher/gdp-per-capita-maddison-project-database.csv?v=1&csvType=full&useColumnShortNames=true
+Chart type: Table, Map, Line, Bar
+Title: GDP per capita
+
+Ported from ~/chart/d3-vis/OurWorldData/gdp_per_capita (same generic OWID
+dashboard template used across that project's ~100 charts) into this
+project's index(container) ESM module pattern, so the action-extractor can
+hook its DOM directly instead of going through an iframe.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.

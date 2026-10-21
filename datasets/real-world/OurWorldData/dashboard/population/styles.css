@@ -1,0 +1,217 @@
+.population-chart-host {
+  --blue: #2c7fb8;
+  --light-blue: #dfeaf5;
+  --axis-blue: #4d6f9f;
+  --text: #555;
+  --heading: #333;
+  --border: #e5e5e5;
+  --panel-bg: #fff;
+  --muted-bg: #f7f7f7;
+  --row-highlight: #e9edf2;
+
+  margin: 0;
+  background: #fff;
+  color: var(--text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.population-chart-host, .population-chart-host * { box-sizing: border-box; }
+
+.population-chart-host .owid-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 0;
+  max-width: 1760px;
+  min-height: 900px;
+  margin: 16px auto;
+  border: 1px solid #eee;
+  background: var(--panel-bg);
+}
+
+.population-chart-host .chart-panel { padding: 26px 36px 0; position: relative; }
+.population-chart-host .side-panel { border-left: 1px solid #eee; padding: 24px 24px 0; }
+
+.population-chart-host h1 {
+  margin: 0 0 8px;
+  color: var(--heading);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.05;
+}
+.population-chart-host .subtitle {
+  max-width: 1260px;
+  margin: 0 0 26px;
+  font-size: 20px;
+  line-height: 1.3;
+}
+.population-chart-host a { color: inherit; text-decoration: underline; text-decoration-style: dotted; }
+
+.population-chart-host .tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 12px;
+}
+.population-chart-host .tab {
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: white;
+  color: #777;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 10px 22px;
+  cursor: pointer;
+}
+.population-chart-host .tab:last-child { border-right: 0; }
+.population-chart-host .tab.active { color: #173a5e; background: var(--light-blue); }
+
+.population-chart-host .visual-wrap { min-height: 580px; position: relative; }
+.population-chart-host .view { display: none; position: relative; }
+.population-chart-host .view.active { display: block; }
+.population-chart-host #map-svg { width: 100%; height: 560px; display: block; }
+.population-chart-host #line-svg { width: 100%; height: 520px; display: block; }
+.population-chart-host #bar-svg { width: 100%; display: block; }
+.population-chart-host .country { stroke: #aaa; stroke-width: .35px; cursor: pointer; transition: opacity .12s, stroke-width .12s; }
+.population-chart-host .country.no-data { fill: url(#diagonalHatch); stroke: #bdbdbd; }
+.population-chart-host .country.dimmed { opacity: .25; }
+.population-chart-host .country.hovered, .population-chart-host .country.selected { stroke: #111; stroke-width: 1.7px; }
+
+.population-chart-host .legend { display: flex; align-items: end; justify-content: center; gap: 20px; margin: -26px auto 10px; font-size: 15px; }
+.population-chart-host .legend-blocks { display: grid; gap: 0; align-items: end; }
+.population-chart-host .legend-cell { height: 14px; border-right: 1px solid rgba(255,255,255,.55); position: relative; cursor: pointer; }
+.population-chart-host .legend-labels { display: grid; gap: 0; margin-top: -38px; transform: translateY(-10px); }
+.population-chart-host .no-data-swatch { width: 64px; height: 16px; border: 1px solid #bbb; background: repeating-linear-gradient(-45deg, #fff 0 4px, #ddd 4px 6px); cursor: pointer; }
+
+.population-chart-host .tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: rgba(255,255,255,.98);
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 24px rgba(0,0,0,.15);
+  padding: 10px;
+  width: 280px;
+  z-index: 3;
+}
+.population-chart-host .hidden { display: none; }
+.population-chart-host .tooltip h3 { margin: 0 0 6px; color: #333; font-size: 16px; }
+.population-chart-host .tooltip svg { width: 260px; height: 135px; }
+
+.population-chart-host .year-control {
+  display: grid;
+  grid-template-columns: 48px 72px 1fr 72px;
+  align-items: center;
+  gap: 18px;
+  margin: 10px 0 18px;
+}
+.population-chart-host .play,
+.population-chart-host .small-button,
+.population-chart-host .footer-buttons button,
+.population-chart-host .sort-button {
+  border: 0;
+  background: #f2f2f2;
+  border-radius: 6px;
+  color: #555;
+  padding: 11px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.population-chart-host .play { width: 48px; height: 48px; padding: 0; }
+.population-chart-host .year-label { font-size: 18px; font-weight: 600; }
+.population-chart-host .slider-wrap { position: relative; }
+.population-chart-host #slider-svg { width: 100%; display: block; overflow: visible; }
+.population-chart-host .yr-input {
+  position: absolute;
+  top: -4px;
+  width: 58px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  padding: 3px 6px;
+  background: #fff;
+  z-index: 5;
+}
+.population-chart-host #start-input { left: 0; }
+.population-chart-host #end-input { right: 0; }
+
+.population-chart-host .chart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 14px;
+  font-size: 16px;
+}
+.population-chart-host .footer-buttons { display: flex; gap: 10px; }
+
+.population-chart-host .side-panel h2 { margin: 0 0 20px; font-size: 17px; color: #666; letter-spacing: .1em; }
+.population-chart-host #country-search, .population-chart-host #table-search {
+  width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 12px 14px; font-size: 16px; margin-bottom: 14px;
+}
+.population-chart-host .sort-button { width: 100%; text-align: left; margin-bottom: 14px; background: white; border: 1px solid var(--border); }
+.population-chart-host .selection-title { display: flex; justify-content: space-between; margin: 6px 0 4px; font-style: italic; }
+.population-chart-host .all-countries-label { font-style: italic; color: var(--text); font-size: 16px; margin: 8px 0 4px; }
+.population-chart-host #clear-selection { border: 0; background: transparent; text-decoration: underline; color: #555; cursor: pointer; }
+.population-chart-host .country-list { max-height: 735px; overflow: auto; }
+.population-chart-host .country-row {
+  display: grid;
+  grid-template-columns: 26px 1fr 54px;
+  gap: 8px;
+  align-items: center;
+  padding: 11px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 17px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.population-chart-host .country-row::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; height: 100%;
+  width: var(--bar-w, 0%);
+  background: var(--row-highlight);
+  pointer-events: none;
+  z-index: 0;
+}
+.population-chart-host .country-row:hover, .population-chart-host .country-row.active { background: var(--row-highlight); }
+.population-chart-host .country-row > * { position: relative; z-index: 1; }
+.population-chart-host .country-row input { width: 18px; height: 18px; pointer-events: none; }
+.population-chart-host .country-value { text-align: right; font-size: 14px; color: #666; }
+
+.population-chart-host .table-tools { display: flex; align-items: center; justify-content: space-between; margin: 12px 0 14px; font-size: 18px; }
+.population-chart-host .table-tools input { width: 380px !important; margin: 0 !important; }
+.population-chart-host .data-table-wrap { max-height: 520px; overflow: auto; border: 1px solid #f0f0f0; }
+.population-chart-host table { width: 100%; border-collapse: collapse; font-size: 17px; }
+.population-chart-host th { position: sticky; top: 0; background: #f6f6f6; z-index: 1; text-align: left; color: #555; padding: 14px 20px; border-bottom: 1px solid #eee; }
+.population-chart-host td { padding: 11px 20px; border-bottom: 1px solid #f0f0f0; }
+.population-chart-host tbody tr:nth-child(even) { background: #f7f7f7; }
+.population-chart-host .sparkline { width: 150px; height: 42px; display: block; }
+.population-chart-host .sparkline path { fill: none; stroke: var(--axis-blue); stroke-width: 2; }
+.population-chart-host .sparkline circle { fill: var(--axis-blue); }
+
+.population-chart-host .line-path { fill: none; stroke-width: 3; }
+.population-chart-host .entity-label { cursor: pointer; }
+
+@media (max-width: 1100px) {
+  .population-chart-host .owid-card { grid-template-columns: 1fr; }
+  .population-chart-host .side-panel { border-left: 0; border-top: 1px solid #eee; }
+}
+
+/* ── Comparison map & map toolbar ── */
+.population-chart-host .map-toolbar { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; flex-wrap: wrap; }
+.population-chart-host .region-select { border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; font-size: 16px; background: white; color: #555; cursor: pointer; }
+.population-chart-host #compare-btn.active { background: var(--light-blue); color: #173a5e; }
+.population-chart-host #map-pair { position: relative; }
+.population-chart-host #map-pair.range-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.population-chart-host #map-left { width: 100%; height: 560px; display: none; }
+.population-chart-host #map-pair.range-mode #map-left { display: block; }
+
+/* ── Legend bucket highlight ── */
+.population-chart-host .map-dimmed .country:not(.bucket-highlight) { opacity: .22; }
+
+/* ── Bar view ── */
+.population-chart-host .bar { cursor: default; }
+.population-chart-host .bar-label { pointer-events: none; }

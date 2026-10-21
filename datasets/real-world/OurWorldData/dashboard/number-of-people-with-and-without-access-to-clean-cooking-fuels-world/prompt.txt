@@ -1,0 +1,19 @@
+UUID: 62b4435b-4a71-4bfc-bfcb-5c77182f0b8c
+Source: OurWorldinData
+URL: https://ourworldindata.org/grapher/number-with-without-clean-cooking-fuels
+Chart type: Area
+Title: Number of people with and without access to clean cooking fuels, World
+
+Make a d3.js chart just like the given image Without the OurWorldinData Logo.
+
+The current available interaction is:
+- Hovering shows a vertical guideline at the position.
+- A tooltip appears with the exact value at that point.
+- A small circle marks the exact data point on the area.
+
+Give me separate files: html, js, css.
+I will load the original dataset in csv long-format.
+
+
+Ported from ~/chart/d3-vis/OurWorldData/number_of_people_with_and_without_access_to_clean into this project's shared owidDashboardTemplate.js (index(container) ESM pattern)
+so the action-extractor can hook its DOM directly instead of going through an iframe.
