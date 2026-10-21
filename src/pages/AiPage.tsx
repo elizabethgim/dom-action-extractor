@@ -7,6 +7,8 @@ import { useAiRunnerMachine } from "@hooks/useAiRunnerMachine";
 import { useChartFilters } from "@/hooks/useChartFilters";
 import { useChartCatalog } from "@/hooks/useChartMeta";
 import { saveAiRun } from "@/api/aiRunApi";
+import { findExpectedAnswer } from "@/core/grading/answerKey";
+import { gradeAnswer, GRADE_LABEL, GRADE_COLOR } from "@/core/grading/grade";
 
 import type { AiToAnimationState, SystemToAiState } from "@/types/navigationState";
 
@@ -80,7 +82,7 @@ function AiPage() {
   const filters = useChartFilters(chartCatalog);
   const mainRender = useChartRenderer(resultContainerRef);
 
-  const { isRunning, steps, stopReason, lastError, run, stop, reset, initSteps } = useAiRunnerMachine({
+  const { isRunning, steps, stopReason, lastError, finalAnswer, run, stop, reset, initSteps } = useAiRunnerMachine({
     containerRef: resultContainerRef,
     maxStep,
   });
@@ -88,6 +90,8 @@ function AiPage() {
   const [customQuestion, setCustomQuestion] = useState("");
   const [savedRunId, setSavedRunId] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [useRanking, setUseRanking] = useState(() => searchParams.get("variant") === "ranked");
+  const pipelineVariant = useRanking ? "ranked" : "baseline";
 
   const presetQuestion = filters.questions[filters.selectedQuestionIndex] ?? "";
   const effectiveQuestion = customQuestion.trim() || presetQuestion;
@@ -159,6 +163,8 @@ function AiPage() {
     if (savedStepsLengthRef.current === steps.length) return;
     savedStepsLengthRef.current = steps.length;
     setSaveError(null);
+    const expectedAnswer = findExpectedAnswer(effectiveQuestion);
+    const grade = stopReason === "ANSWERED" ? gradeAnswer(finalAnswer, expectedAnswer) : null;
     saveAiRun({
       source: filters.source,
       family: filters.family,
@@ -166,6 +172,9 @@ function AiPage() {
       selectedQuestionIndex: filters.selectedQuestionIndex,
       questionText: effectiveQuestion,
       stopReason,
+      expectedAnswer,
+      grade,
+      pipelineVariant,
       steps,
     })
       .then((run) => setSavedRunId(run.id))
@@ -179,7 +188,9 @@ function AiPage() {
     filters.selectedChartId,
     filters.selectedQuestionIndex,
     filters.source,
+    finalAnswer,
     isRunning,
+    pipelineVariant,
     steps,
     stopReason,
   ]);
@@ -218,6 +229,16 @@ function AiPage() {
             placeholder={presetQuestion || "Type a question..."}
           />
 
+          <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+            <input
+              type="checkbox"
+              checked={useRanking}
+              disabled={isRunning}
+              onChange={(e) => setUseRanking(e.target.checked)}
+            />
+            Use ranking model (sentence-transformers pre-filter)
+          </label>
+
           <div className="controlBox" style={{ display: "flex", gap: 8 }}>
             <button
               className="btn primary"
@@ -230,6 +251,7 @@ function AiPage() {
                   questionText: effectiveQuestion,
                   chartType: "",
                   renderVersion: mainRender.renderVersion,
+                  useRanking,
                 }).catch((e) => alert(String(e)));
               }}
             >
@@ -245,7 +267,17 @@ function AiPage() {
             </button>
           </div>
 
-          {stopReason && <p className="muted">Stop reason: {stopReason}</p>}
+          {stopReason && <p className="muted">Stop reason: {stopReason} · Pipeline: {pipelineVariant}</p>}
+          {stopReason === "ANSWERED" && finalAnswer && (() => {
+            const expected = findExpectedAnswer(effectiveQuestion);
+            const grade = gradeAnswer(finalAnswer, expected);
+            return (
+              <p className="muted">
+                Grade: <strong style={{ color: GRADE_COLOR[grade] }}>{GRADE_LABEL[grade]}</strong>
+                {expected && <> — expected: <em>{expected}</em></>}
+              </p>
+            );
+          })()}
           {savedRunId && <p className="muted">Saved run: {savedRunId}</p>}
           {lastError && (
             <p className="error-text">
@@ -281,7 +313,7 @@ function AiPage() {
         {steps.length === 0 ? (
           <p className="muted">No steps yet.</p>
         ) : (
-          <div style={{ display: "grid", gap: 20 }}>
+          <div className="stepList" style={{ display: "grid", gap: 20 }}>
             {steps.map((step, index) => {
               const plan = parsePlan(step.planRaw);
               const beforeImg = step.beforeAction ?? step.before;
@@ -324,6 +356,7 @@ function AiPage() {
 
                   {/* action summary */}
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 13, color: "var(--color-text-muted)" }}>
+                    {step.model && <span>Model: <strong style={{ color: "var(--color-text)" }}>{step.model}</strong></span>}
                     {plan.type && <span>Action: <strong style={{ color: "var(--color-text)" }}>{plan.type}</strong></span>}
                     {step.targetIndex != null && <span>Index: <strong style={{ color: "var(--color-text)" }}>{step.targetIndex}</strong> / {step.actionCount}</span>}
                     {step.chosenAction?.datumName && (
@@ -336,6 +369,8 @@ function AiPage() {
                       <span style={{ fontFamily: "monospace", fontSize: 11 }}>{step.chosenAction.selector}</span>
                     )}
                     <span>Answerable: <strong style={{ color: "var(--color-text)" }}>{step.answerable ?? "?"}</strong></span>
+                    {step.decideMs != null && <span>Decide time: <strong style={{ color: "var(--color-text)" }}>{step.decideMs}ms</strong></span>}
+                    {step.effectMs != null && <span>Effect time: <strong style={{ color: "var(--color-text)" }}>{step.effectMs}ms</strong></span>}
                   </div>
 
                   {/* raw */}

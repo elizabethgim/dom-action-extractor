@@ -2,13 +2,12 @@ import { useCallback, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { captureState } from "@/core/utils/getCapture";
-import { extractActions, getActionRegistry, resetExtractRegistries } from "@/core/actionExtractor/extractActions";
-// import { setActionRegistry } from "@/core/actionExtractor/extractActions"; // used by rankActionsApi (disabled)
-// import { rankActionsApi } from "@/api/rankActionsApi";
+import { extractActions, getActionRegistry, setActionRegistry, resetExtractRegistries } from "@/core/actionExtractor/extractActions";
+import { rankActionsApi } from "@/api/rankActionsApi";
 import { addSemanticEntry, resetSemanticRegistry } from "@/core/actionExtractor/semanticRegistry";
 import { addActionToHistory, clearActionHistory } from "@/core/actionExtractor/actionLogger";
 import { clearActionIdIndex } from "@/core/actionExtractor/actionIdStore";
-import { sendToAIPost } from "@/core/interpretation/sendToAI";
+import { DEFAULT_AI_MODEL, sendToAIPost } from "@/core/interpretation/sendToAI";
 import { getImages } from "@/core/utils/getImages";
 import { captureWithHighlight } from "@/core/utils/highlightElement";
 import { waitForDomSettle } from "@/core/utils/waitForDomSettle";
@@ -32,6 +31,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
   const [steps, setSteps] = useState<StepLog[]>([]);
   const [stopReason, setStopReason] = useState<StopReason | null>(null);
   const [lastError, setLastError] = useState<string | null>(null);
+  const [finalAnswer, setFinalAnswer] = useState<string | null>(null);
 
   const stopFlagRef = useRef(false);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -42,6 +42,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     setSteps([]);
     setStopReason(null);
     setLastError(null);
+    setFinalAnswer(null);
     setIsRunning(false);
     // 모듈-레벨 레지스트리 전부 초기화
     resetSemanticRegistry();
@@ -63,11 +64,17 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     questionText?: string,
     chartType?: string;
     renderVersion?: number;
+    model?: string;
+    effectModel?: string;
+    useRanking?: boolean;
   }) => {
-    // setLastError(null);
+    setLastError(null);
     const { renderedChartId, selectedChartId, selectedQuestionIndex } = args;
     const chartType = args.chartType ?? "";
     const renderVersion = args.renderVersion ?? null;
+    const model = args.model ?? DEFAULT_AI_MODEL;
+    const effectModel = args.effectModel ?? model;
+    const useRanking = args.useRanking ?? false;
 
     if (!selectedChartId || renderedChartId !== selectedChartId) {
       throw new Error("Chart selection changed. Please click Render Chart first.");
@@ -120,15 +127,19 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         await extractActions(step);
         if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
 
-        // const ranked = await rankActionsApi(question, getActionRegistry(), 30, controller.signal);
-        // if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
-        // setActionRegistry(ranked);
+        if (useRanking) {
+          const ranked = await rankActionsApi(question, getActionRegistry(), 30, controller.signal);
+          if (controller.signal.aborted) { setStopReason("USER_STOP"); break; }
+          setActionRegistry(ranked);
+        }
 
         const actionRegistry = getActionRegistry();
         const actionCount = actionRegistry.length;
 
         // 3) decide next
-        const plan = await decideNextAction(chartType, question, before, controller.signal);
+        const decideStart = performance.now();
+        const plan = await decideNextAction(chartType, question, before, model, controller.signal);
+        const decideMs = Math.round(performance.now() - decideStart);
         const answer = getAnswer(plan);
         const targetIndex = answer?.targetIndex ?? null;
         const answerable = answer?.answerable ?? null;
@@ -138,12 +149,15 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
           step,
           question,
           chartType,
+          model,
+          effectModel,
           beforeCapId,
           before,
           actionCount,
           planRaw: plan,
           targetIndex,
           answerable,
+          decideMs,
         };
         setSteps((prev) => [...prev, baseLog]);
 
@@ -155,7 +169,8 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         }
 
         if (answer.answerable === "YES") {
-          setSteps((prev) => markStop(prev, step, "ANSWERED"));
+          setSteps((prev) => patchStep(markStop(prev, step, "ANSWERED"), step, { answer: answer.answer }));
+          setFinalAnswer(answer.answer ?? null);
           setStopReason("ANSWERED");
           break;
         }
@@ -177,7 +192,7 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
         consecutiveNoAction = 0;
 
         const actionId = chosen.actionId;
-        const selector = `[data-action-id="${actionId}"]`;
+        const selector = `[data-action-id-${chosen.actionType}="${actionId}"]`;
 
         if (actionId === lastActionId) {
           consecutiveRepeatedAction++;
@@ -229,13 +244,17 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
             addSemanticEntry(chosen, "no change");
           } else {
             try {
+              const effectStart = performance.now();
               const imgs = getImages(refImage, after);
               const res = await sendToAIPost({
                 path: "/chat",
                 prompt: getEffectPrompt(chosen.actionType),
+                model: effectModel,
                 images: imgs,
                 signal: controller.signal,
               });
+              const effectMs = Math.round(performance.now() - effectStart);
+              setSteps((prev) => patchStep(prev, step, { effectMs }));
               const raw = typeof res === "string" ? res : JSON.stringify(res);
               const parsed = JSON.parse(raw);
               if (parsed?.effect) addSemanticEntry(chosen, parsed.effect);
@@ -274,10 +293,11 @@ export function useAiRunnerMachine({ containerRef, maxStep }: Params) {
     setSteps(savedSteps);
     setStopReason(savedStopReason);
     setLastError(null);
+    setFinalAnswer(savedSteps.find((s) => s.answer != null)?.answer ?? null);
     setIsRunning(false);
   }, []);
 
-  return { isRunning, steps, stopReason, lastError, run, stop, reset, initSteps };
+  return { isRunning, steps, stopReason, lastError, finalAnswer, run, stop, reset, initSteps };
 }
 
 // --- helpers ---

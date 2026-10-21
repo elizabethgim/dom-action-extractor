@@ -7,6 +7,8 @@ export type StepLog = {
   // inputs
   question: string;
   chartType: string;
+  model?: string;
+  effectModel?: string;
 
   // state capture
   beforeCapId: string;
@@ -19,6 +21,11 @@ export type StepLog = {
   planRaw: unknown; // decideNextAction 결과 그대로 저장(디버깅)
   targetIndex: number | null;
   answerable: "YES" | "NO" | null;
+  answer?: string;
+
+  // wall-clock time spent waiting on the AI (/chat) response, in ms
+  decideMs?: number;
+  effectMs?: number;
 
   // chosen action snapshot
   chosenAction?: {
