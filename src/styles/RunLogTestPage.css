@@ -1,0 +1,22 @@
+.runLogPage {
+  padding: 24px;
+}
+
+.runLogTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.runLogTable th,
+.runLogTable td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border, #ddd);
+  font-size: 13px;
+}
+
+.runLogTable th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
