@@ -1,0 +1,49 @@
+{
+  "uuid": "8b9756be-5837-4ba7-9098-cd1d0cd5ee30",
+  "source": "Statista",
+  "directory": "Statista/most_spoken_languages",
+  "chart_type": "Bar",
+  "topic": "The most spoken languages worldwide in 2025",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the most spoken language after English?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Mandarin Chinese (1,140M)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "How many people speak Portuguese (in millions)?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "258M",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "How many languages have more than 300 million speakers?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "5 (English, Mandarin, Hindi, Spanish, French)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q04",
+      "question": "Compare the number of speakers between Russian and Portuguese.",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Equal (258M)",
+      "difficulty": "Medium"
+    }
+  ]
+}

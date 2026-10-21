@@ -1,0 +1,39 @@
+{
+  "uuid": "c7ae378b-db9c-478d-a2f9-75fe4afaedb0",
+  "source": "CNBC",
+  "directory": "CNBC/us_labor_force_participation",
+  "chart_type": "Multiple Line",
+  "topic": "U.S. labor force participation rates by race and ethnicity",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the Hispanic labor force participation rate in December 2024?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "67.1%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Which of the three groups has the highest labor force participation rate?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Hispanic (~67%)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "Did the gap in labor force participation rates among the three groups narrow from 2022 to 2024?",
+      "question_type": "Correlation",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Gap maintained (Hispanic > White ≈ Black)",
+      "difficulty": "Hard"
+    }
+  ]
+}

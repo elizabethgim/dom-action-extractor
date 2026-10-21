@@ -1,0 +1,49 @@
+{
+  "uuid": "0ee47322-1229-4651-8cb0-6097a08bb387",
+  "source": "CNBC",
+  "directory": "CNBC/us_unemployment_rate",
+  "chart_type": "Line",
+  "topic": "U.S. unemployment rate",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the unemployment rate in April 2020?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "14.7%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What was the lowest unemployment rate before COVID (2019)?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "3.4%",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "When did the unemployment rate recover below 4% after the COVID shock?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "January 2022 (4.0%)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q04",
+      "question": "What was the unemployment rate trend in H2 2024?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Slight increase (3.7% → 4.3%)",
+      "difficulty": "Medium"
+    }
+  ]
+}

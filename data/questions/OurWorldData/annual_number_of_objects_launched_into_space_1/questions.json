@@ -1,0 +1,37 @@
+{
+  "uuid": "be831f71-70a5-45ea-96df-4c6091193a79",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/annual_number_of_objects_launched_into_space_1",
+  "chart_type": "Geographical",
+  "topic": "Annual number of objects launched into space",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the difference between average temperture and the upper bound temperture in 2000?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        [
+          "In Line Tab",
+          "Hover on 2000"
+        ],
+        [
+          "In Bar Tab",
+          "Change the year to 2000"
+        ]
+      ],
+      "answer": "0.03 °C",
+      "difficulty": ""
+    },
+    {
+      "id": "Q02",
+      "question": "What is the difference of the average temperture between 2000 to 2026?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "In Line Tab",
+        "At year slider, change the start to 2000"
+      ],
+      "answer": "2 °C",
+      "difficulty": ""
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "uuid": "603113ef-1678-4baa-a0cf-725a4b83c041",
+  "source": "Statista",
+  "directory": "Statista/alcoholic_drinks_overview",
+  "chart_type": "Multiple Line + Bar",
+  "topic": "Alcoholic Drinks Market Overview — by Category",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was Beer category revenue in 2022?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "$652B",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Which category has the largest revenue share?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Beer",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "After disabling Spirits and Others, what is the combined Beer and Wine revenue in 2025?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Legend Toggle"
+      ],
+      "answer": "$710B + $357B = $1,067B",
+      "difficulty": "Hard"
+    }
+  ]
+}

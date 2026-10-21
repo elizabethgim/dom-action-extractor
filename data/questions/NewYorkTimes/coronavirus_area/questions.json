@@ -1,0 +1,39 @@
+{
+  "uuid": "5c8baf92-6943-4e09-8819-ec3bd9d18301",
+  "source": "New York Times",
+  "directory": "NewYorkTimes/coronavirus_area",
+  "chart_type": "Area",
+  "topic": "Coronavirus Global Outbreak – Area Chart",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the daily average COVID-19 cases at the Omicron peak?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "~3.58M/day (January 2022)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "When was the Delta variant peak in 2021?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "April 2021 (0.72M)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "Describe the trend in COVID-19 cases from March 2020 to end of 2021.",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Wave-like increases (multiple successive waves)",
+      "difficulty": "Medium"
+    }
+  ]
+}

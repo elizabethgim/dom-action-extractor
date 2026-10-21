@@ -1,0 +1,59 @@
+{
+  "uuid": "b7c8319f-fd5b-4fed-b914-4b5f13f40f4a",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/covid/attempt2",
+  "chart_type": "Multiple Line",
+  "topic": "Daily confirmed COVID-19 cases by world region",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "Which region had the most daily cases at the Omicron peak (late January 2022)?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Europe (~1,367K on Jan 30, 2022)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "After toggling off Europe, which region led daily cases in mid-January 2022?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Legend Toggle"
+      ],
+      "answer": "North America (~856K on Jan 20, 2022)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "Which region was the first to record COVID cases in 2020?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "China (first appeared Jan 24, 2020)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q04",
+      "question": "When showing only South America and Oceania, which region had a higher peak?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Legend Toggle"
+      ],
+      "answer": "South America (347K on Jan 25, 2022) > Oceania (84K on Jan 11, 2022)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q05",
+      "question": "Which region had an unusually late and massive surge compared to all others?",
+      "question_type": "Find Anomaly",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "China (Dec 26, 2022 — ~5,882K, after zero-COVID policy lifted)",
+      "difficulty": "Hard"
+    }
+  ]
+}

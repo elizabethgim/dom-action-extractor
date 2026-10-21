@@ -1,0 +1,49 @@
+{
+  "uuid": "2293c56f-e946-437f-90a3-3d66133d1215",
+  "source": "CNBC",
+  "directory": "CNBC/monthly_job_creation",
+  "chart_type": "Bar",
+  "topic": "Monthly job creation in the U.S.",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "How many jobs were created in March 2024 (in thousands)?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "310K",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Which month in 2023 had the highest job creation, and what was the figure?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "January 2023 – 517K",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "Were there any months in 2024 with negative job creation?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "No (lowest was 36K)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q04",
+      "question": "Compare the average job creation in H1 2023 vs. H2 2023.",
+      "question_type": "Compare",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "H1 ≈ 272K, H2 ≈ 211K (H1 > H2)",
+      "difficulty": "Hard"
+    }
+  ]
+}

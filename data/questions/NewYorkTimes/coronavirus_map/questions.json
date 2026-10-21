@@ -1,0 +1,39 @@
+{
+  "uuid": "7898893a-1a64-4627-81a4-de67edf7ea76",
+  "source": "New York Times",
+  "directory": "NewYorkTimes/coronavirus_map",
+  "chart_type": "Geographical",
+  "topic": "COVID-19 Cases Per Million Population",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the cumulative COVID-19 cases per million in Spain?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "78,000",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What is the difference in cases per million between China and the United States?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "~64,936 (65,000 - 64)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "Which countries are shown in the darkest color (purple) on the map?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "Spain / Slovenia / Czech Rep. (~78,000)",
+      "difficulty": "Medium"
+    }
+  ]
+}

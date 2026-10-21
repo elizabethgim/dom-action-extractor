@@ -1,0 +1,60 @@
+{
+  "uuid": "952ee7e7-fd3a-4953-97dd-803cef195b30",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/annual_concentration_of_atmospheric_carbon_dioxide",
+  "chart_type": "Line",
+  "topic": "Carbon dioxide concentration in the atmosphere",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the CO₂ concentration in 2020?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "414.2 ppm",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "After moving the slider to show only 1958–2024, in which year did CO₂ first exceed 400 ppm?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Zoom/Pan",
+        "Hover"
+      ],
+      "answer": "2015 (401.0 ppm)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "What was the approximate pre-industrial CO₂ level around 1800?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "~280 ppm",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q04",
+      "question": "How much did CO₂ increase from 1960 to 2000?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "316.9 → 369.6 ppm (+52.7 ppm)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q05",
+      "question": "What is the approximate CO₂ range during ice age cycles visible in the ancient portion of the chart?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "Zoom/Pan"
+      ],
+      "answer": "~170–300 ppm (cyclical glacial–interglacial pattern)",
+      "difficulty": "Hard"
+    }
+  ]
+}

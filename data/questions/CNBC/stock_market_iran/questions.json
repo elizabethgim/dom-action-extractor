@@ -1,0 +1,51 @@
+{
+  "uuid": "44bf5400-a1a2-495a-b36a-cc7a0a7b4ec9",
+  "source": "CNBC",
+  "directory": "CNBC/stock_market_iran",
+  "chart_type": "Multiple Line + Area",
+  "topic": "Stock market resilience despite Iran war and software stock rout",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the S&P 500 index value on March 17, 2026?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "107.2 (indexed to 100)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "Which of the three indices hit the lowest point after the April drop?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Zoom/Pan",
+        "Shared Hover"
+      ],
+      "answer": "Nasdaq (101.5)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "After zooming in to show only Feb 10–Apr 14, 2026, what is the peak value of the S&P 500?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Zoom/Pan"
+      ],
+      "answer": "105.0 (Feb 17)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "During which interval did the Nasdaq maintain a higher return than the S&P 500?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Zoom/Pan",
+        "Shared Hover"
+      ],
+      "answer": "Feb–mid March 2026 (Nasdaq slightly ahead of S&P)",
+      "difficulty": "Hard"
+    }
+  ]
+}

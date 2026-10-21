@@ -1,0 +1,92 @@
+{
+  "uuid": "b7c8319f-fd5b-4fed-b914-4b5f13f40f4a",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/number_of_countries_with_key_economic_and_social_r",
+  "chart_type": "Multiple Line",
+  "topic": "Number of countries with key economic and social rights for women",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "Does every region has 'Equal right to start a business' the most in 2023?",
+      "question_type": "True/False",
+      "required_interaction": [
+        "In 'Line' Tab",
+        "Click 'Change country or region' button",
+        "Click Asia",
+        "Hover to year 2023",
+        "Click Africa",
+        "Hover to year 2023",
+        "Click Europe",
+        "Hover to year 2023",
+        "Click North America",
+        "Hover to year 2023",
+        "Click Oceania",
+        "Hover to year 2023",
+        "Click South America"
+      ],
+      "answer": "No",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "Which right increased the most during 2000's?",
+      "question_type": "",
+      "required_interaction": [
+        [
+          "In 'Line' Tab",
+          "Slider move to 2000",
+          "Hover to year 2000",
+          "Hover to year 2023"
+        ],
+        [
+          "In 'Table' tab",
+          "See 'Absolute Change' column on every category",
+          "Employment discrimination based on gender prohibited - Yes (Count)",
+          "Law mandates equal pay for work of equal value for women and men - Yes (Count)",
+          "Paid leave of at least 14 weeks available to mothers (1=yes; 0=no) - Yes (Count)",
+          "There is legislation specifically addressing domestic violence - Yes (Count)",
+          "Women and men have the same rights to own property - Yes (Count)",
+          "Women can register a business on the same terms as men - Yes (Count)"
+        ]
+      ],
+      "answer": ["Domestic violence sanctioned", "There is legislation specifically addressing domestic violence - Yes (Count)"],
+      "difficulty": "Difficult"
+    },
+    {
+      "id": "Q03",
+      "question": "In 'Bar' view, what is the lowest value in 2020?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Click 'Bar' Tab",
+        "On year-slider, move the circle to 2020."
+      ],
+      "answer": "Equal right to start a business",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q04",
+      "question": "In Asia, what is the highest value in 2010?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "In 'Line' Tab",
+        "click 'Change country or region'",
+        "click 'Asia'",
+        "Hover on 2010."
+      ],
+      "answer": "Equal right to start a business",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q05",
+      "question": "In Oceania, which right was consistent?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "In 'Line' Tab",
+        "click 'Change country or region'",
+        "click 'Oceania'"
+      ],
+      "answer": "Equal right to start a business",
+      "difficulty": "Easy"
+    }
+  ]
+}

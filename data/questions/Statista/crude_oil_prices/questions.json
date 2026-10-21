@@ -1,0 +1,49 @@
+{
+  "uuid": "1dc23111-91b8-4385-9368-48532bc1250a",
+  "source": "Statista",
+  "directory": "Statista/crude_oil_prices",
+  "chart_type": "Multiple Line",
+  "topic": "Weekly crude oil prices 2020-2026",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the lowest WTI price in April 2020?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "$16.6/bbl",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What was the peak Brent price in June 2022 influenced by the Russia-Ukraine war?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "$122.3/bbl",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "When was the price spread between Brent and WTI the largest?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "April 2020 ($25.6 - $16.6 = $9.0)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "What visual change occurs when you hover over OPEC in the legend?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "OPEC line highlighted, others dimmed",
+      "difficulty": "Medium"
+    }
+  ]
+}

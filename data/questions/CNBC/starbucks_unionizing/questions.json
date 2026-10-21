@@ -1,0 +1,49 @@
+{
+  "uuid": "4f409d48-5a71-4798-83b0-45a952dd84d6",
+  "source": "CNBC",
+  "directory": "CNBC/starbucks_unionizing",
+  "chart_type": "Geographical",
+  "topic": "Map of Starbucks stores that voted to unionize",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "Which state has the most Starbucks stores that voted to unionize?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "New York (42)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "How many stores in Texas (TX) voted to unionize?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "12",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "Are there any states with zero stores that voted to unionize?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "Yes (states shown in gray)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q04",
+      "question": "Between the East Coast and West Coast, which region shows more union activity?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "East Coast (concentrated in NY, PA, OH, etc.)",
+      "difficulty": "Medium"
+    }
+  ]
+}

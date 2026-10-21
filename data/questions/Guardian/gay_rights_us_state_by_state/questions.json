@@ -1,0 +1,39 @@
+{
+  "uuid": "ac51ee77-921c-493c-b788-37b935b3cfe7",
+  "source": "Guardian",
+  "directory": "Guardian/gay_rights_us_state_by_state",
+  "chart_type": "Pie",
+  "topic": "Gay rights in the US, state by state",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "How many states have legalized same-sex marriage?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "6",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What percentage of states have no legal recognition of same-sex partnerships?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "60% (30/50)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "How many states have civil unions or domestic partnerships combined?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "14 (9+5)",
+      "difficulty": "Medium"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "uuid": "5d9dd2fe-fc37-4f8c-890f-b31ceb584ee6",
+  "source": "Statista",
+  "directory": "Statista/alcoholic_drinks_revenue",
+  "chart_type": "Multiple Line + Bar",
+  "topic": "Alcoholic Drinks Revenue Worldwide",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the alcoholic drinks revenue growth rate in 2020?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "-5.5%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Which year had the highest growth rate over the entire period?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "2021 (+8.2%)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "After hiding the growth rate (line) and viewing only revenue (bars), what is the 2023–2026 trend?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Legend Toggle"
+      ],
+      "answer": "Gradual upward increase",
+      "difficulty": "Medium"
+    }
+  ]
+}

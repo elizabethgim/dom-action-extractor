@@ -1,0 +1,29 @@
+{
+  "uuid": "36c339e2-7e8b-4117-937b-d54217e2a325",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/covid",
+  "chart_type": "Stacked Bar",
+  "topic": "Daily confirmed COVID-19 cases by world region",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the total daily confirmed COVID-19 cases across all regions at the Omicron peak?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "~3.58M/day (January 2022)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "When did Asia have the most cases in the stacked chart?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "March 2022 (China Omicron surge)",
+      "difficulty": "Hard"
+    }
+  ]
+}

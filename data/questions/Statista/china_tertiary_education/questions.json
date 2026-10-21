@@ -1,0 +1,49 @@
+{
+  "uuid": "92c16065-edd4-4fa2-90c1-69a3dbd63e58",
+  "source": "Statista",
+  "directory": "Statista/china_tertiary_education",
+  "chart_type": "Bar",
+  "topic": "Gross enrollment ratio in tertiary education in China from 1990 to 2023",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the gross enrollment ratio in tertiary education in China in 2023?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "60.2%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "In which year did the enrollment ratio first exceed 50%?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "2019 (51.6%)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "How much did the enrollment ratio spike between 2000 and 2001?",
+      "question_type": "Find Anomaly",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "7.7% → 12.5% (+4.8pp, university expansion policy)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "What was the total increase from 1990 to 2023?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "~56.8pp (3.4% → 60.2%)",
+      "difficulty": "Medium"
+    }
+  ]
+}

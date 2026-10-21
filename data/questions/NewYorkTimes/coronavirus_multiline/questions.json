@@ -1,0 +1,49 @@
+{
+  "uuid": "43b56838-4261-4996-a199-a7ca250084f2",
+  "source": "New York Times",
+  "directory": "NewYorkTimes/coronavirus_multiline",
+  "chart_type": "Multiple Line",
+  "topic": "Daily COVID-19 Cases by World Region",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "Which region recorded the most cases in January 2022?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Europe (1,800K)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What was the peak case count for Africa?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "~250K (January 2022)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "What is the difference between Americas and Europe in April 2021?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Americas ≈ 175K, Europe ≈ 250K (Europe > Americas)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "What change occurs when you hover over Europe in the legend?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Europe line highlighted, others dimmed",
+      "difficulty": "Medium"
+    }
+  ]
+}

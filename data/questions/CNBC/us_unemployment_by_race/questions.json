@@ -1,0 +1,49 @@
+{
+  "uuid": "81fef4bf-e086-4f4b-8dbe-ccea322c34a4",
+  "source": "CNBC",
+  "directory": "CNBC/us_unemployment_by_race",
+  "chart_type": "Multiple Line",
+  "topic": "U.S. unemployment rates for Black, Hispanic and white workers",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the Black unemployment rate in July 2024?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "6.3%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "When was the gap between Black and White unemployment rates the largest over the entire period?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "July 2024 (6.3% vs 4.0% = 2.3pp)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q03",
+      "question": "Is the Black unemployment rate higher than the Hispanic unemployment rate in 2024?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Yes (6.3% vs 5.3%)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q04",
+      "question": "What happens when you hover over 'Black' in the legend?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "That line is highlighted while the others are dimmed",
+      "difficulty": "Medium"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "uuid": "09037740-1ee1-48b4-a47f-0f048ce7e34c",
+  "source": "CNBC",
+  "directory": "CNBC/us_wage_growth",
+  "chart_type": "Line",
+  "topic": "U.S. wage growth",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the wage growth rate in January 2022?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "5.7%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "When was wage growth at its peak, and what was the figure?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "April 2020 – 7.9% (base effect)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "What was the overall trend in wage growth from 2022 to 2024?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "Gradual decline (5.7% → 3.9%)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q04",
+      "question": "Why did wage growth spike sharply during the period of rising unemployment (H1 2020)?",
+      "question_type": "Find Anomaly",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "Distortion of average wages due to mass loss of low-wage jobs (base effect)",
+      "difficulty": "Hard"
+    }
+  ]
+}

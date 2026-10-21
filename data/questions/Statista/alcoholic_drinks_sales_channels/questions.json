@@ -1,0 +1,39 @@
+{
+  "uuid": "eb820317-9341-4ed5-a8eb-0a3f553d2384",
+  "source": "Statista",
+  "directory": "Statista/alcoholic_drinks_sales_channels",
+  "chart_type": "Bar + Stacked Bar",
+  "topic": "Alcoholic Drink Sales Channels Worldwide",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "By how much did online channel revenue increase in 2020 compared to the previous year?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "$52.1B → $89.4B (+$37.3B)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "What was the share of online revenue in total sales in 2025?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "~7.9% (143.8 / 1,823)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q03",
+      "question": "What happens when you toggle off the Offline segment?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Legend Toggle"
+      ],
+      "answer": "Only Online bars remain, making the annual online growth trend clearly visible",
+      "difficulty": "Medium"
+    }
+  ]
+}

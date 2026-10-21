@@ -1,0 +1,50 @@
+{
+  "uuid": "6257b4c1-66fa-4bf4-b252-5005410966a4",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/world_population",
+  "chart_type": "Geographical",
+  "topic": "World Population with UN Projections (2024)",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is India's population in 2024?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "~1,441M",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "In which year does India's population overtake China's when playing the animation?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Play/Animation"
+      ],
+      "answer": "Around 2023 (India surpasses China)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q03",
+      "question": "By what factor did Nigeria's population grow from 1950 to 2024?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Play/Animation",
+        "Map Hover"
+      ],
+      "answer": "~5.9× (38M → 223M)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "What is Japan's population when the slider is moved to 1980?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Play/Animation"
+      ],
+      "answer": "~117M",
+      "difficulty": "Medium"
+    }
+  ]
+}

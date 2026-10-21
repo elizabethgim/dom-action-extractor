@@ -1,0 +1,39 @@
+{
+  "uuid": "b0849cc8-338d-4713-824a-37a10af50e15",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/child mortality",
+  "chart_type": "Multiple Line",
+  "topic": "Child mortality rate (under-5), 1751–2023",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is India's (IND) under-5 mortality rate in 2023?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Hover on the chart to check",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "Which country among the 8 had the lowest mortality rate in 2023?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Sweden (SWE)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "When did all countries commonly experience a sharp decline in mortality rates?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Mid-20th century (1950s–1970s)",
+      "difficulty": "Medium"
+    }
+  ]
+}

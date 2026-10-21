@@ -1,0 +1,39 @@
+{
+  "uuid": "ef943c5b-cd61-4d40-b686-e233bcad9e67",
+  "source": "Statista",
+  "directory": "Statista/alcoholic_drinks_global_comparison",
+  "chart_type": "Geographical",
+  "topic": "Alcoholic Drinks Revenue Per Capita",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the per capita alcoholic drinks revenue for the United States?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "$595",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "What is the per capita consumption gap between India and the United States?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "$577 ($595 - $18)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "What color are countries with no data shown in on the map?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Map Hover"
+      ],
+      "answer": "Gray (#e0e0e0)",
+      "difficulty": "Easy"
+    }
+  ]
+}

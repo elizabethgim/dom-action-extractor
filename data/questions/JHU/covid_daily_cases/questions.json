@@ -1,0 +1,39 @@
+{
+  "uuid": "b7bd9850-86fc-4645-9627-4fc46cb83ff3",
+  "source": "Johns Hopkins University",
+  "directory": "JHU/covid_daily_cases",
+  "chart_type": "Line",
+  "topic": "Daily Confirmed New COVID-19 Cases (JHU)",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the 7-day average at the Omicron peak?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "3.58M/day (January 2022)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "When is the difference between the gray bars (raw daily) and the blue line (7-day average) the greatest?",
+      "question_type": "Find Anomaly",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Omicron peak period (highest volatility)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "When does the next wave start after the early 2021 trough?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "March–April 2021 (before the Delta variant)",
+      "difficulty": "Medium"
+    }
+  ]
+}

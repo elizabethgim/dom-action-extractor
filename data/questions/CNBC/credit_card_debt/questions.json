@@ -1,0 +1,39 @@
+{
+  "uuid": "cf723272-0a6b-4e59-b257-2e9a93d84df1",
+  "source": "CNBC",
+  "directory": "CNBC/credit_card_debt",
+  "chart_type": "Line",
+  "topic": "Credit card debt hits another record high",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What is the all-time record high for credit card debt?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "$1,166B (Q3 2024)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "How did credit card debt change during the COVID period (2020–2021)?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Decreased ($930B → $748B)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "In which quarter did debt first surpass $1 trillion?",
+      "question_type": "Filter",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "Q2 2023 ($1,031B)",
+      "difficulty": "Medium"
+    }
+  ]
+}

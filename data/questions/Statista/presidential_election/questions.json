@@ -1,0 +1,49 @@
+{
+  "uuid": "cefb4c46-3e10-43af-a9fa-efb639742b93",
+  "source": "Statista",
+  "directory": "Statista/presidential_election",
+  "chart_type": "Multiple Line",
+  "topic": "2024 U.S. Presidential Election Polling",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "When was Biden's approval rating at its lowest, and what was the figure?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "March 2024 – 37%",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q02",
+      "question": "How did Harris's approval rating change after Biden withdrew?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "41% → 47% (~6pp increase)",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q03",
+      "question": "When was Trump's approval rating at its peak?",
+      "question_type": "Find Extremum",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Feb–Mar 2024 – 51%",
+      "difficulty": "Medium"
+    },
+    {
+      "id": "Q04",
+      "question": "What date is the Biden withdrawal annotation shown on the chart?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "July 21, 2024",
+      "difficulty": "Easy"
+    }
+  ]
+}

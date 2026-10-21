@@ -1,0 +1,39 @@
+{
+  "uuid": "5ec7bfcb-8a65-4779-a6f1-0e480a4e25d2",
+  "source": "CNBC",
+  "directory": "CNBC/average_retirement_balances",
+  "chart_type": "Bar",
+  "topic": "Average retirement account balances in the U.S.",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the average 401(k) balance as of Q3 2024?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "$132,300",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Which had a higher average balance in Q3 2024: 401(k) or IRA?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Hover"
+      ],
+      "answer": "401(k) ($132,300 > $127,700)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "What was the percentage increase in 401(k) balances from Q3 2022 to Q3 2024?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "None"
+      ],
+      "answer": "~36% increase ($97,200 → $132,300)",
+      "difficulty": "Medium"
+    }
+  ]
+}

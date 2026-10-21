@@ -1,0 +1,49 @@
+{
+  "uuid": "6561a94b-f8c2-4bf5-ae35-83f6771dbb22",
+  "source": "OurWorldinData",
+  "directory": "OurWorldData/ill-defined deaths",
+  "chart_type": "Line",
+  "topic": "Share of deaths with an ill-defined cause of death",
+  "questions": [
+    {
+      "id": "Q01",
+      "question": "What was the Philippines' share of ill-defined cause of death in 2023?",
+      "question_type": "Retrieve Value",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "18.7%",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q02",
+      "question": "Between the US and South Korea, which had a lower rate in 2023?",
+      "question_type": "Compare",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "USA (0.5% < 2.9%)",
+      "difficulty": "Easy"
+    },
+    {
+      "id": "Q03",
+      "question": "Which country showed the fastest improvement (decrease) from 1960 to 2023?",
+      "question_type": "Trend/Pattern",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Philippines had the largest decrease (55.1% → 18.7%)",
+      "difficulty": "Hard"
+    },
+    {
+      "id": "Q04",
+      "question": "What are the minimum and maximum values among all countries in 2023?",
+      "question_type": "Determine Range",
+      "required_interaction": [
+        "Shared Hover"
+      ],
+      "answer": "Min: USA 0.5%, Max: Philippines 18.7%",
+      "difficulty": "Medium"
+    }
+  ]
+}
