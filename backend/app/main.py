@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.database import init_database
 from app.routes.ai_runs import router as ai_runs_router
+from app.routes.benchmark import router as benchmark_router
 from app.routes.charts import router as charts_router
 from app.routes.datasets import router as datasets_router
 from app.routes.chart_codes import router as chart_codes_router
@@ -34,5 +35,6 @@ app.add_middleware(
 app.include_router(datasets_router)
 app.include_router(charts_router)
 app.include_router(ai_runs_router)
+app.include_router(benchmark_router)
 app.include_router(chart_codes_router)
 app.include_router(rank_actions_router)
