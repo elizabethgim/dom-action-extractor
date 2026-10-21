@@ -1,6 +1,0 @@
-Make a d3.js chart just like the given image except for the logo 'statista'. 
-The current available interaction is: 
-- Hovering the bar will highlight the corresponding data. 
-- A tooltip which shows the matching value. 
-Give me separate files: html, js, css. 
-I will load the original dataset in csv format.
